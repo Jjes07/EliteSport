@@ -1,0 +1,123 @@
+.bg-primary {
+  background-color: #2f5fd0 !important;
+}
+
+.bg-secondary {
+  background-color: #1f3c88 !important;
+}
+
+.copyright {
+  background-color: #142a5c;
+}
+
+.bg-orange {
+    background-color: #fd7e14 !important;
+    color: #fff;
+}
+
+nav{
+  font-weight: 700;
+}
+
+body {
+    padding-top: 88px;
+}
+
+.img-card{
+  height: 18vw;
+  object-fit: cover;
+}
+
+.home-card {
+    background-color: #f8f9fa;
+    border-radius: 16px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    max-width: 500px;
+    width: 100%;
+}
+
+.home-card .btn {
+    border-radius: 10px;
+    font-weight: 600;
+    padding: 10px;
+}
+
+.review-form {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.form-title {
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+/* === Base star rating (shared) === */
+
+.star-rating {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    font-size: 2rem;
+}
+
+.star-rating span,
+.star-rating label {
+    color: #ccc;
+}
+
+/* === Interactive mode (create) === */
+
+.star-rating.interactive {
+    flex-direction: row-reverse;
+}
+
+.star-rating.interactive input {
+    display: none;
+}
+
+.star-rating.interactive label {
+    width: 40px;
+    height: 40px;
+    font-size: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.star-rating.interactive input:checked ~ label {
+    color: gold;
+}
+
+.star-rating.interactive label:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* === Readonly mode (show / index) === */
+
+.star-rating.readonly .filled {
+    color: gold;
+}
+
+/* === Comments === */
+
+.comment-wrapper {
+    position: relative;
+}
+
+.comment-wrapper textarea {
+    width: 100%;
+    resize: none;
+    padding: 12px;
+    border-radius: 6px;
+}
+
+.char-counter {
+    text-align: right;
+    font-size: 0.85rem;
+    margin-top: 4px;
+    color: #666;
+}
