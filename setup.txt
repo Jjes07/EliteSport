@@ -19,7 +19,7 @@ cd EliteSport
 --------------------------------------------------
 2. Environment configuration
 --------------------------------------------------
-Copy the environment configuration file:
+If not exists, copy the environment configuration file:
 
 cp .env.example .env
 
@@ -28,7 +28,7 @@ Edit the .env file and configure the database connection:
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=elitesport
+DB_DATABASE=taller1
 DB_USERNAME=root
 DB_PASSWORD=
 
@@ -45,9 +45,7 @@ Open XAMPP and start the following services:
 --------------------------------------------------
 Log in to phpMyAdmin using the root user.
 
-Create a database named:
-
-elitesport
+Create a database named: taller1
 
 Verify that the migration file exists at:
 "/database/migrations/*create_reviews_table.php"
