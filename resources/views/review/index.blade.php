@@ -21,6 +21,12 @@
 
         <div class="card-body text-center">
 
+          <div>
+            <h5 class="card-title mb-1 fw-bold">
+              Id. {{ $review->getId() }}
+            </h5>
+          </div>
+
           {{-- stars (readonly) --}}
           <div class="star-rating readonly mb-2">
             @for ($i = 1; $i <= 5; $i++)

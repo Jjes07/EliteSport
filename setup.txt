@@ -1,0 +1,98 @@
+SETUP – EliteSport Reviews (Laravel Project)
+
+Requirements:
+- XAMPP
+- PHP >= 8.1
+- Composer
+- Database server (MySQL recommended)
+
+--------------------------------------------------
+1. Clone or extract the project
+--------------------------------------------------
+If the project is provided as a compressed file, extract it into a local folder.
+
+If you want to clone it from GitHub, run:
+
+git clone https://github.com/Jjes07/EliteSport.git
+cd EliteSport
+
+--------------------------------------------------
+2. Environment configuration
+--------------------------------------------------
+Copy the environment configuration file:
+
+cp .env.example .env
+
+Edit the .env file and configure the database connection:
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=elitesport
+DB_USERNAME=root
+DB_PASSWORD=
+
+--------------------------------------------------
+3. Start XAMPP
+--------------------------------------------------
+Open XAMPP and start the following services:
+
+- Apache
+- MySQL
+
+--------------------------------------------------
+4. Create the database
+--------------------------------------------------
+Log in to phpMyAdmin using the root user.
+
+Create a database named:
+
+elitesport
+
+Verify that the migration file exists at:
+"/database/migrations/*create_reviews_table.php"
+
+--------------------------------------------------
+5. Run migrations
+--------------------------------------------------
+From the project root directory, execute:
+
+php artisan migrate
+
+--------------------------------------------------
+6. Seed the database (optional)
+--------------------------------------------------
+If you want to generate sample reviews:
+
+Verify that the file "ReviewFactory.php" exists at:
+"/database/factories"
+
+Then run:
+
+php artisan db:seed
+
+--------------------------------------------------
+7. Run the development server
+--------------------------------------------------
+Execute:
+
+php artisan serve
+
+--------------------------------------------------
+8. Access the application
+--------------------------------------------------
+Open a web browser and go to:
+
+http://127.0.0.1:8000
+
+Main routes:
+- Home: /
+- List reviews: /reviews
+- Create review: /reviews/create
+
+--------------------------------------------------
+Additional notes
+--------------------------------------------------
+- The system allows creating, listing, viewing, and deleting reviews.
+- Reviews include star ratings, category labels, and comments.
+- Success and error messages are displayed using on-screen alerts.

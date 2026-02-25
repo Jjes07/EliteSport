@@ -5,6 +5,15 @@
 
 @section('content')
 
+{{-- Go back button --}}
+<button
+    type="button"
+    class="btn btn-secondary mx-auto"
+    onclick="window.history.back()">
+    <strong>←</strong> Go back
+  </button>
+  
+
 <div class="card mx-auto" style="max-width: 600px;">
   <div class="card-body text-center">
 
