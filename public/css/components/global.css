@@ -1,0 +1,11 @@
+/*Global styles*/
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #111827;
+    background-color: #A9ADB0;
+}
+
+.btn {
+    border-radius: 10px;
+}

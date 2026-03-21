@@ -1,0 +1,21 @@
+/* Navbar Size */
+.navbar {
+    max-height: 70px;
+    overflow: hidden;
+}
+
+/*Header background*/
+.bg-header {
+    background-color: #2563eb !important;
+}
+
+/*Footer configuration*/
+footer {
+    background-color: #2563eb;
+    color: white;
+    padding: 1rem 0;
+    margin-top: 2rem;
+    text-align: center;
+    max-height: 80px;
+    overflow: hidden;
+}
