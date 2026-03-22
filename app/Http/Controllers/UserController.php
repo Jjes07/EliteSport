@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SaveUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
-use App\Models\User;
-
 
 class UserController extends Controller
 {
@@ -32,7 +31,7 @@ class UserController extends Controller
     {
         $validatedData = $request->validated();
 
-        $user = new User();
+        $user = new User;
         $user->setName($validatedData['name']);
         $user->setEmail($validatedData['email']);
         $user->setPassword($validatedData['password']);
@@ -55,7 +54,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $viewData['user'] = $user;
 
-        $viewData['title'] = $user->getName() . 'Detalle del usuario';
+        $viewData['title'] = $user->getName().'Detalle del usuario';
         $viewData['users'] = User::all();
 
         return view('user.show')->with('viewData', $viewData);
@@ -83,7 +82,7 @@ class UserController extends Controller
         $user->setAddress($validatedData['address']);
         $user->setPhone($validatedData['phone']);
 
-        if (!empty($validatedData['password'])) {
+        if (! empty($validatedData['password'])) {
             $user->setPassword($validatedData['password']);
         }
 

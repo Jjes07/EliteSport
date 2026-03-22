@@ -95,7 +95,7 @@
         <!-- Reviews Section -->
         <div class="card shadow-sm border-0 mt-4">
             <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Customer Reviews ({{ count($viewData['reviews']) }})</h5>
+                <h5 class="mb-0">Customer Reviews ({{ $viewData['totalReviews'] }})</h5>
                 
                 @auth
                     @if(!$viewData['userReview'])
@@ -112,10 +112,10 @@
             </div>
             
             <div class="card-body">
-                @if($viewData['reviews']->isEmpty())
+                @if($viewData['reviewsLimit']->isEmpty())
                     <p class="text-muted text-center py-3">No reviews yet. Be the first to review this product!</p>
                 @else
-                    @foreach($viewData['reviews'] as $review)
+                    @foreach($viewData['reviewsLimit'] as $review)
                         <div class="border-bottom pb-3 mb-3">
                             <div class="d-flex justify-content-between align-items-start">
                                 <div>
@@ -131,9 +131,13 @@
                                     @if($review->getCreatedAt() != $review->getUpdatedAt())
                                         <small class="text-muted">(edited)</small>
                                     @endif
+                                    <a href="{{ route('review.show', ['productId' => $viewData['product']->getId(), 'reviewId' => $review->getId()]) }}" 
+                                    class="btn btn-sm btn-link p-0 mt-1">
+                                        View Details
+                                    </a>
                                 </div>
                             </div>
-                            <p class="mt-2 mb-2">{{ $review->getComment() }}</p>
+                            <p class="mt-2 mb-2">{{ Str::limit($review->getComment(), 150) }}</p>
                             
                             <div class="d-flex gap-2">
                                 @if(Auth::check() && Auth::id() === $review->getUserId())
@@ -158,6 +162,16 @@
                             </div>
                         </div>
                     @endforeach
+                    
+                    <!-- View All Reviews Button -->
+                    @if($viewData['totalReviews'] > 3)
+                        <div class="text-center mt-3">
+                            <a href="{{ route('review.index', $viewData['product']->getId()) }}" 
+                            class="btn btn-outline-primary">
+                                View All {{ $viewData['totalReviews'] }} Reviews
+                            </a>
+                        </div>
+                    @endif
                 @endif
             </div>
         </div>

@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Http\Request;
 
 class Review extends Model
 {
@@ -22,7 +22,6 @@ class Review extends Model
      * $this->attributes['created_at'] - timestamp - contains the review creation timestamp
      * $this->attributes['updated_at'] - timestamp - contains the review update timestamp
      */
-
     private const RATING_MAP = [
         5 => ['label' => 'Excellent', 'class' => 'bg-success'],
         4 => ['label' => 'Good',      'class' => 'bg-primary'],
@@ -116,23 +115,26 @@ class Review extends Model
         return self::RATING_MAP[$this->rating]['class'] ?? 'bg-secondary';
     }
 
-    /* Validation for creating */
-
-    public static function validate(Request $request): void
+    /* Filter methods */
+    public static function getReviewsWithFilters(Product $product, ?array $selectedRatings = []): Collection
     {
-        $request->validate([
-            'rating' => 'required|numeric|min:1|max:5',
-            'comment' => 'required|string|max:250',
-        ]);
+        $query = $product->reviews()->with('user')->latest();
+
+        if (! empty($selectedRatings)) {
+            $query->whereIn('rating', $selectedRatings);
+        }
+
+        return $query->get();
     }
 
-    /* Validation for updating */
-    
-    public static function validateUpdate(Request $request): void
+    public static function getRatingCounts(Product $product): array
     {
-        $request->validate([
-            'rating' => 'sometimes|numeric|min:1|max:5',
-            'comment' => 'sometimes|string|max:250',
-        ]);
+        return [
+            5 => $product->reviews()->where('rating', 5)->count(),
+            4 => $product->reviews()->where('rating', 4)->count(),
+            3 => $product->reviews()->where('rating', 3)->count(),
+            2 => $product->reviews()->where('rating', 2)->count(),
+            1 => $product->reviews()->where('rating', 1)->count(),
+        ];
     }
 }

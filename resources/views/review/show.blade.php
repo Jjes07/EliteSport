@@ -7,8 +7,12 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card shadow-sm">
-                <div class="card-header bg-dark text-white">
+                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
                     <h4 class="mb-0">Review Details</h4>
+                    <a href="{{ route('review.index', $viewData['product']->getId()) }}" 
+                       class="btn btn-outline-light btn-sm">
+                        Back to Reviews
+                    </a>
                 </div>
                 
                 <div class="card-body">

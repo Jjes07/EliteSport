@@ -6,8 +6,8 @@ use App\Http\Requests\SaveProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class ProductController extends Controller
 {
@@ -33,7 +33,7 @@ class ProductController extends Controller
     {
         $validatedData = $request->validated();
 
-        $product = new Product();
+        $product = new Product;
         $product->setName($validatedData['name']);
         $product->setDescription($validatedData['description']);
         $product->setPrice($validatedData['price']);
@@ -47,18 +47,21 @@ class ProductController extends Controller
             ->with('success', 'Elemento creado satisfactoriamente');
     }
 
-    public function show(int $id): View {
-    $viewData = [];
-    $product = Product::findOrFail($id);
+    public function show(int $id): View
+    {
+        $viewData = [];
+        $product = Product::findOrFail($id);
 
-    $viewData['title'] = $product->getName() . ' - Detalle Producto';
-    $viewData['product'] = $product;
-    $viewData['reviews'] = $product->reviews()->with('user')->latest()->get();
-    $viewData['userReview'] = Auth::check() 
-        ? $product->reviews()->where('user_id', Auth::id())->first() 
-        : null;
+        $viewData['title'] = $product->getName().' - Product Details';
+        $viewData['product'] = $product;
+        $viewData['reviews'] = $product->reviews()->with('user')->latest()->get();
+        $viewData['reviewsLimit'] = $product->reviews()->with('user')->latest()->take(3)->get(); // Only 3 reviews
+        $viewData['userReview'] = Auth::check()
+            ? $product->reviews()->where('user_id', Auth::id())->first()
+            : null;
+        $viewData['totalReviews'] = $product->reviews()->count(); // Total count
 
-    return view('product.show')->with('viewData', $viewData);
+        return view('product.show')->with('viewData', $viewData);
     }
 
     public function edit(int $id): View
@@ -66,7 +69,7 @@ class ProductController extends Controller
         $viewData = [];
         $product = Product::findOrFail($id);
 
-        $viewData['title'] = $product->getName() . 'Editar Producto';
+        $viewData['title'] = $product->getName().'Editar Producto';
         $viewData['product'] = $product;
         // $viewData['categories'] = Category::all();
 

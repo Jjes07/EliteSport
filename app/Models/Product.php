@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Http\Requests\Request;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -18,7 +17,6 @@ class Product extends Model
      * this->attribute['image']
      * this->attribute['category']
      */
-
     protected $fillable = [
         'name',
         'description',
@@ -103,6 +101,7 @@ class Product extends Model
         foreach ($products as $product) {
             $total = $total + ($product->getPrice() * $productsInSession[$product->getId()]);
         }
+
         return $total;
     }
 
@@ -120,6 +119,6 @@ class Product extends Model
 
     public function reviews(): HasMany
     {
-         return $this->hasMany(Review::class);
+        return $this->hasMany(Review::class);
     }
 }

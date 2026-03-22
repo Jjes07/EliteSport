@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class CartController extends Controller
 {
@@ -13,20 +13,21 @@ class CartController extends Controller
     {
         $total = 0;
         $productsInCart = [];
-        $productsInSession = $request->session()->get("products");
-        if (!empty($productsInSession)) {
+        $productsInSession = $request->session()->get('products');
+        if (! empty($productsInSession)) {
             $productsInCart = Product::findMany(array_keys($productsInSession));
             $total = Product::sumPricesByQuantities($productsInCart, $productsInSession);
         }
 
         $viewData = [];
-        $viewData["title"] = "Cart - Online Store";
-        $viewData["subtitle"] = "Shopping Cart";
-        $viewData["total"] = $total;
-        $viewData["products"] = $productsInCart;
+        $viewData['title'] = 'Cart - Online Store';
+        $viewData['subtitle'] = 'Shopping Cart';
+        $viewData['total'] = $total;
+        $viewData['products'] = $productsInCart;
 
-        return view('cart.index')->with("viewData", $viewData);
+        return view('cart.index')->with('viewData', $viewData);
     }
+
     public function add(Request $request, int $id): RedirectResponse
     {
         $products = $request->session()->get('products', []);
@@ -44,6 +45,7 @@ class CartController extends Controller
             ->route('cart.index')
             ->with('success', 'Producto agregado al carrito correctamente.');
     }
+
     public function delete(Request $request): RedirectResponse
     {
         $request->session()->forget('products');
