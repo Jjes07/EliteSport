@@ -91,5 +91,76 @@
                 </div>
             </div>
         </div>
+
+        <!-- Reviews Section -->
+        <div class="card shadow-sm border-0 mt-4">
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Customer Reviews ({{ count($viewData['reviews']) }})</h5>
+                
+                @auth
+                    @if(!$viewData['userReview'])
+                        <a href="{{ route('review.create', $viewData['product']->getId()) }}" 
+                        class="btn btn-primary btn-sm">
+                            Write a Review
+                        </a>
+                    @endif
+                @else
+                    <a href="{{ route('login') }}" class="btn btn-outline-light btn-sm">
+                        Login to write a review
+                    </a>
+                @endauth
+            </div>
+            
+            <div class="card-body">
+                @if($viewData['reviews']->isEmpty())
+                    <p class="text-muted text-center py-3">No reviews yet. Be the first to review this product!</p>
+                @else
+                    @foreach($viewData['reviews'] as $review)
+                        <div class="border-bottom pb-3 mb-3">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <strong>{{ $review->user->getName() }}</strong>
+                                    <div class="star-rating readonly small">
+                                        @for($i = 1; $i <= 5; $i++)
+                                            <span class="{{ $i <= $review->getRating() ? 'filled' : '' }}">★</span>
+                                        @endfor
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <small class="text-muted d-block">{{ $review->getCreatedAt() }}</small>
+                                    @if($review->getCreatedAt() != $review->getUpdatedAt())
+                                        <small class="text-muted">(edited)</small>
+                                    @endif
+                                </div>
+                            </div>
+                            <p class="mt-2 mb-2">{{ $review->getComment() }}</p>
+                            
+                            <div class="d-flex gap-2">
+                                @if(Auth::check() && Auth::id() === $review->getUserId())
+                                    <a href="{{ route('review.edit', ['productId' => $viewData['product']->getId(), 'reviewId' => $review->getId()]) }}" 
+                                    class="btn btn-sm btn-outline-secondary">
+                                        Edit
+                                    </a>
+                                @endif
+                                
+                                @if(Auth::check() && (Auth::user()->getRole() === 'admin' || Auth::id() === $review->getUserId()))
+                                    <form action="{{ route('review.destroy', ['productId' => $viewData['product']->getId(), 'reviewId' => $review->getId()]) }}" 
+                                        method="POST" 
+                                        class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" 
+                                                onclick="return confirm('Are you sure you want to delete this review?')">
+                                            Delete
+                                        </button>
+                                    </form>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
+            </div>
+        </div>
+
     </div>
 @endsection

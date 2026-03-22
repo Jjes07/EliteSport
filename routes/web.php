@@ -20,23 +20,33 @@ Route::middleware('admin')->group(function () {
     Route::put('/users/{id}', 'App\Http\Controllers\UserController@update')->name('user.update');
     Route::delete('/users/{id}', 'App\Http\Controllers\UserController@delete')->name('user.delete');
 });
-//Home 
+
+// Home 
 Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home.index');
 
-//Product Admin and Customer
+// Product - Available to all (customers and guests)
 Route::get('/products/{id}/show', 'App\Http\Controllers\ProductController@show')->name('product.show');
 
-//Auth 
+// Auth 
 Auth::routes();
 
-//Cart
-Route::get('/cart', 'App\Http\Controllers\CartController@index')->name("cart.index");
-Route::get('/cart/delete', 'App\Http\Controllers\CartController@delete')->name("cart.delete");
-Route::post('/cart/add/{id}', 'App\Http\Controllers\CartController@add')->name("cart.add");
+// Cart - Available to authenticated users
+Route::middleware('auth')->group(function () {
+    Route::get('/cart', 'App\Http\Controllers\CartController@index')->name("cart.index");
+    Route::get('/cart/delete', 'App\Http\Controllers\CartController@delete')->name("cart.delete");
+    Route::post('/cart/add/{id}', 'App\Http\Controllers\CartController@add')->name("cart.add");
+});
 
-//Review
-Route::get('/reviews', 'App\Http\Controllers\ReviewController@index')->name('review.index');
-Route::get('/reviews/create', 'App\Http\Controllers\ReviewController@create')->name('review.create');
-Route::post('/reviews/save', 'App\Http\Controllers\ReviewController@save')->name('review.save');
-Route::get('/reviews/{id}', 'App\Http\Controllers\ReviewController@show')->name('review.show');
-Route::delete('/reviews/{id}', 'App\Http\Controllers\ReviewController@destroy')->name('review.destroy');
+// Reviews - Nested under products
+// Authenticated users can create, edit, and delete their own reviews
+Route::middleware('auth')->group(function () {
+    Route::get('/products/{productId}/reviews/create', 'App\Http\Controllers\ReviewController@create')->name('review.create');
+    Route::post('/products/{productId}/reviews', 'App\Http\Controllers\ReviewController@store')->name('review.store');
+    Route::get('/products/{productId}/reviews/{reviewId}/edit', 'App\Http\Controllers\ReviewController@edit')->name('review.edit');
+    Route::put('/products/{productId}/reviews/{reviewId}', 'App\Http\Controllers\ReviewController@update')->name('review.update');
+    Route::delete('/products/{productId}/reviews/{reviewId}', 'App\Http\Controllers\ReviewController@destroy')->name('review.destroy');
+});
+
+// All users can view reviews (guests and authenticated)
+Route::get('/products/{productId}/reviews', 'App\Http\Controllers\ReviewController@index')->name('review.index');
+Route::get('/products/{productId}/reviews/{reviewId}', 'App\Http\Controllers\ReviewController@show')->name('review.show');

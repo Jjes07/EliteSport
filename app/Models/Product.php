@@ -18,6 +18,7 @@ class Product extends Model
      * this->attribute['image']
      * this->attribute['category']
      */
+
     protected $fillable = [
         'name',
         'description',
@@ -105,7 +106,7 @@ class Product extends Model
         return $total;
     }
 
-    //Relaciones de las clases Product
+    // Relationships
 
     // public function category(): BelongsTo
     // {
@@ -117,8 +118,8 @@ class Product extends Model
     //     return $this->hasMany(Item::class);
     // }
 
-    // public function review(): HasMany
-    // {
-    //     return $this->hasMany(Review::class);
-    // }
+    public function reviews(): HasMany
+    {
+         return $this->hasMany(Review::class);
+    }
 }

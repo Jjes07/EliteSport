@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\Request;
 
 class Review extends Model
@@ -16,14 +17,12 @@ class Review extends Model
      * $this->attributes['id'] - int - contains the review primary key (id)
      * $this->attributes['comment'] - string - contains the review comment
      * $this->attributes['rating'] - int - contains the review rating (1-5)
+     * $this->attributes['user_id'] - int - contains the user id who wrote the review
+     * $this->attributes['product_id'] - int - contains the product id being reviewed
      * $this->attributes['created_at'] - timestamp - contains the review creation timestamp
      * $this->attributes['updated_at'] - timestamp - contains the review update timestamp
      */
 
-    /**
-     * RATING_MAP is a constant array that maps each rating value (1-5) to a label and a CSS class for styling.
-     * This can be used in views to display the appropriate label and styling based on the review's rating.
-     */
     private const RATING_MAP = [
         5 => ['label' => 'Excellent', 'class' => 'bg-success'],
         4 => ['label' => 'Good',      'class' => 'bg-primary'],
@@ -32,9 +31,10 @@ class Review extends Model
         1 => ['label' => 'Poor',      'class' => 'bg-danger'],
     ];
 
-    protected $fillable = ['comment', 'rating'];
+    protected $fillable = ['comment', 'rating', 'user_id', 'product_id'];
 
     /* Getters */
+
     public function getId(): int
     {
         return $this->attributes['id'];
@@ -50,6 +50,16 @@ class Review extends Model
         return $this->attributes['rating'];
     }
 
+    public function getUserId(): int
+    {
+        return $this->attributes['user_id'];
+    }
+
+    public function getProductId(): int
+    {
+        return $this->attributes['product_id'];
+    }
+
     public function getCreatedAt(): string
     {
         return Carbon::parse($this->attributes['created_at'])->format('F d, Y');
@@ -61,6 +71,7 @@ class Review extends Model
     }
 
     /* Setters */
+
     public function setComment(string $comment): void
     {
         $this->attributes['comment'] = $comment;
@@ -71,26 +82,57 @@ class Review extends Model
         $this->attributes['rating'] = $rating;
     }
 
-    /* Custom method to get a human-readable label for the rating */
+    public function setUserId(int $userId): void
+    {
+        $this->attributes['user_id'] = $userId;
+    }
+
+    public function setProductId(int $productId): void
+    {
+        $this->attributes['product_id'] = $productId;
+    }
+
+    /* Relationships */
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    /* Rating helpers */
+
     public function getRatingLabel(): string
     {
         return self::RATING_MAP[$this->rating]['label'] ?? 'Unknown';
     }
 
-    /* Custom method to get the CSS class for the rating badge */
     public function getRatingBadgeClass(): string
     {
         return self::RATING_MAP[$this->rating]['class'] ?? 'bg-secondary';
     }
 
-    /* Method to validate the review data */
+    /* Validation for creating */
+
     public static function validate(Request $request): void
     {
         $request->validate([
-
             'rating' => 'required|numeric|min:1|max:5',
             'comment' => 'required|string|max:250',
+        ]);
+    }
 
+    /* Validation for updating */
+    
+    public static function validateUpdate(Request $request): void
+    {
+        $request->validate([
+            'rating' => 'sometimes|numeric|min:1|max:5',
+            'comment' => 'sometimes|string|max:250',
         ]);
     }
 }
