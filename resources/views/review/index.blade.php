@@ -11,10 +11,10 @@
         <div class="col-md-3">
             <div class="card shadow-sm">
                 <div class="card-header bg-dark text-white">
-                    <h5 class="mb-0">Filters</h5>
+                    <h5 class="mb-0">{{ __('reviews.filters') }}</h5>
                 </div>
                 <div class="card-body">
-                    <h6 class="fw-bold mb-3">Rating</h6>
+                    <h6 class="fw-bold mb-3">{{ __('reviews.rating') }}</h6>
                     
                     <form id="filter-form" method="GET" action="{{ route('review.index', $viewData['product']->getId()) }}">
                         @foreach([5, 4, 3, 2, 1] as $rating)
@@ -31,7 +31,7 @@
                                             <span class="{{ $i <= $rating ? 'filled' : '' }}">★</span>
                                         @endfor
                                     </div>
-                                    <span class="badge bg-secondary ms-2">{{ $viewData['ratingCounts'][$rating] }} reviews</span>
+                                    <span class="badge bg-secondary ms-2">{{ $viewData['ratingCounts'][$rating] }} {{ __('reviews.title') }}</span>
                                 </label>
                             </div>
                         @endforeach
@@ -41,7 +41,7 @@
                         <hr>
                         <a href="{{ route('review.index', $viewData['product']->getId()) }}" 
                            class="btn btn-outline-secondary btn-sm w-100">
-                            Clear Filters
+                            {{ __('reviews.clear_filters') }}
                         </a>
                     @endif
                 </div>
@@ -52,10 +52,10 @@
         <div class="col-md-9">
             <div class="card shadow-sm">
                 <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-                    <h4 class="mb-0">All Reviews for: {{ $viewData['product']->getName() }}</h4>
+                    <h4 class="mb-0">{{ __('reviews.title') }}: {{ $viewData['product']->getName() }}</h4>
                     <a href="{{ route('product.show', $viewData['product']->getId()) }}" 
                        class="btn btn-outline-light btn-sm">
-                        Back to Product
+                        {{ __('reviews.back_to_product') }}
                     </a>
                 </div>
                 
@@ -75,35 +75,34 @@
                     <!-- Active Filters Display -->
                     @if(!empty($viewData['selectedRatings']))
                         <div class="alert alert-info mb-3">
-                            <strong>Active Filters:</strong>
+                            <strong>{{ __('reviews.active_filters') }}:</strong>
                             @foreach($viewData['selectedRatings'] as $rating)
                                 <span class="badge bg-warning text-dark me-1">
                                     {{ $rating }} ★
                                 </span>
                             @endforeach
-                            <span class="ms-2">({{ $viewData['reviews']->count() }} reviews found)</span>
+                            <span class="ms-2">({{ $viewData['reviews']->count() }} {{ __('reviews.reviews_found') }})</span>
                         </div>
                     @endif
                     
                     @if($viewData['reviews']->isEmpty())
                         <div class="alert alert-info text-center">
-                            <h5>No reviews found</h5>
                             @if(!empty($viewData['selectedRatings']))
-                                <p>Try changing your filters to see more reviews.</p>
+                                <p>{{ __('reviews.no_reviews_with_filters') }}</p>
                                 <a href="{{ route('review.index', $viewData['product']->getId()) }}" 
                                    class="btn btn-primary">
-                                    Clear Filters
+                                    {{ __('reviews.clear_filters') }}
                                 </a>
                             @else
-                                <p>Be the first to share your opinion about this product!</p>
+                                <p>{{ __('reviews.no_reviews') }}</p>
                                 @auth
                                     <a href="{{ route('review.create', $viewData['product']->getId()) }}" 
                                        class="btn btn-primary">
-                                        Write a Review
+                                        {{ __('reviews.write_review') }}
                                     </a>
                                 @else
                                     <a href="{{ route('login') }}" class="btn btn-primary">
-                                        Login to Write a Review
+                                        {{ __('reviews.login_to_review') }}
                                     </a>
                                 @endauth
                             @endif
@@ -123,11 +122,11 @@
                                     <div class="text-end">
                                         <small class="text-muted d-block">{{ $review->getCreatedAt() }}</small>
                                         @if($review->getCreatedAt() != $review->getUpdatedAt())
-                                            <small class="text-muted">(edited)</small>
+                                            <small class="text-muted">({{ __('reviews.edited') }})</small>
                                         @endif
                                         <a href="{{ route('review.show', ['productId' => $viewData['product']->getId(), 'reviewId' => $review->getId()]) }}" 
                                            class="btn btn-sm btn-link p-0 mt-1">
-                                            View Details
+                                            {{ __('reviews.view_details') }}
                                         </a>
                                     </div>
                                 </div>
@@ -137,7 +136,7 @@
                                     @if(Auth::check() && Auth::id() === $review->getUserId())
                                         <a href="{{ route('review.edit', ['productId' => $viewData['product']->getId(), 'reviewId' => $review->getId()]) }}" 
                                            class="btn btn-sm btn-outline-secondary">
-                                            Edit
+                                            {{ __('reviews.edit_review') }}
                                         </a>
                                     @endif
                                     
@@ -148,8 +147,8 @@
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-outline-danger" 
-                                                    onclick="return confirm('Are you sure you want to delete this review?')">
-                                                Delete
+                                                    onclick="return confirm('{{ __('reviews.confirm_delete') }}')">
+                                                {{ __('reviews.delete_review') }}
                                             </button>
                                         </form>
                                     @endif

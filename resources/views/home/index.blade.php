@@ -5,14 +5,14 @@
     <div class="container">
         <div class="content-box home-hero mb-4">
             <div class="text-center">
-                <h1 class="home-title">Nuestros Productos</h1>
+                <h1 class="home-title">{{ __('products.title') }}</h1>
             </div>
         </div>
 
         @if($viewData['products']->isEmpty())
             <div class="content-box text-center">
-                <h3 class="mb-2">No hay productos disponibles</h3>
-                <p class="mb-0">Muy pronto tendremos productos para ti.</p>
+                <h3 class="mb-2">{{ __('products.no_products') }}</h3>
+                <p class="mb-0">{{ __('products.coming_soon') }}</p>
             </div>
         @else
             <div class="products-grid">
@@ -26,11 +26,11 @@
                             <div class="product-card-body">
                                 <span
                                     class="badge product-card-status-badge {{ $product->getStock() > 0 ? 'bg-success' : 'bg-danger' }}">
-                                    {{ $product->getStock() > 0 ? 'Disponible' : 'Agotado' }}
+                                    {{ $product->getStock() > 0 ? __('products.available') : __('products.out_of_stock') }}
                                 </span>
 
                                 <h2 class="product-card-title">{{ $product->getName() }}</h2>
-                                <p class="product-card-price">${{ number_format($product->getPrice(), 2) }}</p>
+                                <p class="product-card-price">${{ number_format($product->getPrice(), 0, ',', '.') }}</p>
                             </div>
                         </div>
                     </a>

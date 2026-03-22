@@ -6,10 +6,10 @@
     <div class="container my-4">
         <div class="card shadow-sm border-0">
             <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-                <h4 class="mb-0">Lista de Usuarios</h4>
+                <h4 class="mb-0">{{ __('forms.users_list') }}</h4>
 
                 <a href="{{ route('user.create') }}" class="btn btn-primary">
-                    Crear Usuario
+                    {{ __('forms.create_user') }}
                 </a>
             </div>
 
@@ -22,7 +22,7 @@
 
                 @if($viewData['users']->isEmpty())
                     <div class="alert alert-info mb-0">
-                        No hay usuarios registrados.
+                        {{ __('forms.no_users_registered') }}
                     </div>
                 @else
                     <div class="table-responsive">
@@ -30,12 +30,12 @@
                             <thead class="table-light">
                                 <tr>
                                     <th scope="col" style="width: 80px;">Id</th>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Correo</th>
-                                    <th scope="col">Dirección</th>
-                                    <th scope="col">Número de teléfono</th>
-                                    <th scope="col" style="width: 120px;">Rol</th>
-                                    <th scope="col" style="width: 260px;">Acciones</th>
+                                    <th scope="col">{{ __('forms.name') }}</th>
+                                    <th scope="col">{{ __('forms.email') }}</th>
+                                    <th scope="col">{{ __('forms.address') }}</th>
+                                    <th scope="col">{{ __('forms.phone') }}</th>
+                                    <th scope="col" style="width: 120px;">{{ __('forms.role') }}</th>
+                                    <th scope="col" style="width: 260px;">{{ __('forms.actions') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -70,20 +70,19 @@
                                         <td>
                                             <div class="d-flex justify-content-center flex-wrap gap-2">
                                                 <a href="{{ route('user.show', $user->getId()) }}" class="btn btn-sm btn-primary">
-                                                    Detalles
+                                                    {{ __('forms.details') }}
                                                 </a>
 
                                                 <a href="{{ route('user.edit', $user->getId()) }}" class="btn btn-sm btn-secondary">
-                                                    Editar
+                                                    {{ __('forms.edit') }}
                                                 </a>
 
                                                 <form action="{{ route('user.delete', $user->getId()) }}" method="POST"
-                                                    onsubmit="return confirm('Esta acción eliminará el usuario permanentemente. ¿Deseas continuar?');"
-                                                    class="m-0">
+                                                    onsubmit="return confirm('{{ __('forms.confirm_delete_user') }}');" class="m-0">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-sm btn-danger">
-                                                        Eliminar
+                                                        {{ __('forms.delete') }}
                                                     </button>
                                                 </form>
                                             </div>

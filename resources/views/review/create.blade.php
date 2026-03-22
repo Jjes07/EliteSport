@@ -10,7 +10,7 @@
         <div class="col-md-8">
             <div class="card shadow-sm">
                 <div class="card-header bg-dark text-white">
-                    <h4 class="mb-0">Write a Review for: {{ $viewData['product']->getName() }}</h4>
+                    <h4 class="mb-0">{{ __('reviews.write_review') }}: {{ $viewData['product']->getName() }}</h4>
                 </div>
                 
                 <div class="card-body">
@@ -26,12 +26,12 @@
                     
                     @if(isset($viewData['existingReview']))
                         <div class="alert alert-warning">
-                            You have already reviewed this product. You can only write one review per product.
+                            {{ __('reviews.already_reviewed') }}
                         </div>
                         <div class="text-center">
                             <a href="{{ route('product.show', $viewData['product']->getId()) }}" 
                                class="btn btn-primary">
-                                Back to Product
+                                {{ __('reviews.back_to_product') }}
                             </a>
                         </div>
                     @else
@@ -40,7 +40,7 @@
                             @csrf
                             
                             <div class="text-center mb-4">
-                                <h5>Rate this product</h5>
+                                <h5>{{ __('reviews.rating') }}</h5>
                                 <div class="star-rating interactive mx-auto">
                                     @for($i = 5; $i >= 1; $i--)
                                         <input type="radio" 
@@ -54,27 +54,27 @@
                             </div>
                             
                             <div class="mb-3">
-                              <label for="comment" class="form-label">Your Review</label>
-                              <textarea name="comment" 
-                                        id="comment" 
-                                        class="form-control" 
-                                        rows="5" 
-                                        maxlength="250"
-                                        placeholder="Share your experience with this product...">{{ old('comment') }}</textarea>
-                              <div class="d-flex justify-content-between mt-1">
-                                  <small class="text-muted">
-                                      <span id="charCount">0</span> /250
-                                  </small>
-                              </div>
-                          </div>
+                                <label for="comment" class="form-label">{{ __('reviews.comment') }}</label>
+                                <textarea name="comment" 
+                                          id="comment" 
+                                          class="form-control" 
+                                          rows="5" 
+                                          maxlength="250"
+                                          placeholder="{{ __('reviews.comment_placeholder') }}">{{ old('comment') }}</textarea>
+                                <div class="d-flex justify-content-between mt-1">
+                                    <small class="text-muted">
+                                        <span id="charCount">0</span> / 250 {{ __('reviews.characters') }}
+                                    </small>
+                                </div>
+                            </div>
                             
                             <div class="d-flex justify-content-between">
                                 <a href="{{ route('product.show', $viewData['product']->getId()) }}" 
                                    class="btn btn-secondary">
-                                    Cancel
+                                    {{ __('reviews.cancel') }}
                                 </a>
                                 <button type="submit" class="btn btn-primary">
-                                    Submit Review
+                                    {{ __('reviews.submit') }}
                                 </button>
                             </div>
                         </form>

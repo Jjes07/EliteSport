@@ -3,10 +3,10 @@
 @section('content')
     <div class="content-box form-section mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="mb-0">Editar Usuario</h1>
+            <h1 class="mb-0">{{ __('forms.edit_user') }}</h1>
 
             <a href="{{ route('user.index') }}" class="btn btn-secondary">
-                Volver
+                {{ __('forms.back') }}
             </a>
         </div>
 
@@ -16,7 +16,7 @@
 
             <div class="row g-4">
                 <div class="col-md-6">
-                    <label for="name" class="form-label custom-label">Nombre</label>
+                    <label for="name" class="form-label custom-label">{{ __('forms.name') }}</label>
                     <input type="text" name="name" id="name" class="form-control custom-input"
                         value="{{ old('name', $viewData['user']->getName()) }}">
 
@@ -26,7 +26,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label for="email" class="form-label custom-label">Correo</label>
+                    <label for="email" class="form-label custom-label">{{ __('forms.email') }}</label>
                     <input type="email" name="email" id="email" class="form-control custom-input"
                         value="{{ old('email', $viewData['user']->getEmail()) }}">
 
@@ -36,7 +36,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label for="password" class="form-label custom-label">Nueva contraseña</label>
+                    <label for="password" class="form-label custom-label">{{ __('auth.password') }}</label>
                     <input type="password" name="password" id="password" class="form-control custom-input">
 
                     @error('password')
@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label for="phone" class="form-label custom-label">Número de celular</label>
+                    <label for="phone" class="form-label custom-label">{{ __('forms.phone') }}</label>
                     <input type="text" name="phone" id="phone" class="form-control custom-input"
                         value="{{ old('phone', $viewData['user']->getPhone()) }}">
 
@@ -55,7 +55,7 @@
                 </div>
 
                 <div class="col-12">
-                    <label for="address" class="form-label custom-label">Dirección</label>
+                    <label for="address" class="form-label custom-label">{{ __('forms.address') }}</label>
                     <input type="text" name="address" id="address" class="form-control custom-input"
                         value="{{ old('address', $viewData['user']->getAddress()) }}">
 
@@ -65,14 +65,14 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label for="role" class="form-label custom-label">Rol</label>
+                    <label for="role" class="form-label custom-label">{{ __('forms.role') }}</label>
                     <select name="role" id="role" class="form-select custom-input" disabled>
-                        <option value="">Seleccione un rol</option>
+                        <option value="">{{ __('auth.roles_select') }}</option>
                         <option value="customer" {{ old('role', $viewData['user']->getRole()) == 'customer' ? 'selected' : '' }}>
-                            Cliente
+                            {{ __('auth.role_customer') }}
                         </option>
                         <option value="admin" {{ old('role', $viewData['user']->getRole()) == 'admin' ? 'selected' : '' }}>
-                            Administrador
+                            {{ __('auth.role_admin') }}
                         </option>
                     </select>
 
@@ -84,11 +84,11 @@
 
             <div class="d-flex justify-content-end gap-2 mt-4">
                 <a href="{{ route('user.index') }}" class="btn btn-secondary">
-                    Cancelar
+                    {{ __('forms.back') }}
                 </a>
 
                 <button type="submit" class="btn btn-custom-primary">
-                    Actualizar usuario
+                    {{ __('forms.edit_user') }}
                 </button>
             </div>
         </form>

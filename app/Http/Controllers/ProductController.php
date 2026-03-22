@@ -8,6 +8,8 @@ use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
+
 
 class ProductController extends Controller
 {
@@ -16,6 +18,8 @@ class ProductController extends Controller
         $viewData = [];
         $viewData['title'] = 'Home - Products';
         $viewData['products'] = Product::all();
+        $viewData['showCleanButton'] = false;
+        $viewData['categories'] = Product::select('category')->distinct()->pluck('category');
 
         return view('product.index')->with('viewData', $viewData);
     }
@@ -93,6 +97,43 @@ class ProductController extends Controller
             ->route('product.show', $product->getId())
             ->with('success', 'Elemento actualizado correctamente');
 
+    }
+    public function search(Request $request): View
+    {
+        $viewData = [];
+        $viewData['title'] = 'Buscar Productos';
+
+        $searchTerm = $request->input('name', '');
+        $category = $request->input('category', '');
+        $viewData['showCleanButton'] = false;
+        // $viewData['categories'] = Category::all();
+        $viewData['categories'] = Product::select('category')->distinct()->pluck('category');
+
+        if ($searchTerm || $category) {
+
+            if (!empty($category) && !empty($searchTerm)) {
+                $viewData['products'] = Product::where('name', 'LIKE', '%' . $searchTerm . '%')
+                    ->where('category', $category)
+                    ->get();
+                $viewData['message'] = 'Resultado de busqueda: ' . $searchTerm . ' que pertenecen a la categoria:' . $category;
+                $viewData['searchTerm'] = $searchTerm;
+                $viewData['selectedCategory'] = $category;
+            } elseif (!empty($category)) {
+                $viewData['products'] = Product::where('category', $category)->get();
+                $viewData['message'] = 'Resultados de búsqueda para la categoria: "' . $category . '"';
+                $viewData['selectedCategory'] = $category;
+            } elseif (!empty($searchTerm)) {
+                $viewData['products'] = Product::where('name', 'LIKE', '%' . $searchTerm . '%')->get();
+                $viewData['message'] = 'Resultados de búsqueda para: "' . $searchTerm . '"';
+                $viewData['searchTerm'] = $searchTerm;
+            }
+            $viewData['showCleanButton'] = true;
+        } else {
+            $viewData['products'] = Product::all();
+            $viewData['message'] = 'Todos los productos';
+        }
+
+        return view('product.index')->with('viewData', $viewData);
     }
 
     public function delete(int $id): RedirectResponse
