@@ -1,4 +1,21 @@
 /*Global styles*/
+.bg-primary {
+  background-color: #2f5fd0 !important;
+}
+
+.bg-secondary {
+  background-color: #1f3c88 !important;
+}
+
+.copyright {
+  background-color: #142a5c;
+}
+
+.bg-orange {
+    background-color: #fd7e14 !important;
+    color: #fff;
+}
+
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;

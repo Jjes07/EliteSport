@@ -27,6 +27,8 @@ class Product extends Model
         'category',
     ];
 
+    // Getters & Setters
+
     public function getId(): int
     {
         return $this->attributes['id'];
@@ -91,6 +93,9 @@ class Product extends Model
     {
         $this->attributes['category'] = $category;
     }
+
+    // Auxiliar methods
+
     public static function sumPricesByQuantities($products, $productsInSession)
     {
         $total = 0;

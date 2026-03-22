@@ -2,6 +2,7 @@
 .navbar {
     max-height: 70px;
     overflow: hidden;
+    font-weight: 700;
 }
 
 /*Header background*/
