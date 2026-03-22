@@ -1,3 +1,5 @@
+<!-- Created by Juan Escobar -->
+
 @extends('layouts.app')
 
 @section('title', $viewData['title'])
@@ -44,12 +46,16 @@
                         <div class="mb-3">
                             <label for="comment" class="form-label">Your Review</label>
                             <textarea name="comment" 
-                                      id="comment" 
-                                      class="form-control" 
-                                      rows="5" 
-                                      maxlength="250"
-                                      placeholder="Update your experience...">{{ old('comment', $viewData['review']->getComment()) }}</textarea>
-                            <small class="text-muted">Maximum 250 characters</small>
+                                    id="comment" 
+                                    class="form-control" 
+                                    rows="5" 
+                                    maxlength="250"
+                                    placeholder="Update your experience...">{{ old('comment', $viewData['review']->getComment()) }}</textarea>
+                            <div class="d-flex justify-content-between mt-1">
+                                <small class="text-muted">
+                                    <span id="charCount">0</span> /250
+                                </small>
+                            </div>
                         </div>
                         
                         <div class="d-flex justify-content-between">

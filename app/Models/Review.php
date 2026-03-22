@@ -1,12 +1,15 @@
 <?php
 
+# Model created by Juan Escobar
+
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Http\Request;
+use \Illuminate\Database\Eloquent\Collection;
 
 class Review extends Model
 {
@@ -22,6 +25,7 @@ class Review extends Model
      * $this->attributes['created_at'] - timestamp - contains the review creation timestamp
      * $this->attributes['updated_at'] - timestamp - contains the review update timestamp
      */
+
     private const RATING_MAP = [
         5 => ['label' => 'Excellent', 'class' => 'bg-success'],
         4 => ['label' => 'Good',      'class' => 'bg-primary'],
@@ -33,7 +37,6 @@ class Review extends Model
     protected $fillable = ['comment', 'rating', 'user_id', 'product_id'];
 
     /* Getters */
-
     public function getId(): int
     {
         return $this->attributes['id'];
@@ -70,7 +73,6 @@ class Review extends Model
     }
 
     /* Setters */
-
     public function setComment(string $comment): void
     {
         $this->attributes['comment'] = $comment;
@@ -92,7 +94,6 @@ class Review extends Model
     }
 
     /* Relationships */
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -104,7 +105,6 @@ class Review extends Model
     }
 
     /* Rating helpers */
-
     public function getRatingLabel(): string
     {
         return self::RATING_MAP[$this->rating]['label'] ?? 'Unknown';
@@ -119,11 +119,11 @@ class Review extends Model
     public static function getReviewsWithFilters(Product $product, ?array $selectedRatings = []): Collection
     {
         $query = $product->reviews()->with('user')->latest();
-
-        if (! empty($selectedRatings)) {
+        
+        if (!empty($selectedRatings)) {
             $query->whereIn('rating', $selectedRatings);
         }
-
+        
         return $query->get();
     }
 
@@ -136,5 +136,68 @@ class Review extends Model
             2 => $product->reviews()->where('rating', 2)->count(),
             1 => $product->reviews()->where('rating', 1)->count(),
         ];
+    }
+
+    /* Business logic methods */
+    public static function hasUserReviewedProduct(int $userId, int $productId): bool
+    {
+        return self::where('user_id', $userId)
+            ->where('product_id', $productId)
+            ->exists();
+    }
+
+    public static function getUserReviewForProduct(int $userId, int $productId): ?self
+    {
+        return self::where('user_id', $userId)
+            ->where('product_id', $productId)
+            ->first();
+    }
+
+    public static function createReview(int $userId, int $productId, string $comment, int $rating): self
+    {
+        $review = new self();
+        $review->setComment($comment);
+        $review->setRating($rating);
+        $review->setUserId($userId);
+        $review->setProductId($productId);
+        $review->save();
+        
+        return $review;
+    }
+
+    public function updateReview(array $validatedData): void
+    {
+        if (isset($validatedData['comment'])) {
+            $this->setComment($validatedData['comment']);
+        }
+        
+        if (isset($validatedData['rating'])) {
+            $this->setRating($validatedData['rating']);
+        }
+        
+        $this->save();
+    }
+
+    public function canBeEditedBy(int $userId): bool
+    {
+        return $this->getUserId() === $userId;
+    }
+
+    public function canBeDeletedBy(int $userId, string $userRole): bool
+    {
+        return $userRole === 'admin' || $this->getUserId() === $userId;
+    }
+
+    public static function processFilters(Request $request): array
+    {
+        $selectedRatings = $request->query('ratings', []);
+        
+        if (!is_array($selectedRatings)) {
+            $selectedRatings = [$selectedRatings];
+        }
+
+        return array_filter(array_map('intval', $selectedRatings), function ($rating) {
+            return $rating >= 1 && $rating <= 5;
+        });
     }
 }

@@ -1,3 +1,5 @@
+<!-- Created by Juan Escobar -->
+
 @extends('layouts.app')
 
 @section('title', $viewData['title'])
@@ -34,7 +36,7 @@
                         </div>
                     @else
                         <form method="POST" 
-                              action="{{ route('review.store', $viewData['product']->getId()) }}">
+                              action="{{ route('review.save', $viewData['product']->getId()) }}">
                             @csrf
                             
                             <div class="text-center mb-4">
@@ -52,15 +54,19 @@
                             </div>
                             
                             <div class="mb-3">
-                                <label for="comment" class="form-label">Your Review</label>
-                                <textarea name="comment" 
-                                          id="comment" 
-                                          class="form-control" 
-                                          rows="5" 
-                                          maxlength="250"
-                                          placeholder="Share your experience with this product...">{{ old('comment') }}</textarea>
-                                <small class="text-muted">Maximum 250 characters</small>
-                            </div>
+                              <label for="comment" class="form-label">Your Review</label>
+                              <textarea name="comment" 
+                                        id="comment" 
+                                        class="form-control" 
+                                        rows="5" 
+                                        maxlength="250"
+                                        placeholder="Share your experience with this product...">{{ old('comment') }}</textarea>
+                              <div class="d-flex justify-content-between mt-1">
+                                  <small class="text-muted">
+                                      <span id="charCount">0</span> /250
+                                  </small>
+                              </div>
+                          </div>
                             
                             <div class="d-flex justify-content-between">
                                 <a href="{{ route('product.show', $viewData['product']->getId()) }}" 

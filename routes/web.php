@@ -41,10 +41,10 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     // Authenticated users can create, edit, and delete their own reviews
     Route::get('/products/{productId}/reviews/create', 'App\Http\Controllers\ReviewController@create')->name('review.create');
-    Route::post('/products/{productId}/reviews', 'App\Http\Controllers\ReviewController@store')->name('review.store');
+    Route::post('/products/{productId}/reviews', 'App\Http\Controllers\ReviewController@save')->name('review.save');
     Route::get('/products/{productId}/reviews/{reviewId}/edit', 'App\Http\Controllers\ReviewController@edit')->name('review.edit');
     Route::put('/products/{productId}/reviews/{reviewId}', 'App\Http\Controllers\ReviewController@update')->name('review.update');
-    Route::delete('/products/{productId}/reviews/{reviewId}', 'App\Http\Controllers\ReviewController@destroy')->name('review.destroy');
+    Route::delete('/products/{productId}/reviews/{reviewId}', 'App\Http\Controllers\ReviewController@delete')->name('review.delete');
 });
 
 // All users can view reviews

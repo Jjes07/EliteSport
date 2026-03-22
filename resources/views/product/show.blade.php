@@ -148,7 +148,7 @@
                                 @endif
                                 
                                 @if(Auth::check() && (Auth::user()->getRole() === 'admin' || Auth::id() === $review->getUserId()))
-                                    <form action="{{ route('review.destroy', ['productId' => $viewData['product']->getId(), 'reviewId' => $review->getId()]) }}" 
+                                    <form action="{{ route('review.delete', ['productId' => $viewData['product']->getId(), 'reviewId' => $review->getId()]) }}" 
                                         method="POST" 
                                         class="d-inline">
                                         @csrf

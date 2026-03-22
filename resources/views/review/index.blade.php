@@ -1,3 +1,5 @@
+<!-- Created by Juan Escobar -->
+
 @extends('layouts.app')
 
 @section('title', $viewData['title'])
@@ -29,7 +31,7 @@
                                             <span class="{{ $i <= $rating ? 'filled' : '' }}">★</span>
                                         @endfor
                                     </div>
-                                    <span class="badge bg-secondary ms-2">{{ $viewData['ratingCounts'][$rating] }}</span>
+                                    <span class="badge bg-secondary ms-2">{{ $viewData['ratingCounts'][$rating] }} reviews</span>
                                 </label>
                             </div>
                         @endforeach
@@ -140,7 +142,7 @@
                                     @endif
                                     
                                     @if(Auth::check() && (Auth::user()->getRole() === 'admin' || Auth::id() === $review->getUserId()))
-                                        <form action="{{ route('review.destroy', ['productId' => $viewData['product']->getId(), 'reviewId' => $review->getId()]) }}" 
+                                        <form action="{{ route('review.delete', ['productId' => $viewData['product']->getId(), 'reviewId' => $review->getId()]) }}" 
                                               method="POST" 
                                               class="d-inline">
                                             @csrf

@@ -1,3 +1,5 @@
+<!-- Created by Juan Escobar -->
+
 @extends('layouts.app')
 
 @section('title', $viewData['title'])
@@ -88,7 +90,7 @@
                             Are you sure you want to delete this review? This action cannot be undone.
                         </p>
                         
-                        <form action="{{ route('review.destroy', ['productId' => $viewData['product']->getId(), 'reviewId' => $viewData['review']->getId()]) }}" 
+                        <form action="{{ route('review.delete', ['productId' => $viewData['product']->getId(), 'reviewId' => $viewData['review']->getId()]) }}" 
                               method="POST"
                               class="d-inline">
                             @csrf
