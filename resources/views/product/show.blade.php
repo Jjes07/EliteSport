@@ -6,7 +6,7 @@
     <div class="container my-4">
         <div class="card shadow-sm border-0">
             <div class="card-header bg-dark text-white">
-                <h4 class="mb-0">Detalle del Producto</h4>
+                <h4 class="mb-0">{{ __('products.detail_title') }}</h4>
             </div>
 
             <div class="card-body p-4">
@@ -28,11 +28,11 @@
                         </h2>
 
                         <p class="mb-2">
-                            <strong>ID:</strong> {{ $viewData['product']->getId() }}
+                            <strong>{{ __('products.id') }}:</strong> {{ $viewData['product']->getId() }}
                         </p>
 
                         <p class="mb-2">
-                            <strong>Descripción:</strong> {{ $viewData['product']->getDescription() }}
+                            <strong>{{ __('products.description') }}:</strong> {{ $viewData['product']->getDescription() }}
                         </p>
 
                         <p class="mb-2 fs-4 fw-bold text-primary">
@@ -40,14 +40,14 @@
                         </p>
 
                         <p class="mb-4">
-                            <strong>Stock:</strong>
+                            <strong>{{ __('products.stock') }}:</strong>
                             @if($viewData['product']->getStock() > 0)
                                 <span class="badge bg-success">
-                                    Disponible ({{ $viewData['product']->getStock() }})
+                                    {{ __('products.available') }} ({{ $viewData['product']->getStock() }})
                                 </span>
                             @else
                                 <span class="badge bg-danger">
-                                    Agotado
+                                    {{ __('products.out_of_stock') }}
                                 </span>
                             @endif
                         </p>
@@ -58,20 +58,21 @@
 
                                 <div class="d-flex flex-wrap align-items-end gap-3">
                                     <div>
-                                        <label for="quantity" class="form-label fw-semibold">Cantidad</label>
+                                        <label for="quantity"
+                                            class="form-label fw-semibold">{{ __('products.quantity_label') }}</label>
                                         <input id="quantity" type="number" min="1" max="{{ $viewData['product']->getStock() }}"
                                             class="form-control" name="quantity" value="1" style="width: 120px;">
                                     </div>
 
                                     <div>
                                         <button class="btn btn-primary px-4" type="submit">
-                                            Agregar al carrito
+                                            {{ __('products.add_to_cart') }}
                                         </button>
                                     </div>
 
                                     <div>
                                         <a href="{{ route('home.index') }}" class="btn btn-outline-secondary">
-                                            Volver al inicio
+                                            {{ __('products.back_to_home') }}
                                         </a>
                                     </div>
                                 </div>
@@ -79,11 +80,11 @@
                         @else
                             <div class="d-flex flex-wrap gap-2">
                                 <button class="btn btn-secondary" disabled>
-                                    Producto agotado
+                                    {{ __('products.product_out_of_stock') }}
                                 </button>
 
                                 <a href="{{ route('home.index') }}" class="btn btn-outline-secondary">
-                                    Volver al inicio
+                                    {{ __('products.back_to_home') }}
                                 </a>
                             </div>
                         @endif

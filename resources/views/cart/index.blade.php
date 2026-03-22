@@ -7,7 +7,7 @@
     <div class="container my-4">
         <div class="card shadow-sm border-0">
             <div class="card-header bg-dark text-white">
-                <h4 class="mb-0">Productos en el carrito</h4>
+                <h4 class="mb-0">{{ __('cart.cart_title') }}</h4>
             </div>
 
             <div class="card-body">
@@ -22,11 +22,11 @@
                         <table class="table table-hover align-middle text-center">
                             <thead class="table-light">
                                 <tr>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Precio</th>
-                                    <th scope="col">Cantidad</th>
-                                    <th scope="col">Subtotal</th>
+                                    <th scope="col">{{ __('products.id') }}</th>
+                                    <th scope="col">{{ __('products.name') }}</th>
+                                    <th scope="col">{{ __('products.price') }}</th>
+                                    <th scope="col">{{ __('products.quantity_label') }}</th>
+                                    <th scope="col">{{ __('cart.subtotal') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -52,31 +52,31 @@
                     <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mt-4">
                         <div>
                             <a href="{{ route('home.index') }}" class="btn btn-outline-secondary">
-                                Seguir comprando
+                                {{ __('cart.continue_shopping') }}
                             </a>
                         </div>
 
                         <div class="d-flex align-items-center gap-2 flex-wrap">
                             <div class="px-3 py-2 border rounded bg-light">
-                                <strong>Total a pagar:</strong>
+                                <strong>{{ __('cart.total_to_pay') }}:</strong>
                                 ${{ number_format($viewData["total"], 0, ',', '.') }}
                             </div>
 
                             <a href="#" class="btn btn-primary">
-                                Comprar
+                                {{ __('cart.buy') }}
                             </a>
 
                             <a href="{{ route('cart.delete') }}" class="btn btn-danger">
-                                Vaciar carrito
+                                {{ __('cart.empty_cart') }}
                             </a>
                         </div>
                     </div>
                 @else
                     <div class="text-center py-5">
-                        <h5 class="mb-3">Tu carrito está vacío</h5>
-                        <p class="text-muted">Aún no has agregado productos.</p>
+                        <h5 class="mb-3">{{ __('cart.empty_cart_message') }}</h5>
+                        <p class="text-muted">{{ __('cart.no_products_added') }}</p>
                         <a href="{{ route('home.index') }}" class="btn btn-primary">
-                            Ir a comprar
+                            {{ __('cart.go_shopping') }}
                         </a>
                     </div>
                 @endif

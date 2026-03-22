@@ -20,11 +20,13 @@ Route::middleware('admin')->group(function () {
     Route::put('/users/{id}', 'App\Http\Controllers\UserController@update')->name('user.update');
     Route::delete('/users/{id}', 'App\Http\Controllers\UserController@delete')->name('user.delete');
 });
+
 //Home 
 Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home.index');
 
 //Product Admin and Customer
 Route::get('/products/{id}/show', 'App\Http\Controllers\ProductController@show')->name('product.show');
+Route::get('/products/search', 'App\Http\Controllers\ProductController@search')->name('product.search');
 
 //Auth 
 Auth::routes();

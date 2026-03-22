@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -27,26 +27,26 @@
 
                         @if(Auth::user()->getRole() == 'admin')
                             <a class="nav-link active" href="{{ route('product.create') }}">
-                                <b>Formulario</b>
+                                <b>{{ __('navigation.new_product') }}</b>
                             </a>
 
                             <a class="nav-link active" href="{{ route('product.index') }}">
-                                <b>Productos</b>
+                                <b>{{ __('navigation.products') }}</b>
                             </a>
 
                             <a class="nav-link active" href="{{ route('user.create') }}">
-                                <b>Crear usuario</b>
+                                <b>{{ __('navigation.create_user') }}</b>
                             </a>
 
                             <a class="nav-link active" href="{{ route('user.index') }}">
-                                <b>Usuario</b>
+                                <b>{{ __('navigation.users') }}</b>
                             </a>
 
                         @endif
 
                         @if(Auth::user()->getRole() == 'customer')
                             <a class="nav-link active" href="{{ route('cart.index') }}">
-                                <b>Carrito</b>
+                                <b>{{ __('navigation.cart') }}</b>
                             </a>
                         @endif
                     @endauth
@@ -54,14 +54,14 @@
                     <div class="vr bg-white mx-2 d-none d-lg-block"></div>
 
                     @guest
-                        <a class="nav-link active" href="{{ route('login') }}">Login</a>
-                        <a class="nav-link active" href="{{ route('register') }}">Register</a>
+                        <a class="nav-link active" href="{{ route('login') }}">{{ __('navigation.login') }}</a>
+                        <a class="nav-link active" href="{{ route('register') }}">{{ __('navigation.register') }}</a>
                     @else
                         <form id="logout" action="{{ route('logout') }}" method="POST" class="d-inline">
                             @csrf
                             <a role="button" class="nav-link active"
                                 onclick="event.preventDefault(); document.getElementById('logout').submit();">
-                                Logout
+                                {{ __('navigation.logout') }}
                             </a>
                         </form>
                     @endguest

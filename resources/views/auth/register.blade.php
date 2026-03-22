@@ -12,7 +12,7 @@
                             @csrf
 
                             <div class="row mb-3">
-                                <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Nombre') }}</label>
+                                <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('forms.name') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
@@ -28,7 +28,7 @@
 
                             <div class="row mb-3">
                                 <label for="email"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Corre electronico') }}</label>
+                                    class="col-md-4 col-form-label text-md-end">{{ __('auth.email') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
@@ -44,10 +44,10 @@
 
                             <div class="row mb-3">
                                 <label for="address"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Dirección') }}</label>
+                                    class="col-md-4 col-form-label text-md-end">{{ __('forms.address') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="address" type="address" class="form-control @error('address') is-invalid @enderror"
+                                    <input id="address" type="text" class="form-control @error('address') is-invalid @enderror"
                                         name="address" value="{{ old('address') }}" required autocomplete="address">
 
                                     @error('address')
@@ -60,10 +60,10 @@
 
                             <div class="row mb-3">
                                 <label for="phone"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Numero de celular') }}</label>
+                                    class="col-md-4 col-form-label text-md-end">{{ __('auth.phone') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="phone" type="phone" class="form-control @error('phone') is-invalid @enderror"
+                                    <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror"
                                         name="phone" value="{{ old('phone') }}" required autocomplete="phone">
 
                                     @error('phone')
@@ -76,7 +76,7 @@
 
                             <div class="row mb-3">
                                 <label for="password"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Contraseña}') }}</label>
+                                    class="col-md-4 col-form-label text-md-end">{{ __('auth.password') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="password" type="password"
@@ -93,7 +93,7 @@
 
                             <div class="row mb-3">
                                 <label for="password-confirm"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Confirmar contraseña') }}</label>
+                                    class="col-md-4 col-form-label text-md-end">{{ __('auth.password_confirm') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="password-confirm" type="password" class="form-control"
