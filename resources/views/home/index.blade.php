@@ -30,7 +30,7 @@
                                 </span>
 
                                 <h3 class="product-card-title">{{ $product->getName() }}</h3>
-                                <div class="product-card-price">${{ $product->getPrice() }}</div>
+                                <div class="product-card-price">${{ number_format($product->getPrice(), 0, ',', ' ') }}</div>
                                 
                                 @if($product->getStock() > 0)
                                     <div class="product-card-action mt-2">
