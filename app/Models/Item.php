@@ -81,6 +81,17 @@ class Item extends Model
         $this->attributes['order_id'] = $orderId;
     }
 
+    /* Formatted Getters */
+    public function getPriceFormatted(): string
+    {
+        return '$' . number_format($this->getPrice(), 0, ',', ' ');
+    }
+
+    public function getSubtotalFormatted(): string
+    {
+        return '$' . number_format($this->calculateSubtotal(), 0, ',', ' ');
+    }
+
     /* Relationships */
     public function product(): BelongsTo
     {

@@ -94,6 +94,22 @@ class Product extends Model
         $this->attributes['category'] = $category;
     }
 
+    public function getCreatedAt(): string
+    {
+        return $this->attributes['created_at'];
+    }
+
+    public function getUpdatedAt(): string
+    {
+        return $this->attributes['updated_at'];
+    }
+
+    /* Formatted Getters */
+    public function getPriceFormatted(): string
+    {
+        return '$' . number_format($this->getPrice(), 0, ',', ' ');
+    }
+
     // Auxiliar methods
 
     public static function sumPricesByQuantities($products, $productsInSession)

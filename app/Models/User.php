@@ -21,6 +21,8 @@ class User extends Authenticatable
      * this->attribute['phone']
      * this->attribute['role']
      * this->attribute['budget']
+     * this->attribute['created_at']
+     * this->attribute['updated_at']
      */
     protected $fillable = [
         'name',
@@ -107,6 +109,32 @@ class User extends Authenticatable
         $this->attributes['role'] = $role;
     }
 
+        public function getBudget(): int
+    {
+        return $this->attributes['budget'] ?? 0;
+    }
+
+    public function setBudget(int $budget): void
+    {
+        $this->attributes['budget'] = $budget;
+    }
+
+    public function getCreatedAt(): string
+    {
+        return $this->attributes['created_at'];
+    }
+
+    public function getUpdatedAt(): string
+    {
+        return $this->attributes['updated_at'];
+    }
+
+    /* Formatted Getters */
+    public function getBudgetFormatted(): string
+    {
+        return '$' . number_format($this->getBudget(), 0, ',', '.');
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -118,16 +146,6 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
-    }
-
-    public function getBudget(): float
-    {
-        return $this->attributes['budget'];
-    }
-
-    public function setBudget(float $budget): void
-    {
-        $this->attributes['budget'] = $budget;
     }
 
     // Relationships

@@ -19,30 +19,57 @@
                     </div>
                 @endif
 
+                @if(session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
+
                 @if(count($viewData["products"]) > 0)
                     <div class="table-responsive">
                         <table class="table cart-table">
                             <thead>
-                                32
                                     <th>{{ __('products.id') }}</th>
                                     <th>{{ __('products.name') }}</th>
                                     <th>{{ __('products.price') }}</th>
                                     <th>{{ __('products.quantity_label') }}</th>
                                     <th>{{ __('cart.subtotal') }}</th>
-                                </tr>
-                            </thead>
+                                    <th>{{ __('cart.actions') }}</th>
+                                </thead>
                             <tbody>
                                 @foreach ($viewData["products"] as $product)
                                     <tr>
                                         <td class="fw-bold text-primary">#{{ $product->getId() }}</td>
                                         <td class="fw-semibold">{{ $product->getName() }}</td>
-                                        <td class="text-success fw-semibold">${{ number_format($product->getPrice(), 0, ',', '.') }}</td>
+                                        <td class="text-success fw-semibold">{{ $product->getPriceFormatted() }}</td>
                                         <td>
-                                            <span class="quantity-badge">
-                                                {{ session('products')[$product->getId()] }}
-                                            </span>
+                                            <form action="{{ route('cart.update', $product->getId()) }}" method="POST" class="quantity-form">
+                                                @csrf
+                                                @method('PUT')
+                                                <input type="number" 
+                                                    name="quantity" 
+                                                    value="{{ session('products')[$product->getId()] }}" 
+                                                    min="1" 
+                                                    max="{{ $product->getStock() }}"
+                                                    step="1"
+                                                    class="form-control quantity-input"
+                                                    style="width: 80px;"
+                                                    onchange="this.form.submit()"
+                                                    oninput="if(this.value < 1) this.value = 1; if(this.value > {{ $product->getStock() }}) this.value = {{ $product->getStock() }}">
+                                            </form>
                                         </td>
-                                        <td class="fw-bold">${{ number_format($product->getPrice() * session('products')[$product->getId()], 0, ',', '.') }}</td>
+                                        <td class="fw-bold">${{ number_format($product->getPrice() * session('products')[$product->getId()], 0, ',', ' ') }}</td>
+                                        <td>
+                                            <form action="{{ route('cart.remove', $product->getId()) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-outline-danger" 
+                                                        onclick="return confirm('{{ __('cart.remove_confirm') }}')">
+                                                    <i class="bi bi-trash"></i> {{ __('cart.remove_item') }}
+                                                </button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -59,16 +86,23 @@
                             <div class="col-md-6 text-md-end">
                                 <div class="cart-total-box mb-3">
                                     <span class="cart-total-label">{{ __('cart.total_to_pay') }}:</span>
-                                    <span class="cart-total-value">${{ number_format($viewData["total"], 0, ',', '.') }}</span>
+                                    <span class="cart-total-value">${{ number_format($viewData["total"], 0, ',', ' ') }}</span>
                                 </div>
                                 <div class="d-flex gap-2 justify-content-md-end">
-                                    <button class="btn btn-success btn-lg px-4" onclick="alert('{{ __('cart.buy') }}')">
-                                        💳 {{ __('cart.buy') }}
-                                    </button>
-                                    <a href="{{ route('cart.delete') }}" class="btn btn-outline-danger btn-lg" 
-                                    onclick="return confirm('¿Estás seguro de vaciar el carrito?')">
-                                        🗑️ {{ __('cart.empty_cart') }}
-                                    </a>
+                                    <form action="{{ route('cart.checkout') }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-success btn-lg px-4">
+                                            💳 {{ __('cart.buy') }}
+                                        </button>
+                                    </form>
+                                    <form action="{{ route('cart.delete') }}" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-outline-danger btn-lg" 
+                                                onclick="return confirm('{{ __('cart.empty_confirm') }}')">
+                                            🗑️ {{ __('cart.empty_cart') }}
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

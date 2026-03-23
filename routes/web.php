@@ -34,8 +34,11 @@ Auth::routes();
 // Cart - Available to authenticated users
 Route::middleware('auth')->group(function () {
     Route::get('/cart', 'App\Http\Controllers\CartController@index')->name('cart.index');
-    Route::get('/cart/delete', 'App\Http\Controllers\CartController@delete')->name('cart.delete');
     Route::post('/cart/add/{id}', 'App\Http\Controllers\CartController@add')->name('cart.add');
+    Route::delete('/cart/remove/{id}', 'App\Http\Controllers\CartController@remove')->name('cart.remove');
+    Route::put('/cart/update/{id}', 'App\Http\Controllers\CartController@update')->name('cart.update');
+    Route::delete('/cart/clear', 'App\Http\Controllers\CartController@delete')->name('cart.delete');
+    Route::post('/cart/checkout', 'App\Http\Controllers\CartController@checkout')->name('cart.checkout');
 });
 
 // Reviews
@@ -51,3 +54,10 @@ Route::middleware('auth')->group(function () {
 // All users can view reviews
 Route::get('/products/{productId}/reviews', 'App\Http\Controllers\ReviewController@index')->name('review.index');
 Route::get('/products/{productId}/reviews/{reviewId}', 'App\Http\Controllers\ReviewController@show')->name('review.show');
+
+// Payment routes
+Route::middleware('auth')->group(function () {
+    Route::get('/payment/{orderId}/create', 'App\Http\Controllers\PaymentController@create')->name('payment.create');
+    Route::post('/payment/{orderId}', 'App\Http\Controllers\PaymentController@save')->name('payment.save');
+    Route::get('/payment/{orderId}/success', 'App\Http\Controllers\PaymentController@success')->name('payment.success');
+});

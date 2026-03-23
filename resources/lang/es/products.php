@@ -7,7 +7,7 @@ return [
     'available' => 'Disponible',
     'out_of_stock' => 'Agotado',
     'detail_title' => 'Detalle del Producto',
-    'id' => 'ID',
+    'id' => 'ID Producto',
     'name' => 'Nombre',
     'description' => 'Descripción',
     'price' => 'Precio',

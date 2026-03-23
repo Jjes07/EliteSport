@@ -11,12 +11,13 @@ class Payment extends Model
      * PAYMENT ATTRIBUTES
      * $this->attributes['id'] - int - contains the payment primary key (id)
      * $this->attributes['order_id'] - int - contains the referenced order id
-     * $this->attributes['amount'] - float - contains the payment amount
+     * $this->attributes['amount'] - int - contains the payment amount
      * $this->attributes['method'] - string - contains the payment method
      * $this->attributes['status'] - string - contains the payment status
      * $this->attributes['created_at'] - timestamp - contains the payment creation timestamp
      * $this->attributes['updated_at'] - timestamp - contains the payment update timestamp
      */
+    
     protected $fillable = [
         'order_id',
         'amount',
@@ -35,7 +36,7 @@ class Payment extends Model
         return $this->attributes['order_id'];
     }
 
-    public function getAmount(): float
+    public function getAmount(): int
     {
         return $this->attributes['amount'];
     }
@@ -55,13 +56,18 @@ class Payment extends Model
         return $this->attributes['created_at'];
     }
 
+    public function getUpdatedAt(): string
+    {
+        return $this->attributes['updated_at'];
+    }
+
     /* Setters */
     public function setOrderId(int $orderId): void
     {
         $this->attributes['order_id'] = $orderId;
     }
 
-    public function setAmount(float $amount): void
+    public function setAmount(int $amount): void
     {
         $this->attributes['amount'] = $amount;
     }
@@ -76,6 +82,12 @@ class Payment extends Model
         $this->attributes['status'] = $status;
     }
 
+    /* Formatted Getters */
+    public function getAmountFormatted(): string
+    {
+        return '$' . number_format($this->getAmount(), 0, ',', ' ');
+    }
+
     /* Relationships */
     public function order(): BelongsTo
     {
@@ -83,14 +95,36 @@ class Payment extends Model
     }
 
     /* Business Logic */
-    public static function processPayment(Order $order, string $method = 'budget'): ?self
+    public static function processPayment(Order $order): array
     {
         $user = $order->getUser();
         $total = $order->getTotal();
 
+        // Check if order is already paid
+        if ($order->getStatus() === 'paid') {
+            return [
+                'success' => false,
+                'message' => __('payment.order_already_paid')
+            ];
+        }
+
         // Check if user has enough budget
         if ($user->getBudget() < $total) {
-            return null;
+            return [
+                'success' => false,
+                'message' => __('payment.insufficient_balance')
+            ];
+        }
+
+        // Check stock for all items
+        foreach ($order->getItems() as $item) {
+            $product = $item->product;
+            if ($product->getStock() < $item->getQuantity()) {
+                return [
+                    'success' => false,
+                    'message' => __('payment.insufficient_stock', ['product' => $product->getName()])
+                ];
+            }
         }
 
         // Deduct from user budget
@@ -99,16 +133,16 @@ class Payment extends Model
 
         // Reduce product stock
         foreach ($order->getItems() as $item) {
-            $product = $item->getProduct();
+            $product = $item->product;
             $product->setStock($product->getStock() - $item->getQuantity());
             $product->save();
         }
 
         // Create payment record
-        $payment = new self;
+        $payment = new self();
         $payment->setOrderId($order->getId());
         $payment->setAmount($total);
-        $payment->setMethod($method);
+        $payment->setMethod('budget');
         $payment->setStatus('completed');
         $payment->save();
 
@@ -116,6 +150,10 @@ class Payment extends Model
         $order->setStatus('paid');
         $order->save();
 
-        return $payment;
+        return [
+            'success' => true,
+            'payment' => $payment,
+            'message' => __('payment.payment_completed')
+        ];
     }
 }

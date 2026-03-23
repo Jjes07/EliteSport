@@ -1,5 +1,6 @@
-// Counter for comment characters
 document.addEventListener("DOMContentLoaded", () => {
+
+    // Review: Counter for comment characters
     const textarea = document.getElementById("comment");
     const counter = document.getElementById("charCount");
 
@@ -12,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
         updateCounter();
     }
 
-    // Rating filters auto-submit
+    // Review Filters: Rating filters auto-submit
     const ratingCheckboxes = document.querySelectorAll('.rating-filter');
     const filterForm = document.getElementById('filter-form');
     
@@ -23,4 +24,16 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     }
+
+    // Cart: Auto-submit when quantity changes
+    const quantityInputs = document.querySelectorAll('.quantity-input');
+    
+    quantityInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            const form = this.closest('form');
+            if (form) {
+                form.submit();
+            }
+        });
+    });
 });

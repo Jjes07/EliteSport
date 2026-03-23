@@ -36,7 +36,7 @@
                         </p>
 
                         <p class="mb-2 fs-4 fw-bold text-primary">
-                            ${{ number_format($viewData['product']->getPrice(), 0, ',', ' ') }}
+                            {{ $viewData['product']->getPriceFormatted() }}
                         </p>
 
                         <p class="mb-4">

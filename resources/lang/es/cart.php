@@ -11,4 +11,8 @@ return [
     'no_products_added' => 'Aún no has agregado productos.',
     'go_shopping' => 'Ir a comprar',
     'subtotal' => 'Subtotal',
+    'actions' => 'Acciones',
+    'remove_item' => 'Eliminar item',
+    'remove_confirm' => '¿Eliminar este producto del carrito?',
+    'empty_confirm' => '¿Estás seguro de vaciar el carrito?'
 ];
