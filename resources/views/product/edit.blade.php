@@ -62,18 +62,17 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label for="category" class="form-label fw-semibold">{{ __('forms.category') }}</label>
-                            <select name="category" id="category" class="form-select">
+                            <label for="category_id" class="form-label fw-semibold">{{ __('forms.category') }}</label>
+                            <select name="category_id" id="category_id" class="form-select">
                                 <option value="">{{ __('products.select_category') }}</option>
-                                <option value="Futbol" {{ old('category', $viewData['product']->getCategory()) == 'Futbol' ? 'selected' : '' }}>
-                                    Futbol
-                                </option>
-                                <option value="Voleibol" {{ old('category', $viewData['product']->getCategory()) == 'Voleibol' ? 'selected' : '' }}>
-                                    Voleibol
-                                </option>
+                                @foreach($viewData['categories'] as $category)
+                                    <option value="{{ $category->getId() }}" {{ old('category_id', $viewData['product']->getCategoryId()) == $category->getId() ? 'selected' : '' }}>
+                                        {{ $category->getName() }}
+                                    </option>
+                                @endforeach
                             </select>
 
-                            @error('category')
+                            @error('category_id')
                                 <small class="text-danger d-block mt-1">{{ $message }}</small>
                             @enderror
                         </div>

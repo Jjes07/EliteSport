@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SaveProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class ProductController extends Controller
         $viewData['title'] = 'Home - Products';
         $viewData['products'] = Product::all();
         $viewData['showCleanButton'] = false;
-        $viewData['categories'] = Product::select('category')->distinct()->pluck('category');
+        $viewData['categories'] = Category::all();
 
         return view('product.index')->with('viewData', $viewData);
     }
@@ -27,7 +28,7 @@ class ProductController extends Controller
     {
         $viewData = [];
         $viewData['title'] = 'Crear Producto';
-        // $viewData['categories'] = Category::all();
+        $viewData['categories'] = Category::all();
 
         return view('product.create')->with('viewData', $viewData);
     }
@@ -42,7 +43,7 @@ class ProductController extends Controller
         $product->setPrice($validatedData['price']);
         $product->setStock($validatedData['stock']);
         $product->setImage($validatedData['image']);
-        $product->setCategory($validatedData['category']);
+        $product->setCategory($validatedData['category_id']);
         $product->save();
 
         return redirect()
@@ -66,9 +67,9 @@ class ProductController extends Controller
         $viewData = [];
         $product = Product::findOrFail($id);
 
-        $viewData['title'] = $product->getName() . 'Editar Producto';
+        $viewData['title'] = $product->getName() . ' - Editar Producto';
         $viewData['product'] = $product;
-        // $viewData['categories'] = Category::all();
+        $viewData['categories'] = Category::all();
 
         return view('product.edit')->with('viewData', $viewData);
     }
@@ -83,7 +84,7 @@ class ProductController extends Controller
         $product->setPrice($validatedData['price']);
         $product->setStock($validatedData['stock']);
         $product->setImage($validatedData['image']);
-        $product->setCategory($validatedData['category']);
+        $product->setCategory($validatedData['category_id']);
         $product->save();
 
         return redirect()
@@ -95,12 +96,12 @@ class ProductController extends Controller
     {
         $viewData = [];
         $viewData['title'] = 'Buscar Productos';
-        $viewData['categories'] = Product::select('category')->distinct()->pluck('category');
+        $viewData['categories'] = Category::all();
 
         $searchTerm = $request->input('name', '');
-        $category = $request->input('category', '');
+        $categoryId = $request->input('category', null);
 
-        $searchResult = Product::searchByNameAndCategory($searchTerm, $category);
+        $searchResult = Product::searchByNameAndCategory($searchTerm, $categoryId ? (int) $categoryId : null);
 
         $viewData = array_merge($viewData, $searchResult);
 

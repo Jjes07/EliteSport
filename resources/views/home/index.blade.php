@@ -16,8 +16,8 @@
                 <select name="category" class="form-select">
                     <option value=""> {{ __('products.select_category') }} </option>
                     @foreach($viewData['categories'] as $category)
-                        <option value="{{ $category }}" {{ (($viewData['selectedCategory'] ?? '') == $category) ? 'selected' : '' }}>
-                            {{ $category }}
+                        <option value="{{ $category->getId() }}" {{ (($viewData['selectedCategory'] ?? '') == $category->getId()) ? 'selected' : '' }}>
+                            {{ $category->getName() }}
                         </option>
                     @endforeach
                 </select>

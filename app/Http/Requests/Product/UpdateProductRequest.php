@@ -27,7 +27,7 @@ class UpdateProductRequest extends FormRequest
             "price" => "required|numeric|min:1",
             "stock" => "required|integer|min:0",
             "image" => "required|string",
-            "category" => "required|string|in:Futbol,Voleibol"
+            "category_id" => "required|integer|exists:categories,id"
         ];
     }
 }

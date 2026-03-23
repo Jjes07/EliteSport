@@ -3,6 +3,10 @@
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('admin')->group(function () {
+    //Category Admin
+    Route::get('/categories/create', 'App\Http\Controllers\CategoryController@create')->name('category.create');
+    Route::post('/categories/save', 'App\Http\Controllers\CategoryController@save')->name('category.save');
+
     //Product Admin
     Route::get('/products', 'App\Http\Controllers\ProductController@index')->name('product.index');
     Route::get('/products/create', 'App\Http\Controllers\ProductController@create')->name('product.create');

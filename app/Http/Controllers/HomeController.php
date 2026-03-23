@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\View\View;
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -12,7 +13,9 @@ class HomeController extends Controller
     {
         $viewData = [];
         $viewData['title'] = 'Home - Products';
-        $viewData['categories'] = Product::select('category')->distinct()->pluck('category');
+        $viewData['products'] = Product::all();
+        $viewData['showCleanButton'] = false;
+        $viewData['categories'] = Category::all();
 
         $searchTerm = $request->input('name', '');
         $category = $request->input('category', '');

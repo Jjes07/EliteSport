@@ -30,6 +30,10 @@
                                 <b>{{ __('navigation.new_product') }}</b>
                             </a>
 
+                            <a class="nav-link active" href="{{ route('category.create') }}">
+                                <b>{{ __('navigation.new_category') }}</b>
+                            </a>
+
                             <a class="nav-link active" href="{{ route('product.index') }}">
                                 <b>{{ __('navigation.products') }}</b>
                             </a>

@@ -35,7 +35,7 @@ class UserController extends Controller
         $user = new User();
         $user->setName($validatedData['name']);
         $user->setEmail($validatedData['email']);
-        $user->setPassword($validatedData['password']);
+        $user->setPassword(($validatedData['password']));
         $user->setAddress($validatedData['address']);
         $user->setPhone($validatedData['phone']);
 

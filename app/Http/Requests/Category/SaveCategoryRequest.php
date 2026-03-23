@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SaveProductRequest extends FormRequest
+class SaveCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,12 +22,8 @@ class SaveProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => "required|string",
-            "description" => "required|string",
-            "price" => "required|numeric|min:1",
-            "stock" => "required|integer|min:0",
-            "image" => "required|string|max:10000",
-            "category_id" => "required|integer|exists:categories,id"
+            'name' => 'required|string|max:255|unique:categories,name',
+            'description' => 'required|string|max:1000',
         ];
     }
 }

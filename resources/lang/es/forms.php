@@ -17,6 +17,7 @@ return [
     'category' => 'Categoría',
     'create_product' => 'Crear Producto',
     'save_product' => 'Guardar producto',
+    'create_category' => 'Crear Categoría',
     'create_user' => 'Crear Usuario',
     'save_user' => 'Guardar usuario',
     'edit_product' => 'Editar Producto',

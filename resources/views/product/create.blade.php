@@ -66,9 +66,15 @@
                             </div>
 
                             <div class="mb-4">
-                                <label for="category" class="form-label fw-semibold">{{ __('forms.category') }}</label>
-                                <input id="category" type="text" class="form-control" name="category"
-                                    value="{{ old('category') }}" placeholder="Ej: Fútbol">
+                                <label for="category_id" class="form-label fw-semibold">{{ __('forms.category') }}</label>
+                                <select id="category_id" name="category_id" class="form-select">
+                                    <option value="">{{ __('products.select_category') }}</option>
+                                    @foreach($viewData['categories'] as $category)
+                                        <option value="{{ $category->getId() }}" {{ old('category_id') == $category->getId() ? 'selected' : '' }}>
+                                            {{ $category->getName() }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
