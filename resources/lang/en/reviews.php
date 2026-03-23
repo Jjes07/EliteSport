@@ -4,7 +4,7 @@ return [
     // Titles
     'title' => 'Reviews',
     'detail_title' => 'Review Details',
-    
+
     // Buttons
     'write_review' => 'Write a Review',
     'edit_review' => 'Edit Review',
@@ -16,20 +16,20 @@ return [
     'submit' => 'Submit Review',
     'update' => 'Update Review',
     'cancel' => 'Cancel',
-    
+
     // Form fields
     'rating' => 'Rating',
     'comment' => 'Your Review',
     'comment_placeholder' => 'Share your experience with this product...',
     'comment_update_placeholder' => 'Update your experience...',
     'characters' => 'characters',
-    
+
     // Labels
     'by' => 'By',
     'created' => 'Created',
     'updated' => 'Updated',
     'edited' => 'edited',
-    
+
     // Messages
     'no_reviews' => 'No reviews yet. Be the first to review this product!',
     'login_to_review' => 'Login to write a review',
@@ -40,21 +40,21 @@ return [
     'review_deleted_admin' => 'Review has been deleted by admin.',
     'not_authorized_edit' => 'You are not authorized to edit this review.',
     'not_authorized_delete' => 'You are not authorized to delete this review!',
-    
+
     // Rating labels
     'excellent' => 'Excellent',
     'good' => 'Good',
     'average' => 'Average',
     'fair' => 'Fair',
     'poor' => 'Poor',
-    
+
     // Filters
     'filters' => 'Filters',
     'active_filters' => 'Active Filters',
     'clear_filters' => 'Clear Filters',
     'reviews_found' => 'reviews found',
     'no_reviews_with_filters' => 'No reviews found with the selected filters.',
-    
+
     // Confirmation
     'confirm_delete' => 'Are you sure you want to delete this review? This action cannot be undone.',
     'yes_delete' => 'Yes, delete',

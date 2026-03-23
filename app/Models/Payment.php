@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use App\Models\Order;
 
 class Payment extends Model
 {
@@ -18,7 +17,6 @@ class Payment extends Model
      * $this->attributes['created_at'] - timestamp - contains the payment creation timestamp
      * $this->attributes['updated_at'] - timestamp - contains the payment update timestamp
      */
-
     protected $fillable = [
         'order_id',
         'amount',
@@ -107,7 +105,7 @@ class Payment extends Model
         }
 
         // Create payment record
-        $payment = new self();
+        $payment = new self;
         $payment->setOrderId($order->getId());
         $payment->setAmount($total);
         $payment->setMethod($method);

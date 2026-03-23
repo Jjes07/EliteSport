@@ -21,7 +21,6 @@ Route::middleware('admin')->group(function () {
     Route::delete('/users/{id}', 'App\Http\Controllers\UserController@delete')->name('user.delete');
 });
 
-
 // Home
 Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home.index');
 

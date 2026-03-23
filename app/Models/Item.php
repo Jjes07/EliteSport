@@ -17,7 +17,6 @@ class Item extends Model
      * $this->attributes['created_at'] - timestamp - contains the item creation timestamp
      * $this->attributes['updated_at'] - timestamp - contains the item update timestamp
      */
-
     protected $fillable = [
         'quantity',
         'price',
@@ -92,7 +91,7 @@ class Item extends Model
     // {
     //     return $this->belongsTo(Order::class);
     // }
-    
+
     public function getProduct(): Product
     {
         return $this->product;
@@ -112,8 +111,8 @@ class Item extends Model
     {
         foreach ($cartProducts as $productId => $quantity) {
             $product = Product::findOrFail($productId);
-            
-            $item = new self();
+
+            $item = new self;
             $item->setQuantity($quantity);
             $item->setPrice($product->getPrice());
             $item->setProductId($productId);

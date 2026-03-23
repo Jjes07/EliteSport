@@ -1,6 +1,6 @@
 <?php
 
-# Request created by Juan Escobar
+// Request created by Juan Escobar
 
 namespace App\Http\Requests;
 

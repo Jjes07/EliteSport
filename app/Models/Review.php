@@ -1,15 +1,15 @@
 <?php
 
-# Model created by Juan Escobar
+// Model created by Juan Escobar
 
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\Request;
-use \Illuminate\Database\Eloquent\Collection;
 
 class Review extends Model
 {
@@ -25,7 +25,6 @@ class Review extends Model
      * $this->attributes['created_at'] - timestamp - contains the review creation timestamp
      * $this->attributes['updated_at'] - timestamp - contains the review update timestamp
      */
-
     private const RATING_MAP = [
         5 => ['label' => 'Excellent', 'class' => 'bg-success'],
         4 => ['label' => 'Good',      'class' => 'bg-primary'],
@@ -119,11 +118,11 @@ class Review extends Model
     public static function getReviewsWithFilters(Product $product, ?array $selectedRatings = []): Collection
     {
         $query = $product->reviews()->with('user')->latest();
-        
-        if (!empty($selectedRatings)) {
+
+        if (! empty($selectedRatings)) {
             $query->whereIn('rating', $selectedRatings);
         }
-        
+
         return $query->get();
     }
 
@@ -155,13 +154,13 @@ class Review extends Model
 
     public static function createReview(int $userId, int $productId, string $comment, int $rating): self
     {
-        $review = new self();
+        $review = new self;
         $review->setComment($comment);
         $review->setRating($rating);
         $review->setUserId($userId);
         $review->setProductId($productId);
         $review->save();
-        
+
         return $review;
     }
 
@@ -170,11 +169,11 @@ class Review extends Model
         if (isset($validatedData['comment'])) {
             $this->setComment($validatedData['comment']);
         }
-        
+
         if (isset($validatedData['rating'])) {
             $this->setRating($validatedData['rating']);
         }
-        
+
         $this->save();
     }
 
@@ -191,8 +190,8 @@ class Review extends Model
     public static function processFilters(Request $request): array
     {
         $selectedRatings = $request->query('ratings', []);
-        
-        if (!is_array($selectedRatings)) {
+
+        if (! is_array($selectedRatings)) {
             $selectedRatings = [$selectedRatings];
         }
 

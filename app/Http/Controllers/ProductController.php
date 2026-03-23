@@ -6,10 +6,9 @@ use App\Http\Requests\SaveProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-use Illuminate\Http\Request;
-
 
 class ProductController extends Controller
 {
@@ -98,6 +97,7 @@ class ProductController extends Controller
             ->with('success', 'Elemento actualizado correctamente');
 
     }
+
     public function search(Request $request): View
     {
         $viewData = [];
@@ -111,20 +111,20 @@ class ProductController extends Controller
 
         if ($searchTerm || $category) {
 
-            if (!empty($category) && !empty($searchTerm)) {
-                $viewData['products'] = Product::where('name', 'LIKE', '%' . $searchTerm . '%')
+            if (! empty($category) && ! empty($searchTerm)) {
+                $viewData['products'] = Product::where('name', 'LIKE', '%'.$searchTerm.'%')
                     ->where('category', $category)
                     ->get();
-                $viewData['message'] = 'Resultado de busqueda: ' . $searchTerm . ' que pertenecen a la categoria:' . $category;
+                $viewData['message'] = 'Resultado de busqueda: '.$searchTerm.' que pertenecen a la categoria:'.$category;
                 $viewData['searchTerm'] = $searchTerm;
                 $viewData['selectedCategory'] = $category;
-            } elseif (!empty($category)) {
+            } elseif (! empty($category)) {
                 $viewData['products'] = Product::where('category', $category)->get();
-                $viewData['message'] = 'Resultados de búsqueda para la categoria: "' . $category . '"';
+                $viewData['message'] = 'Resultados de búsqueda para la categoria: "'.$category.'"';
                 $viewData['selectedCategory'] = $category;
-            } elseif (!empty($searchTerm)) {
-                $viewData['products'] = Product::where('name', 'LIKE', '%' . $searchTerm . '%')->get();
-                $viewData['message'] = 'Resultados de búsqueda para: "' . $searchTerm . '"';
+            } elseif (! empty($searchTerm)) {
+                $viewData['products'] = Product::where('name', 'LIKE', '%'.$searchTerm.'%')->get();
+                $viewData['message'] = 'Resultados de búsqueda para: "'.$searchTerm.'"';
                 $viewData['searchTerm'] = $searchTerm;
             }
             $viewData['showCleanButton'] = true;

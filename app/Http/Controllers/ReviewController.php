@@ -1,6 +1,6 @@
 <?php
 
-# Class created by Juan Escobar
+// Class created by Juan Escobar
 
 namespace App\Http\Controllers;
 
@@ -20,8 +20,8 @@ class ReviewController extends Controller
         $viewData = [];
         $product = Product::findOrFail($productId);
         $selectedRatings = Review::processFilters($request);
-        
-        $viewData['title'] = 'Reviews - ' . $product->getName();
+
+        $viewData['title'] = 'Reviews - '.$product->getName();
         $viewData['product'] = $product;
         $viewData['reviews'] = Review::getReviewsWithFilters($product, $selectedRatings);
         $viewData['selectedRatings'] = $selectedRatings;
@@ -35,8 +35,8 @@ class ReviewController extends Controller
         $viewData = [];
         $product = Product::findOrFail($productId);
         $review = Review::where('product_id', $productId)->findOrFail($reviewId);
-        
-        $viewData['title'] = 'Review - ' . $product->getName();
+
+        $viewData['title'] = 'Review - '.$product->getName();
         $viewData['product'] = $product;
         $viewData['review'] = $review;
         $viewData['ratingLabel'] = $review->getRatingLabel();
@@ -49,8 +49,8 @@ class ReviewController extends Controller
         $viewData = [];
         $product = Product::findOrFail($productId);
         $existingReview = Review::getUserReviewForProduct(Auth::id(), $productId);
-        
-        $viewData['title'] = 'Write a Review - ' . $product->getName();
+
+        $viewData['title'] = 'Write a Review - '.$product->getName();
         $viewData['product'] = $product;
         $viewData['existingReview'] = $existingReview;
 
@@ -67,7 +67,7 @@ class ReviewController extends Controller
                 ->route('product.show', $productId)
                 ->with('error', 'You have already reviewed this product!');
         }
-        
+
         Review::createReview(
             Auth::id(),
             $productId,
@@ -85,12 +85,12 @@ class ReviewController extends Controller
         $viewData = [];
         $product = Product::findOrFail($productId);
         $review = Review::where('product_id', $productId)->findOrFail($reviewId);
-        
-        if (!$review->canBeEditedBy(Auth::id())) {
+
+        if (! $review->canBeEditedBy(Auth::id())) {
             abort(403, 'You are not authorized to edit this review.');
         }
-        
-        $viewData['title'] = 'Edit Review - ' . $product->getName();
+
+        $viewData['title'] = 'Edit Review - '.$product->getName();
         $viewData['product'] = $product;
         $viewData['review'] = $review;
 
@@ -101,11 +101,11 @@ class ReviewController extends Controller
     {
         $validatedData = $request->validated();
         $review = Review::where('product_id', $productId)->findOrFail($reviewId);
-        
-        if (!$review->canBeEditedBy(Auth::id())) {
+
+        if (! $review->canBeEditedBy(Auth::id())) {
             abort(403, 'You are not authorized to edit this review.');
         }
-        
+
         $review->updateReview($validatedData);
 
         return redirect()
@@ -116,15 +116,15 @@ class ReviewController extends Controller
     public function delete(int $productId, int $reviewId): RedirectResponse
     {
         $review = Review::where('product_id', $productId)->findOrFail($reviewId);
-        
-        if (!$review->canBeDeletedBy(Auth::id(), Auth::user()->getRole())) {
+
+        if (! $review->canBeDeletedBy(Auth::id(), Auth::user()->getRole())) {
             return redirect()
                 ->route('product.show', $productId)
                 ->with('error', 'You are not authorized to delete this review!');
         }
-        
+
         $review->delete();
-        
+
         $message = Auth::user()->getRole() === 'admin'
             ? 'Review has been deleted by admin.'
             : 'Your review has been deleted successfully.';
