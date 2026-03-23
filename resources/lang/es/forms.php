@@ -27,4 +27,6 @@ return [
     'edit' => 'Editar',
     'delete' => 'Eliminar',
     'confirm_delete_user' => 'Esta acción eliminará el usuario permanentemente. ¿Deseas continuar?',
+    'password' => 'Contraseña',
+    'password_placeholder' => 'Dejar en blanco para mantener la actual',
 ];

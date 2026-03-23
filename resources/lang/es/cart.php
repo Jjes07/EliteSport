@@ -3,6 +3,7 @@
 return [
     'cart_title' => 'Productos en el carrito',
     'continue_shopping' => 'Seguir comprando',
+    'checkout_products' => 'Revisa los productos que has seleccionado',
     'total_to_pay' => 'Total a pagar',
     'buy' => 'Comprar',
     'empty_cart' => 'Vaciar carrito',

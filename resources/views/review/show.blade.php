@@ -13,7 +13,7 @@
                     <h4 class="mb-0">{{ __('reviews.detail_title') }}</h4>
                     <a href="{{ route('review.index', $viewData['product']->getId()) }}" 
                        class="btn btn-outline-light btn-sm">
-                        {{ __('reviews.back_to_product') }}
+                        {{ __('reviews.back_to_reviews') }}
                     </a>
                 </div>
                 
@@ -26,7 +26,7 @@
                             </a>
                         </div>
                         <div>
-                            <strong>{{ __('reviews.title') }} ID:</strong> #{{ $viewData['review']->getId() }}
+                            <strong>{{ __('reviews.title') }} {{ __('reviews.id') }}:</strong> #{{ $viewData['review']->getId() }}
                         </div>
                     </div>
                     
@@ -46,9 +46,9 @@
                     
                     <div class="text-center mb-4">
                         <h5>{{ __('reviews.rating') }}</h5>
-                        <div class="star-rating readonly">
+                        <div class="review-stars-large">
                             @for($i = 1; $i <= 5; $i++)
-                                <span class="{{ $i <= $viewData['review']->getRating() ? 'filled' : '' }}">★</span>
+                                <span class="star {{ $i <= $viewData['review']->getRating() ? 'filled' : 'empty' }}">★</span>
                             @endfor
                         </div>
                         <span class="badge {{ $viewData['review']->getRatingBadgeClass() }} mt-2">

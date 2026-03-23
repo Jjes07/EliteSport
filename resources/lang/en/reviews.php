@@ -12,6 +12,7 @@ return [
     'view_details' => 'View Details',
     'view_all' => 'View All Reviews',
     'back_to_product' => 'Back to Product',
+    'back_to_reviews' => 'Back to Reviews',
     'submit' => 'Submit Review',
     'update' => 'Update Review',
     'cancel' => 'Cancel',

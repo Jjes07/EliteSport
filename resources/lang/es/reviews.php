@@ -12,13 +12,15 @@ return [
     'view_details' => 'Ver Detalles',
     'view_all' => 'Ver Todas las Opiniones',
     'back_to_product' => 'Volver al Producto',
+    'back_to_reviews' => 'Volver a Opiniones',
     'submit' => 'Enviar Opinión',
     'update' => 'Actualizar Opinión',
     'cancel' => 'Cancelar',
     
     // Form fields
     'rating' => 'Calificación',
-    'comment' => 'Tu Opinión',
+    'comment' => 'Opinión',
+    'comments' => 'Opiniones',
     'comment_placeholder' => 'Comparte tu experiencia con este producto...',
     'comment_update_placeholder' => 'Actualiza tu experiencia...',
     'characters' => 'caracteres',
@@ -57,4 +59,7 @@ return [
     // Confirmation
     'confirm_delete' => '¿Estás seguro de que quieres eliminar esta opinión? Esta acción no se puede deshacer.',
     'yes_delete' => 'Sí, eliminar',
+    
+    // ID
+    'id' => 'ID',
 ];

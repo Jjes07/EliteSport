@@ -101,7 +101,7 @@
                 @auth
                     @if(!$viewData['userReview'])
                         <a href="{{ route('review.create', $viewData['product']->getId()) }}" 
-                        class="btn btn-primary btn-sm">
+                           class="btn btn-primary btn-sm">
                             {{ __('reviews.write_review') }}
                         </a>
                     @endif
@@ -121,9 +121,9 @@
                             <div class="d-flex justify-content-between align-items-start">
                                 <div>
                                     <strong>{{ $review->user->getName() }}</strong>
-                                    <div class="star-rating readonly small">
+                                    <div class="review-stars mt-1">
                                         @for($i = 1; $i <= 5; $i++)
-                                            <span class="{{ $i <= $review->getRating() ? 'filled' : '' }}">★</span>
+                                            <span class="star {{ $i <= $review->getRating() ? 'filled' : 'empty' }}">★</span>
                                         @endfor
                                     </div>
                                 </div>
@@ -133,7 +133,7 @@
                                         <small class="text-muted">({{ __('reviews.edited') }})</small>
                                     @endif
                                     <a href="{{ route('review.show', ['productId' => $viewData['product']->getId(), 'reviewId' => $review->getId()]) }}" 
-                                    class="btn btn-sm btn-link p-0 mt-1">
+                                       class="btn btn-sm btn-link p-0 mt-1">
                                         {{ __('reviews.view_details') }}
                                     </a>
                                 </div>
@@ -143,15 +143,15 @@
                             <div class="d-flex gap-2">
                                 @if(Auth::check() && Auth::id() === $review->getUserId())
                                     <a href="{{ route('review.edit', ['productId' => $viewData['product']->getId(), 'reviewId' => $review->getId()]) }}" 
-                                    class="btn btn-sm btn-outline-secondary">
+                                       class="btn btn-sm btn-outline-secondary">
                                         {{ __('reviews.edit_review') }}
                                     </a>
                                 @endif
                                 
                                 @if(Auth::check() && (Auth::user()->getRole() === 'admin' || Auth::id() === $review->getUserId()))
                                     <form action="{{ route('review.delete', ['productId' => $viewData['product']->getId(), 'reviewId' => $review->getId()]) }}" 
-                                        method="POST" 
-                                        class="d-inline">
+                                          method="POST" 
+                                          class="d-inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-outline-danger" 
@@ -168,7 +168,7 @@
                     @if($viewData['totalReviews'] > 3)
                         <div class="text-center mt-3">
                             <a href="{{ route('review.index', $viewData['product']->getId()) }}" 
-                            class="btn btn-outline-primary">
+                               class="btn btn-outline-primary">
                                 {{ __('reviews.view_all') }} ({{ $viewData['totalReviews'] }})
                             </a>
                         </div>
@@ -176,6 +176,5 @@
                 @endif
             </div>
         </div>
-
     </div>
 @endsection

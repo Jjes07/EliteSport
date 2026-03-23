@@ -20,6 +20,7 @@ class User extends Authenticatable
      * this->attribute['address']
      * this->attribute['phone']
      * this->attribute['role']
+     * this->attribute['budget']
      */
     protected $fillable = [
         'name',
@@ -28,6 +29,7 @@ class User extends Authenticatable
         'address',
         'phone',
         'role',
+        'budget',
     ];
 
     /**
@@ -118,6 +120,16 @@ class User extends Authenticatable
         ];
     }
 
+    public function getBudget(): float
+    {
+        return $this->attributes['budget'];
+    }
+
+    public function setBudget(float $budget): void
+    {
+        $this->attributes['budget'] = $budget;
+    }
+
     // Relationships
 
     // public function orders(): HasMany
@@ -128,5 +140,10 @@ class User extends Authenticatable
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
     }
 }
