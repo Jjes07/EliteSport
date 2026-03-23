@@ -55,6 +55,12 @@ Route::middleware('auth')->group(function () {
 Route::get('/products/{productId}/reviews', 'App\Http\Controllers\ReviewController@index')->name('review.index');
 Route::get('/products/{productId}/reviews/{reviewId}', 'App\Http\Controllers\ReviewController@show')->name('review.show');
 
+//orders
+Route::get('/orders', 'App\Http\Controllers\OrderController@index')->name('order.index');
+Route::get('/orders/{id}', 'App\Http\Controllers\OrderController@show')->name('order.show');
+Route::post('/orders', 'App\Http\Controllers\OrderController@store')->name('order.store');
+Route::get('/orders/{id}/confirm', 'App\Http\Controllers\OrderController@confirm')->name('order.confirm');
+
 // Payment routes
 Route::middleware('auth')->group(function () {
     Route::get('/payment/{orderId}/create', 'App\Http\Controllers\PaymentController@create')->name('payment.create');

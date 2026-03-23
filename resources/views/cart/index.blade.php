@@ -89,7 +89,7 @@
                                     <span class="cart-total-value">${{ number_format($viewData["total"], 0, ',', ' ') }}</span>
                                 </div>
                                 <div class="d-flex gap-2 justify-content-md-end">
-                                    <form action="{{ route('cart.checkout') }}" method="POST">
+                                    <form action="{{ route('order.store') }}" method="POST">
                                         @csrf
                                         <button type="submit" class="btn btn-success btn-lg px-4">
                                             💳 {{ __('cart.buy') }}
