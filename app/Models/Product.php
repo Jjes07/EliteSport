@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Requests\Request;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -105,7 +106,53 @@ class Product extends Model
         return $total;
     }
 
-    // Relationships
+    /**
+     * Busca productos por nombre y/o categoría
+     * Retorna un array con los productos y datos para la vista
+     * 
+     * @param string|null $name - Nombre del producto (búsqueda parcial)
+     * @param string|null $category - Categoría del producto
+     * @return array
+     */
+    public static function searchByNameAndCategory(?string $name = null, ?string $category = null): array
+    {
+        $showCleanButton = false;
+        $message = 'Todos los productos';
+        $searchTerm = null;
+        $selectedCategory = null;
+
+        if ($name || $category) {
+            if (!empty($category) && !empty($name)) {
+                $products = self::where('name', 'LIKE', '%' . $name . '%')
+                    ->where('category', $category)
+                    ->get();
+                $message = 'Resultado de busqueda: ' . $name . ' que pertenecen a la categoria:' . $category;
+                $searchTerm = $name;
+                $selectedCategory = $category;
+            } elseif (!empty($category)) {
+                $products = self::where('category', $category)->get();
+                $message = 'Resultados de búsqueda para la categoria: "' . $category . '"';
+                $selectedCategory = $category;
+            } elseif (!empty($name)) {
+                $products = self::where('name', 'LIKE', '%' . $name . '%')->get();
+                $message = 'Resultados de búsqueda para: "' . $name . '"';
+                $searchTerm = $name;
+            }
+            $showCleanButton = true;
+        } else {
+            $products = self::all();
+        }
+
+        return [
+            'products' => $products,
+            'message' => $message,
+            'searchTerm' => $searchTerm,
+            'selectedCategory' => $selectedCategory,
+            'showCleanButton' => $showCleanButton
+        ];
+    }
+
+    //Relaciones de las clases Product
 
     // public function category(): BelongsTo
     // {

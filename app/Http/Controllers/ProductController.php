@@ -102,36 +102,14 @@ class ProductController extends Controller
     {
         $viewData = [];
         $viewData['title'] = 'Buscar Productos';
+        $viewData['categories'] = Product::select('category')->distinct()->pluck('category');
 
         $searchTerm = $request->input('name', '');
         $category = $request->input('category', '');
-        $viewData['showCleanButton'] = false;
-        // $viewData['categories'] = Category::all();
-        $viewData['categories'] = Product::select('category')->distinct()->pluck('category');
 
-        if ($searchTerm || $category) {
+        $searchResult = Product::searchByNameAndCategory($searchTerm, $category);
 
-            if (! empty($category) && ! empty($searchTerm)) {
-                $viewData['products'] = Product::where('name', 'LIKE', '%'.$searchTerm.'%')
-                    ->where('category', $category)
-                    ->get();
-                $viewData['message'] = 'Resultado de busqueda: '.$searchTerm.' que pertenecen a la categoria:'.$category;
-                $viewData['searchTerm'] = $searchTerm;
-                $viewData['selectedCategory'] = $category;
-            } elseif (! empty($category)) {
-                $viewData['products'] = Product::where('category', $category)->get();
-                $viewData['message'] = 'Resultados de búsqueda para la categoria: "'.$category.'"';
-                $viewData['selectedCategory'] = $category;
-            } elseif (! empty($searchTerm)) {
-                $viewData['products'] = Product::where('name', 'LIKE', '%'.$searchTerm.'%')->get();
-                $viewData['message'] = 'Resultados de búsqueda para: "'.$searchTerm.'"';
-                $viewData['searchTerm'] = $searchTerm;
-            }
-            $viewData['showCleanButton'] = true;
-        } else {
-            $viewData['products'] = Product::all();
-            $viewData['message'] = 'Todos los productos';
-        }
+        $viewData = array_merge($viewData, $searchResult);
 
         return view('product.index')->with('viewData', $viewData);
     }
