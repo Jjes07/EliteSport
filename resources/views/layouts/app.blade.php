@@ -82,16 +82,18 @@
     <footer class="footer mt-auto">
         <div class="container">
             <div class="row">
-                <div class="col-md-4 mb-3 mb-md-0">
-                    <img src="{{ asset('/images/logo.png') }}" alt="Elite Sport" style="height: 80px;">
+                <div class="col-md-4">
+                    <img src="{{ asset('/images/logo.png') }}" alt="Elite Sport">
                 </div>
-                <div class="col-md-4 mb-3 mb-md-0 text-center">
-                    <p class="mb-0 small">© 2024 EliteSport.</p>
+                <div class="col-md-4">
+                    <p class="mb-0 small">© 2026 EliteSport.</p>
                 </div>
-                <div class="col-md-4 text-md-end">
-                    <a href="#" class="text-white me-2"><i class="bi bi-facebook"></i></a>
-                    <a href="#" class="text-white me-2"><i class="bi bi-instagram"></i></a>
-                    <a href="#" class="text-white"><i class="bi bi-twitter-x"></i></a>
+                <div class="col-md-4">
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+                    </div>
                 </div>
             </div>
         </div>

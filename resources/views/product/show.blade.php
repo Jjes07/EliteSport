@@ -185,7 +185,7 @@
                                 </div>
                                 
                                 <div class="review-content mt-3">
-                                    <p class="mb-0">{{ Str::limit($review->getComment(), 150) }}</p>
+                                    <p class="mb-0">{{ Str::limit($review->getComment(), 80) }}</p>
                                 </div>
                                 
                                 <div class="review-actions mt-3 pt-2 border-top d-flex gap-2">
