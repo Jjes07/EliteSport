@@ -28,7 +28,7 @@
                         <select name="category" class="form-select">
                             <option value=""> {{ __('products.select_category') }} </option>
                             <option value="Futbol">Futbol</option>
-                            <option value="Voliebol">Voliebol</option>
+                            <option value="Voliebol">Voleibol</option>
                             @foreach($viewData['categories'] as $category)
                                 <option value="{{ $category }}" {{ (($viewData['selectedCategory'] ?? '') == $category) ? 'selected' : '' }}>
                                     {{ $category }}
@@ -60,6 +60,7 @@
                                 <th scope="col">{{ __('products.id') }}</th>
                                 <th scope="col">{{ __('products.name') }}</th>
                                 <th scope="col">{{ __('products.image') }}</th>
+                                <th scope="col">{{ __('products.category') }}</th>
                                 <th scope="col">{{ __('products.actions') }}</th>
                             </tr>
                         </thead>
@@ -73,6 +74,7 @@
                                             class="img-fluid rounded"
                                             style="max-width: 95px; max-height: 70px; object-fit: contain;">
                                     </td>
+                                    <td>{{ $product->getCategory() }}</td>
                                     <td>
                                         <div class="d-flex justify-content-center flex-wrap gap-2">
                                             <a href="{{ route('product.show', ['id' => $product->getId()]) }}"

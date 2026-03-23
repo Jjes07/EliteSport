@@ -12,6 +12,7 @@ return [
     'description' => 'Descripción',
     'price' => 'Precio',
     'stock' => 'Stock',
+    'category' => 'Categoría',
     'quantity_label' => 'Cantidad',
     'add_to_cart' => 'Agregar al carrito',
     'back_to_home' => 'Volver al inicio',

@@ -4,10 +4,11 @@
 .review-stars {
     display: inline-flex;
     gap: 0.25rem;
+    margin-left: 15px;
 }
 
 .review-stars .star {
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     color: #d1d5db;
 }
 

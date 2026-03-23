@@ -67,8 +67,16 @@
 
                             <div class="mb-4">
                                 <label for="category" class="form-label fw-semibold">{{ __('forms.category') }}</label>
-                                <input id="category" type="text" class="form-control" name="category"
-                                    value="{{ old('category') }}" placeholder="Ej: Fútbol">
+                                <select name="category" id="category" class="form-select">
+                                    <option value="">{{ __('products.select_category') }}</option>
+                                    <option value="Futbol" {{ old('category') == 'Futbol' ? 'selected' : '' }}>Fútbol</option>
+                                    <option value="Baloncesto" {{ old('category') == 'Baloncesto' ? 'selected' : '' }}>Baloncesto</option>
+                                    <option value="Tenis" {{ old('category') == 'Tenis' ? 'selected' : '' }}>Tenis</option>
+                                    <option value="Voleibol" {{ old('category') == 'Voleibol' ? 'selected' : '' }}>Voleibol</option>
+                                    <option value="Natación" {{ old('category') == 'Natación' ? 'selected' : '' }}>Natación</option>
+                                    <option value="Running" {{ old('category') == 'Running' ? 'selected' : '' }}>Running</option>
+                                    <option value="Gimnasio" {{ old('category') == 'Gimnasio' ? 'selected' : '' }}>Gimnasio</option>
+                                </select>
                             </div>
 
                             <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
