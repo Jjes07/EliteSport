@@ -62,9 +62,12 @@
                                     <span class="cart-total-value">${{ number_format($viewData["total"], 0, ',', '.') }}</span>
                                 </div>
                                 <div class="d-flex gap-2 justify-content-md-end">
-                                    <button class="btn btn-success btn-lg px-4" onclick="alert('{{ __('cart.buy') }}')">
-                                        💳 {{ __('cart.buy') }}
-                                    </button>
+                                    <form method="POST" action="{{ route('order.store') }}">
+                                        @csrf
+                                        <button type="submit" class="btn btn-success btn-lg px-4">
+                                            💳 {{ __('cart.buy') }}
+                                        </button>
+                                    </form>
                                     <a href="{{ route('cart.delete') }}" class="btn btn-outline-danger btn-lg" 
                                     onclick="return confirm('¿Estás seguro de vaciar el carrito?')">
                                         🗑️ {{ __('cart.empty_cart') }}
