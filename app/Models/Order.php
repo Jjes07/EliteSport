@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -24,6 +25,7 @@ class Order extends Model
         'status',
         'total',
         'user_id',
+        'payment_id',
     ];
 
     /* Getters */
@@ -52,10 +54,35 @@ class Order extends Model
         return $this->attributes['user_id'];
     }
 
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    public function getItems(): Collection
+    {
+        return $this->items;
+    }
+
+    public function getPayment(): Payment
+    {
+        return $this->payment;
+    }
+
+    public function getCreatedAt(): string
+    {
+        return $this->attributes['created_at'];
+    }
+
+    public function getUpdatedAt(): string
+    {
+        return $this->attributes['updated_at'];
+    }
+
     /* Formatted Getters */
     public function getTotalFormatted(): string
     {
-        return '$' . number_format($this->getTotal(), 0, ',', ' ');
+        return '$'.number_format($this->getTotal(), 0, ',', ' ');
     }
 
     /* Setters */
@@ -95,16 +122,6 @@ class Order extends Model
         return $this->hasOne(Payment::class);
     }
 
-    public function getUser(): User
-    {
-        return $this->user;
-    }
-
-    public function getItems()
-    {
-        return $this->items;
-    }
-
     /* Business Logic */
     public function calculateTotal(): float
     {
@@ -112,6 +129,7 @@ class Order extends Model
         foreach ($this->getItems() as $item) {
             $total += $item->calculateSubtotal();
         }
+
         return $total;
     }
 
@@ -135,6 +153,7 @@ class Order extends Model
     public function confirmOrder(): bool
     {
         $payment = Payment::processPayment($this);
+
         return $payment !== null;
     }
 }

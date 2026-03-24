@@ -56,9 +56,19 @@ class Review extends Model
         return $this->attributes['user_id'];
     }
 
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
     public function getProductId(): int
     {
         return $this->attributes['product_id'];
+    }
+
+    public function getProduct(): Product
+    {
+        return $this->product;
     }
 
     public function getCreatedAt(): string

@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use App\Http\Requests\Request;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
     /**
-     * PRODUCT ATTRIBUTES 
+     * PRODUCT ATTRIBUTES
      * this->attribute['name']
      * this->attribute['description']
      * this->attribute['price']
@@ -71,6 +71,16 @@ class Product extends Model
         return $this->attributes['category_id'] ?? null;
     }
 
+    public function getItems(): Collection
+    {
+        return $this->items;
+    }
+
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
     public function getCreatedAt(): string
     {
         return $this->attributes['created_at'];
@@ -81,10 +91,10 @@ class Product extends Model
         return $this->attributes['updated_at'];
     }
 
-    // Formatted Getters 
+    // Formatted Getters
     public function getPriceFormatted(): string
     {
-        return '$' . number_format($this->getPrice(), 0, ',', ' ');
+        return '$'.number_format($this->getPrice(), 0, ',', ' ');
     }
 
     // Setters
@@ -129,6 +139,7 @@ class Product extends Model
 
         return $total;
     }
+
     public static function searchByNameAndCategory(?string $name = null, ?string $categoryId = null): array
     {
         $showCleanButton = false;
@@ -139,10 +150,10 @@ class Product extends Model
         if ($name || $categoryId) {
             $query = self::query();
 
-            if (!empty($name)) {
-                $query->where('name', 'LIKE', '%' . $name . '%');
+            if (! empty($name)) {
+                $query->where('name', 'LIKE', '%'.$name.'%');
                 $searchTerm = $name;
-            } elseif (!empty($categoryId)) {
+            } elseif (! empty($categoryId)) {
                 $query->where('category_id', $categoryId);
                 $selectedCategory = $categoryId;
             }
@@ -150,9 +161,9 @@ class Product extends Model
             $products = $query->get();
             $message = 'Resultado de búsqueda';
             $selectedCategory = $categoryId;
-            if (!empty($name)) {
-                $products = self::where('name', 'LIKE', '%' . $name . '%')->get();
-                $message = 'Resultados de búsqueda para: "' . $name . '"';
+            if (! empty($name)) {
+                $products = self::where('name', 'LIKE', '%'.$name.'%')->get();
+                $message = 'Resultados de búsqueda para: "'.$name.'"';
                 $searchTerm = $name;
             }
             $showCleanButton = true;
@@ -165,11 +176,11 @@ class Product extends Model
             'message' => $message,
             'searchTerm' => $searchTerm,
             'selectedCategory' => $selectedCategory,
-            'showCleanButton' => $showCleanButton
+            'showCleanButton' => $showCleanButton,
         ];
     }
 
-    //Relations
+    // Relationships
 
     public function category(): BelongsTo
     {

@@ -64,7 +64,7 @@
                         </div>
                     </div>
                     
-                    <!-- Comment Section - Styled -->
+                    <!-- Comment Section -->
                     <div class="comment-section mt-4">
                         <div class="comment-header d-flex align-items-center gap-2 mb-3">
                             <i class="bi bi-chat-text-fill fs-4 text-primary"></i>

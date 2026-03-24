@@ -136,7 +136,7 @@
                 
                 @if($viewData['reviewsLimit']->isEmpty())
                     <div class="empty-reviews text-center py-5">
-                        <div class="empty-icon mb-3">📝</div>
+                        <div class="empty-icon mb-3"><i class="bi bi-pencil-square"></i></div>
                         <h5>{{ __('reviews.no_reviews') }}</h5>
                         <p class="text-muted">{{ __('reviews.no_reviews') }}</p>
                         @auth
@@ -163,7 +163,7 @@
                                                 <i class="bi bi-person-circle fs-3"></i>
                                             </div>
                                             <div>
-                                                <strong class="fs-5">{{ $review->user->getName() }}</strong>
+                                                <strong class="fs-5">{{ $review->getUser()->getName() }}</strong>
                                                 <div class="star-rating-readonly mt-1">
                                                     @for($i = 1; $i <= 5; $i++)
                                                         <span class="star {{ $i <= $review->getRating() ? 'filled' : 'empty' }}">★</span>

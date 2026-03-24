@@ -2,7 +2,7 @@
 
 // Request created by Juan Escobar
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Review;
 
 use Illuminate\Foundation\Http\FormRequest;
 

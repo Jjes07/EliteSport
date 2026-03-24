@@ -17,7 +17,6 @@ class Item extends Model
      * $this->attributes['created_at'] - timestamp - contains the item creation timestamp
      * $this->attributes['updated_at'] - timestamp - contains the item update timestamp
      */
-
     protected $fillable = [
         'quantity',
         'price',
@@ -51,6 +50,16 @@ class Item extends Model
         return $this->attributes['order_id'] ?? null;
     }
 
+    public function getProduct(): Product
+    {
+        return $this->product;
+    }
+
+    public function getOrder(): Order
+    {
+        return $this->order;
+    }
+
     public function getCreatedAt(): string
     {
         return $this->attributes['created_at'];
@@ -64,12 +73,12 @@ class Item extends Model
     /* Formatted Getters */
     public function getPriceFormatted(): string
     {
-        return '$' . number_format($this->getPrice(), 0, ',', '.');
+        return '$'.number_format($this->getPrice(), 0, ',', ' ');
     }
 
     public function getSubtotalFormatted(): string
     {
-        return '$' . number_format($this->calculateSubtotal(), 0, ',', '.');
+        return '$'.number_format($this->calculateSubtotal(), 0, ',', ' ');
     }
 
     /* Setters */
@@ -110,11 +119,6 @@ class Item extends Model
         return $this->getQuantity() * $this->getPrice();
     }
 
-    public function getProduct(): Product
-    {
-        return $this->product;
-    }
-
     /**
      * Create items from cart session
      */
@@ -122,8 +126,8 @@ class Item extends Model
     {
         foreach ($cartProducts as $productId => $quantity) {
             $product = Product::findOrFail($productId);
-            
-            $item = new self();
+
+            $item = new self;
             $item->setQuantity($quantity);
             $item->setPrice($product->getPrice());
             $item->setProductId($productId);

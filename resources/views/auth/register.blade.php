@@ -6,9 +6,9 @@
             <div class="col-md-8 col-lg-7">
                 <div class="auth-card fade-in">
                     <div class="auth-header text-center">
-                        <div class="auth-icon mb-3">📝</div>
+                        <div class="auth-icon mb-3"><i class="bi bi-pencil-square"></i></div>
                         <h2 class="fw-bold mb-2">{{ __('auth.register') }}</h2>
-                        <p class="text-muted">{{ __('auth.already_registered') }} <a href="{{ route('login') }}">{{ __('auth.login') }}</a></p>
+                        <p class="text-white">{{ __('auth.already_registered') }} <a class="text-reset" href="{{ route('login') }}">{{ __('auth.login') }}</a></p>
                     </div>
 
                     <div class="auth-body">

@@ -3,17 +3,17 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
 
 class User extends Authenticatable
 {
     use Notifiable;
 
     /**
-     * USER ATTRIBUTES 
+     * USER ATTRIBUTES
      * this->attribute['name']
      * this->attribute['email']
      * this->attribute['password']
@@ -85,6 +85,16 @@ class User extends Authenticatable
         return $this->attributes['budget'] ?? 0;
     }
 
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
     public function getCreatedAt(): string
     {
         return $this->attributes['created_at'];
@@ -98,7 +108,7 @@ class User extends Authenticatable
     /* Formatted Getters */
     public function getBudgetFormatted(): string
     {
-        return '$' . number_format($this->getBudget(), 0, ',', ' ');
+        return '$'.number_format($this->getBudget(), 0, ',', ' ');
     }
 
     /* Setters */
@@ -152,18 +162,13 @@ class User extends Authenticatable
 
     // Relationships
 
-    // public function orders(): HasMany
-    // {
-    //     return $this->hasMany(Order::class);
-    // }
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
 
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
-    }
-
-    public function payments(): HasMany
-    {
-        return $this->hasMany(Payment::class);
     }
 }

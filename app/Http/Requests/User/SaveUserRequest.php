@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\User;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class SaveProductRequest extends FormRequest
+class SaveUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,12 +23,12 @@ class SaveProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
-            'description' => 'required|string',
-            'price' => 'required|numeric|min:1',
-            'stock' => 'required|integer|min:0',
-            'image' => 'required|string|max:10000',
-            'category' => 'required|in:Futbol,Baloncesto,Tenis,Voleibol,Natación,Running,Gimnasio',
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|max:150',
+            'password' => 'required|string|min:8',
+            'address' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'role' => 'nullable|string|in:admin,customer',
         ];
     }
 }

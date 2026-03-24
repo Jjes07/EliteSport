@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -22,12 +22,12 @@ class UpdateProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => "required|string",
-            "description" => "required|string",
-            "price" => "required|numeric|min:1",
-            "stock" => "required|integer|min:0",
-            "image" => "required|string",
-            "category_id" => "required|integer|exists:categories,id"
+            'name' => 'required|string',
+            'description' => 'required|string',
+            'price' => 'required|numeric|min:1',
+            'stock' => 'required|integer|min:0',
+            'image' => 'required|string',
+            'category_id' => 'required|integer|exists:categories,id',
         ];
     }
 }

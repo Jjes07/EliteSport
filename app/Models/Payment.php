@@ -10,14 +10,13 @@ class Payment extends Model
     /**
      * PAYMENT ATTRIBUTES
      * $this->attributes['id'] - int - contains the payment primary key (id)
-     * $this->attributes['order_id'] - int - contains the referenced order id
      * $this->attributes['amount'] - int - contains the payment amount
      * $this->attributes['method'] - string - contains the payment method
      * $this->attributes['status'] - string - contains the payment status
+     * $this->attributes['order_id'] - int - contains the referenced order id
      * $this->attributes['created_at'] - timestamp - contains the payment creation timestamp
      * $this->attributes['updated_at'] - timestamp - contains the payment update timestamp
      */
-    
     protected $fillable = [
         'order_id',
         'amount',
@@ -51,6 +50,11 @@ class Payment extends Model
         return $this->attributes['status'];
     }
 
+    public function getOrder(): Order
+    {
+        return $this->order;
+    }
+
     public function getCreatedAt(): string
     {
         return $this->attributes['created_at'];
@@ -59,7 +63,7 @@ class Payment extends Model
     /* Formatted Getters */
     public function getAmountFormatted(): string
     {
-        return '$' . number_format($this->getAmount(), 0, ',', '.');
+        return '$'.number_format($this->getAmount(), 0, ',', '.');
     }
 
     /* Setters */
@@ -99,7 +103,7 @@ class Payment extends Model
         if ($order->getStatus() === 'paid') {
             return [
                 'success' => false,
-                'message' => __('payment.order_already_paid')
+                'message' => __('payment.order_already_paid'),
             ];
         }
 
@@ -107,7 +111,7 @@ class Payment extends Model
         if ($user->getBudget() < $total) {
             return [
                 'success' => false,
-                'message' => __('payment.insufficient_balance')
+                'message' => __('payment.insufficient_balance'),
             ];
         }
 
@@ -117,7 +121,7 @@ class Payment extends Model
             if ($product->getStock() < $item->getQuantity()) {
                 return [
                     'success' => false,
-                    'message' => __('payment.insufficient_stock', ['product' => $product->getName()])
+                    'message' => __('payment.insufficient_stock', ['product' => $product->getName()]),
                 ];
             }
         }
@@ -134,7 +138,7 @@ class Payment extends Model
         }
 
         // Create payment record
-        $payment = new self();
+        $payment = new self;
         $payment->setOrderId($order->getId());
         $payment->setAmount($total);
         $payment->setMethod('budget');
@@ -148,7 +152,7 @@ class Payment extends Model
         return [
             'success' => true,
             'payment' => $payment,
-            'message' => __('payment.payment_completed')
+            'message' => __('payment.payment_completed'),
         ];
     }
 }

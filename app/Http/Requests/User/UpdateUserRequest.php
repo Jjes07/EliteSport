@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\User;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class SaveUserRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +25,14 @@ class SaveUserRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:100',
-            'email' => 'required|email|max:150',
-            'password' => 'required|string|min:8',
-            'address' => 'required|string|max:255',
-            'phone' => 'required|string|max:20',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users', 'email')->ignore($this->route('id')),
+            ],
+            'password' => 'nullable|string|min:8',
+            'address' => 'nullable|string|max:255',
+            'phone' => 'required|string|max:10',
             'role' => 'nullable|string|in:admin,customer',
         ];
     }

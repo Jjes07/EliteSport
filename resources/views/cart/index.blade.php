@@ -6,7 +6,7 @@
 @section('content')
     <div class="container py-4">
         <div class="cart-header mb-4">
-            <h1 class="display-5 fw-bold mb-2">🛒 {{ __('cart.cart_title') }}</h1>
+            <h1 class="display-5 fw-bold mb-2">	<i class="bi bi-cart3"></i> {{ __('cart.cart_title') }}</h1>
             <p class="text-muted">{{ __('cart.checkout_products') }}</p>
         </div>
 
@@ -56,7 +56,7 @@
                                                     class="form-control quantity-input"
                                                     style="width: 80px;"
                                                     onchange="this.form.submit()"
-                                                    oninput="if(this.value < 1) this.value = 1; if(this.value > {{ $product->getStock() }}) this.value = {{ $product->getStock() }}">
+                                                    oninput="if(this.value < 0) this.value = 1; if(this.value > {{ $product->getStock() }}) this.value = {{ $product->getStock() }}">
                                             </form>
                                         </td>
                                         <td class="fw-bold">${{ number_format($product->getPrice() * session('products')[$product->getId()], 0, ',', ' ') }}</td>
@@ -92,7 +92,7 @@
                                     <form action="{{ route('order.save') }}" method="POST">
                                         @csrf
                                         <button type="submit" class="btn btn-success btn-lg px-4">
-                                            💳 {{ __('cart.buy') }}
+                                            <i class="bi bi-credit-card"></i> {{ __('cart.buy') }}
                                         </button>
                                     </form>
                                     <form action="{{ route('cart.delete') }}" method="POST" class="d-inline">
@@ -100,7 +100,7 @@
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-outline-danger btn-lg" 
                                                 onclick="return confirm('{{ __('cart.empty_confirm') }}')">
-                                            🗑️ {{ __('cart.empty_cart') }}
+                                            <i class="bi bi-trash"></i> {{ __('cart.empty_cart') }}
                                         </button>
                                     </form>
                                 </div>
@@ -109,11 +109,11 @@
                     </div>
                 @else
                     <div class="empty-cart text-center py-5">
-                        <div class="empty-cart-icon mb-3">🛒</div>
+                        <div class="empty-cart-icon mb-3"><i class="bi bi-cart3 pe-3"></i> </div>
                         <h3 class="mb-2">{{ __('cart.empty_cart_message') }}</h3>
                         <p class="text-muted mb-4">{{ __('cart.no_products_added') }}</p>
                         <a href="{{ route('home.index') }}" class="btn btn-primary btn-lg">
-                            🛍️ {{ __('cart.go_shopping') }}
+                            <i class="bi bi-bag"></i> {{ __('cart.go_shopping') }}
                         </a>
                     </div>
                 @endif

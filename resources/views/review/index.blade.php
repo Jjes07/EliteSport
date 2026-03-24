@@ -98,7 +98,7 @@
                     
                     @if($viewData['reviews']->isEmpty())
                         <div class="empty-reviews text-center py-5">
-                            <div class="empty-icon mb-3">📝</div>
+                            <div class="empty-icon mb-3"><i class="bi bi-pencil-square"></i></div>
                             @if(!empty($viewData['selectedRatings']))
                                 <h5>{{ __('reviews.no_reviews_with_filters') }}</h5>
                                 <a href="{{ route('review.index', $viewData['product']->getId()) }}" 

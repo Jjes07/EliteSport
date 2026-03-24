@@ -20,12 +20,12 @@ return [
     'cannot_cancel' => 'No se puede cancelar esta orden porque ya fue procesada',
     'no_orders' => 'No tienes órdenes aún',
     'cancel_confirm' => '¿Estás seguro de cancelar esta orden? Esta acción no se puede deshacer.',
-    
+
     // Status
     'status_pending' => 'Pendiente',
     'status_paid' => 'Pagada',
     'status_cancelled' => 'Cancelada',
-    
+
     // Order details
     'order_details' => 'Detalles de la Orden',
     'products' => 'Productos',

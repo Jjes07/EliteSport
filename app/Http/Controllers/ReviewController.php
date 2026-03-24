@@ -4,8 +4,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SaveReviewRequest;
-use App\Http\Requests\UpdateReviewRequest;
+use App\Http\Requests\Review\SaveReviewRequest;
+use App\Http\Requests\Review\UpdateReviewRequest;
 use App\Models\Product;
 use App\Models\Review;
 use Illuminate\Http\RedirectResponse;

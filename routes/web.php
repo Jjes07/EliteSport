@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('admin')->group(function () {
-    //Category Admin
+    // Category Admin
     Route::get('/categories/create', 'App\Http\Controllers\CategoryController@create')->name('category.create');
     Route::post('/categories/save', 'App\Http\Controllers\CategoryController@save')->name('category.save');
 

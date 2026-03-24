@@ -6,9 +6,9 @@
             <div class="col-md-6 col-lg-5">
                 <div class="auth-card fade-in">
                     <div class="auth-header text-center">
-                        <div class="auth-icon mb-3">🔐</div>
+                        <div class="auth-icon mb-3"><i class="bi bi-shield-lock"></i></div>
                         <h2 class="fw-bold mb-2">{{ __('auth.login') }}</h2>
-                        <p class="text-light">{{ __('auth.dont_have_account') }} <a href="{{ route('register') }}">{{ __('auth.register') }}</a></p>
+                        <p class="text-light">{{ __('auth.dont_have_account') }} <a class="text-reset" href="{{ route('register') }}">{{ __('auth.register') }}</a></p>
                     </div>
 
                     <div class="auth-body">
@@ -18,7 +18,7 @@
                             <div class="mb-3">
                                 <label for="email" class="form-label fw-semibold">{{ __('auth.email_address') }}</label>
                                 <div class="input-group">
-                                    <span class="input-group-text">📧</span>
+                                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
                                     <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
                                         name="email" value="{{ old('email') }}" required autocomplete="email" autofocus
                                         placeholder="ejemplo@correo.com">
@@ -33,7 +33,7 @@
                             <div class="mb-3">
                                 <label for="password" class="form-label fw-semibold">{{ __('auth.password') }}</label>
                                 <div class="input-group">
-                                    <span class="input-group-text">🔒</span>
+                                    <span class="input-group-text"><i class="bi bi-lock"></i></span>
                                     <input id="password" type="password"
                                         class="form-control @error('password') is-invalid @enderror" name="password"
                                         required autocomplete="current-password" placeholder="{{ __('auth.password_placeholder') }}">

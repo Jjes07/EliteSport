@@ -14,5 +14,5 @@ return [
     'actions' => 'Acciones',
     'remove_item' => 'Eliminar item',
     'remove_confirm' => '¿Eliminar este producto del carrito?',
-    'empty_confirm' => '¿Estás seguro de vaciar el carrito?'
+    'empty_confirm' => '¿Estás seguro de vaciar el carrito?',
 ];

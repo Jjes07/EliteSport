@@ -40,7 +40,7 @@
 
         @if($viewData['products']->isEmpty())
             <div class="empty-state text-center py-5 fade-in">
-                <div class="empty-state-icon mb-4">🛍️</div>
+                <div class="empty-state-icon mb-4"><i class="bi bi-bag"></i></div>
                 <h3 class="mb-2">{{ __('products.no_products') }}</h3>
                 <p class="text-muted mb-0">{{ __('products.coming_soon') }}</p>
             </div>
