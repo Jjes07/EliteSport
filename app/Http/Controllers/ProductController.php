@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SaveProductRequest;
-use App\Http\Requests\UpdateProductRequest;
+use App\Http\Requests\Product\SaveProductRequest;
+use App\Http\Requests\Product\UpdateProductRequest;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\RedirectResponse;

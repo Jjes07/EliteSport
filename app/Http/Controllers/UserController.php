@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SaveUserRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\User\SaveUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use App\Models\User;

@@ -26,12 +26,12 @@
                     @auth
 
                         @if(Auth::user()->getRole() == 'admin')
-                            <a class="nav-link active" href="{{ route('product.create') }}">
-                                <b>{{ __('navigation.new_product') }}</b>
-                            </a>
-
                             <a class="nav-link active" href="{{ route('category.create') }}">
                                 <b>{{ __('navigation.new_category') }}</b>
+                            </a>
+
+                            <a class="nav-link active" href="{{ route('product.create') }}">
+                                <b>{{ __('navigation.new_product') }}</b>
                             </a>
 
                             <a class="nav-link active" href="{{ route('product.index') }}">
