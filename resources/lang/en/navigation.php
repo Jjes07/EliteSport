@@ -9,4 +9,6 @@ return [
     'login' => 'Login',
     'register' => 'Register',
     'logout' => 'Logout',
+    'my_orders' => 'My orders',
+    'balance' => 'Balance',
 ];

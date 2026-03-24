@@ -27,4 +27,6 @@ return [
     'edit' => 'Edit',
     'delete' => 'Delete',
     'confirm_delete_user' => 'This action will permanently delete the user. Do you want to continue?',
+    'password' => 'Password',
+    'password_placeholder' => 'Leave blank to keep current',
 ];

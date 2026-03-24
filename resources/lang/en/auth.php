@@ -14,4 +14,10 @@ return [
     'forgot_password' => 'Forgot your password?',
     'dont_have_account' => 'Don\'t have an account?',
     'already_registered' => 'Already registered?',
+    'login' => 'Login',
+    'register' => 'Register',
+    'logout' => 'Logout',
+    'email_address' => 'Email Address',
+    'password_placeholder' => 'Enter your password',
+    'confirm_password' => 'Confirm Password',
 ];

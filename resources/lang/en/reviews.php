@@ -19,7 +19,8 @@ return [
 
     // Form fields
     'rating' => 'Rating',
-    'comment' => 'Your Review',
+    'comment' => 'Review',
+    'comments' => 'Reviews',
     'comment_placeholder' => 'Share your experience with this product...',
     'comment_update_placeholder' => 'Update your experience...',
     'characters' => 'characters',
@@ -37,7 +38,7 @@ return [
     'review_submitted' => 'Your review has been submitted successfully!',
     'review_updated' => 'Your review has been updated successfully!',
     'review_deleted' => 'Your review has been deleted successfully.',
-    'review_deleted_admin' => 'Review has been deleted by admin.',
+    'review_deleted_admin' => 'The review has been deleted by the administrator.',
     'not_authorized_edit' => 'You are not authorized to edit this review.',
     'not_authorized_delete' => 'You are not authorized to delete this review!',
 
@@ -58,4 +59,7 @@ return [
     // Confirmation
     'confirm_delete' => 'Are you sure you want to delete this review? This action cannot be undone.',
     'yes_delete' => 'Yes, delete',
+
+    // ID
+    'id' => 'ID',
 ];
