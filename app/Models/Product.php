@@ -61,9 +61,14 @@ class Product extends Model
         return $this->attributes['image'];
     }
 
-    public function getCategory(): string
+    public function getCategory(): ?string
     {
-        return $this->attributes['category'];
+        return $this->category?->getName();
+    }
+
+    public function getCategoryId(): ?int
+    {
+        return $this->attributes['category_id'] ?? null;
     }
 
     public function getCreatedAt(): string
@@ -106,16 +111,6 @@ class Product extends Model
     public function setImage(string $image): void
     {
         $this->attributes['image'] = $image;
-    }
-
-    public function getCategory(): ?string
-    {
-        return $this->category?->getName();
-    }
-
-    public function getCategoryId(): ?int
-    {
-        return $this->attributes['category_id'] ?? null;
     }
 
     public function setCategory(int $categoryId): void
