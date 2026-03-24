@@ -66,16 +66,14 @@
                             </div>
 
                             <div class="mb-4">
-                                <label for="category" class="form-label fw-semibold">{{ __('forms.category') }}</label>
-                                <select name="category" id="category" class="form-select">
+                                <label for="category_id" class="form-label fw-semibold">{{ __('forms.category') }}</label>
+                                <select id="category_id" name="category_id" class="form-select">
                                     <option value="">{{ __('products.select_category') }}</option>
-                                    <option value="Futbol" {{ old('category') == 'Futbol' ? 'selected' : '' }}>Fútbol</option>
-                                    <option value="Baloncesto" {{ old('category') == 'Baloncesto' ? 'selected' : '' }}>Baloncesto</option>
-                                    <option value="Tenis" {{ old('category') == 'Tenis' ? 'selected' : '' }}>Tenis</option>
-                                    <option value="Voleibol" {{ old('category') == 'Voleibol' ? 'selected' : '' }}>Voleibol</option>
-                                    <option value="Natación" {{ old('category') == 'Natación' ? 'selected' : '' }}>Natación</option>
-                                    <option value="Running" {{ old('category') == 'Running' ? 'selected' : '' }}>Running</option>
-                                    <option value="Gimnasio" {{ old('category') == 'Gimnasio' ? 'selected' : '' }}>Gimnasio</option>
+                                    @foreach($viewData['categories'] as $category)
+                                        <option value="{{ $category->getId() }}" {{ old('category_id') == $category->getId() ? 'selected' : '' }}>
+                                            {{ $category->getName() }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
 

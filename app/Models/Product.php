@@ -16,7 +16,7 @@ class Product extends Model
      * this->attribute['price']
      * this->attribute['stock']
      * this->attribute['image']
-     * this->attribute['category']
+     * this->attribute['category_id']
      * this->attribute['created_at']
      * this->attribute['updated_at']
      */
@@ -26,7 +26,7 @@ class Product extends Model
         'price',
         'stock',
         'image',
-        'category',
+        'category_id',
     ];
 
     // Getters
@@ -108,9 +108,19 @@ class Product extends Model
         $this->attributes['image'] = $image;
     }
 
-    public function setCategory(string $category): void
+    public function getCategory(): ?string
     {
-        $this->attributes['category'] = $category;
+        return $this->category?->getName();
+    }
+
+    public function getCategoryId(): ?int
+    {
+        return $this->attributes['category_id'] ?? null;
+    }
+
+    public function setCategory(int $categoryId): void
+    {
+        $this->attributes['category_id'] = $categoryId;
     }
 
     // Auxiliar methods
@@ -124,35 +134,28 @@ class Product extends Model
 
         return $total;
     }
-
-    /**
-     * Busca productos por nombre y/o categoría
-     * Retorna un array con los productos y datos para la vista
-     * 
-     * @param string|null $name - Nombre del producto (búsqueda parcial)
-     * @param string|null $category - Categoría del producto
-     * @return array
-     */
-    public static function searchByNameAndCategory(?string $name = null, ?string $category = null): array
+    public static function searchByNameAndCategory(?string $name = null, ?string $categoryId = null): array
     {
         $showCleanButton = false;
         $message = 'Todos los productos';
         $searchTerm = null;
         $selectedCategory = null;
 
-        if ($name || $category) {
-            if (!empty($category) && !empty($name)) {
-                $products = self::where('name', 'LIKE', '%' . $name . '%')
-                    ->where('category', $category)
-                    ->get();
-                $message = 'Resultado de busqueda: ' . $name . ' que pertenecen a la categoria:' . $category;
+        if ($name || $categoryId) {
+            $query = self::query();
+
+            if (!empty($name)) {
+                $query->where('name', 'LIKE', '%' . $name . '%');
                 $searchTerm = $name;
-                $selectedCategory = $category;
-            } elseif (!empty($category)) {
-                $products = self::where('category', $category)->get();
-                $message = 'Resultados de búsqueda para la categoria: "' . $category . '"';
-                $selectedCategory = $category;
-            } elseif (!empty($name)) {
+            } elseif (!empty($categoryId)) {
+                $query->where('category_id', $categoryId);
+                $selectedCategory = $categoryId;
+            }
+
+            $products = $query->get();
+            $message = 'Resultado de búsqueda';
+            $selectedCategory = $categoryId;
+            if (!empty($name)) {
                 $products = self::where('name', 'LIKE', '%' . $name . '%')->get();
                 $message = 'Resultados de búsqueda para: "' . $name . '"';
                 $searchTerm = $name;
@@ -171,12 +174,12 @@ class Product extends Model
         ];
     }
 
-    //Relaciones de las clases Product
+    //Relations
 
-    // public function category(): BelongsTo
-    // {
-    //     return $this->belongsTo(Category::class);
-    // }
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
 
     public function items(): HasMany
     {

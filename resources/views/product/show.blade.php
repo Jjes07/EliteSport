@@ -35,6 +35,10 @@
                             <strong>{{ __('products.description') }}:</strong> {{ $viewData['product']->getDescription() }}
                         </p>
 
+                        <p class="mb-2">
+                            <strong>{{ __('forms.category') }}:</strong> {{ $viewData['product']->getCategory() }}
+                        </p>
+
                         <p class="mb-2 fs-4 fw-bold text-primary">
                             {{ $viewData['product']->getPriceFormatted() }}
                         </p>

@@ -27,14 +27,11 @@
 
                         <select name="category" class="form-select">
                             <option value=""> {{ __('products.select_category') }} </option>
-                            <option value="Futbol">Futbol</option>
-                            <option value="Voliebol">Voleibol</option>
                             @foreach($viewData['categories'] as $category)
-                                <option value="{{ $category }}" {{ (($viewData['selectedCategory'] ?? '') == $category) ? 'selected' : '' }}>
-                                    {{ $category }}
+                                <option value="{{ $category->getId() }}" {{ (($viewData['selectedCategory'] ?? '') == $category->getId()) ? 'selected' : '' }}>
+                                    {{ $category->getName() }}
                                 </option>
                             @endforeach
-
                         </select>
                         <button type="submit" class="btn btn-info">
                             {{ __('products.search') }}

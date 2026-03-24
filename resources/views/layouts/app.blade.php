@@ -30,6 +30,10 @@
                             <a class="nav-link" href="{{ route('product.create') }}">
                                 <i class="bi bi-plus-circle"></i> {{ __('navigation.new_product') }}
                             </a>
+
+                            <a class="nav-link active" href="{{ route('category.create') }}">
+                                <b>{{ __('navigation.new_category') }}</b>
+                            </a>
                             <a class="nav-link" href="{{ route('product.index') }}">
                                 <i class="bi bi-box"></i> {{ __('navigation.products') }}
                             </a>
