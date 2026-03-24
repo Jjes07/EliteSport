@@ -1,21 +1,104 @@
-/* Navbar Size */
+/* Navbar Styles */
 .navbar {
-    max-height: 70px;
-    overflow: hidden;
+    background: linear-gradient(135deg, var(--primary), var(--secondary)) !important;
+    padding: 0.5rem 0;
+    box-shadow: var(--shadow-md);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    height: 80px;
 }
 
-/*Header background*/
-.bg-header {
-    background-color: #2563eb !important;
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    line-height: 1;
 }
 
-/*Footer configuration*/
-footer {
-    background-color: #2563eb;
-    color: white;
-    padding: 1rem 0;
-    margin-top: 2rem;
-    text-align: center;
-    max-height: 80px;
-    overflow: hidden;
+.navbar-brand img {
+    height: 110px;
+    width: auto;
+    transition: transform 0.2s ease;
+    object-fit: contain;
+}
+
+.navbar-brand:hover img {
+    transform: scale(1.05);
+}
+
+.navbar-nav {
+    align-items: center;
+}
+
+.nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease;
+    border-radius: var(--radius-sm);
+}
+
+.nav-link:hover {
+    color: var(--white) !important;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-link i {
+    margin-right: 0.5rem;
+}
+
+.dropdown-menu {
+    border: none;
+    box-shadow: var(--shadow-lg);
+    border-radius: var(--radius-md);
+    margin-top: 0.5rem;
+}
+
+.dropdown-item {
+    padding: 0.5rem 1rem;
+    transition: background 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background: var(--light);
+}
+
+.vr {
+    background-color: rgba(255, 255, 255, 0.3);
+    width: 1px;
+    margin: 0 0.5rem;
+}
+
+/* Cart Badge */
+.cart-badge {
+    background-color: var(--danger);
+    color: var(--white);
+    border-radius: 50%;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.7rem;
+    margin-left: 0.25rem;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .navbar-brand img {
+        height: 60px;
+    }
+    
+    .navbar-nav {
+        background: linear-gradient(135deg, var(--primary), var(--secondary)) !important;
+        margin-top: 1rem;
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: var(--radius-md);
+        padding: 0.5rem;
+    }
+    
+    .nav-link {
+        padding: 0.75rem 1rem;
+    }
+    
+    .vr {
+        display: none;
+    }
 }

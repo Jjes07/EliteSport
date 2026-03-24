@@ -2,11 +2,11 @@
 @section('title', $viewData['title'])
 
 @section('content')
-    <div class="container">
-        <div class="content-box home-hero mb-4">
-            <div class="text-center">
-                <h1 class="home-title">{{ __('products.title') }}</h1>
-            </div>
+    <div class="container py-5">
+        <!-- Hero Section -->
+        <div class="hero-section text-center mb-5 fade-in">
+            <h1 class="display-3 fw-bold mb-3">{{ __('products.title') }}</h1>
+            <p class="lead text-muted">{{ __('home.hero_text') }}</p>
         </div>
         <div class="mb-4">
             <form action="{{ route('home.index') }}" method="GET" class="d-flex gap-2">
@@ -39,9 +39,10 @@
         @endif
 
         @if($viewData['products']->isEmpty())
-            <div class="content-box text-center">
+            <div class="empty-state text-center py-5 fade-in">
+                <div class="empty-state-icon mb-4"><i class="bi bi-bag"></i></div>
                 <h3 class="mb-2">{{ __('products.no_products') }}</h3>
-                <p class="mb-0">{{ __('products.coming_soon') }}</p>
+                <p class="text-muted mb-0">{{ __('products.coming_soon') }}</p>
             </div>
         @else
             <div class="products-grid">
@@ -53,13 +54,18 @@
                             </div>
 
                             <div class="product-card-body">
-                                <span
-                                    class="badge product-card-status-badge {{ $product->getStock() > 0 ? 'bg-success' : 'bg-danger' }}">
+                                <span class="badge product-card-status-badge {{ $product->getStock() > 0 ? 'bg-success' : 'bg-danger' }}">
                                     {{ $product->getStock() > 0 ? __('products.available') : __('products.out_of_stock') }}
                                 </span>
 
-                                <h2 class="product-card-title">{{ $product->getName() }}</h2>
-                                <p class="product-card-price">${{ number_format($product->getPrice(), 0, ',', '.') }}</p>
+                                <h3 class="product-card-title">{{ $product->getName() }}</h3>
+                                <div class="product-card-price">{{ $product->getPriceFormatted() }}</div>
+                                
+                                @if($product->getStock() > 0)
+                                    <div class="product-card-action mt-2">
+                                        <span class="btn btn-sm btn-outline-primary w-100">{{ __('home.view_details') }}</span>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </a>

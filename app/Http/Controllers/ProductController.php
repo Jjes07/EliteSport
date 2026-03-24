@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Product\SaveProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
-use App\Models\Product;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class ProductController extends Controller
 {
@@ -37,7 +37,7 @@ class ProductController extends Controller
     {
         $validatedData = $request->validated();
 
-        $product = new Product();
+        $product = new Product;
         $product->setName($validatedData['name']);
         $product->setDescription($validatedData['description']);
         $product->setPrice($validatedData['price']);
@@ -56,8 +56,14 @@ class ProductController extends Controller
         $viewData = [];
         $product = Product::findOrFail($id);
 
-        $viewData['title'] = $product->getName() . ' - Detalle Producto';
+        $viewData['title'] = $product->getName() . ' - Product Details';
         $viewData['product'] = $product;
+        $viewData['reviews'] = $product->reviews()->with('user')->latest()->get();
+        $viewData['reviewsLimit'] = $product->reviews()->with('user')->latest()->take(3)->get();
+        $viewData['userReview'] = Auth::check()
+            ? $product->reviews()->where('user_id', Auth::id())->first()
+            : null;
+        $viewData['totalReviews'] = $product->reviews()->count();
 
         return view('product.show')->with('viewData', $viewData);
     }
@@ -92,6 +98,7 @@ class ProductController extends Controller
             ->with('success', 'Elemento actualizado correctamente');
 
     }
+
     public function search(Request $request): View
     {
         $viewData = [];

@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\User\SaveUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
-use App\Models\User;
-
 
 class UserController extends Controller
 {
@@ -32,7 +31,7 @@ class UserController extends Controller
     {
         $validatedData = $request->validated();
 
-        $user = new User();
+        $user = new User;
         $user->setName($validatedData['name']);
         $user->setEmail($validatedData['email']);
         $user->setPassword(($validatedData['password']));

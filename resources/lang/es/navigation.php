@@ -7,7 +7,9 @@ return [
     'create_user' => 'Crear usuario',
     'users' => 'Usuario',
     'cart' => 'Carrito',
-    'login' => 'Login',
-    'register' => 'Register',
-    'logout' => 'Logout',
+    'login' => 'Iniciar sesión',
+    'register' => 'Registrarse',
+    'logout' => 'Cerrar sesión',
+    'my_orders' => 'Mis órdenes',
+    'balance' => 'Saldo',
 ];

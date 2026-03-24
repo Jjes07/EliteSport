@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -11,12 +12,15 @@ class Category extends Model
      * ATTRIBUTES CATEGORY
      * this->attribute['name']
      * this->attribute['description']
+     * this->attribute['created_at']
+     * this->attribute['updated_at']
      */
     protected $fillable = [
         'name',
         'description',
     ];
 
+    /* Getters */
     public function getId(): int
     {
         return $this->attributes['id'];
@@ -27,14 +31,31 @@ class Category extends Model
         return $this->attributes['name'];
     }
 
-    public function setName(string $name): void
-    {
-        $this->attributes['name'] = $name;
-    }
-
     public function getDescription(): string
     {
         return $this->attributes['description'];
+    }
+
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function getCreatedAt(): string
+    {
+        return $this->attributes['created_at'];
+    }
+
+    public function getUpdatedAt(): string
+    {
+        return $this->attributes['updated_at'];
+    }
+
+    /* Setters */
+
+    public function setName(string $name): void
+    {
+        $this->attributes['name'] = $name;
     }
 
     public function setDescription(string $description): void
@@ -42,11 +63,7 @@ class Category extends Model
         $this->attributes['description'] = $description;
     }
 
-    /**
-     * Relación: Una categoría tiene muchos productos
-     *
-     * @return HasMany
-     */
+    /* Relationship: One category has many products */
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);

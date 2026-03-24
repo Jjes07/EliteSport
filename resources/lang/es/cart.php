@@ -3,6 +3,7 @@
 return [
     'cart_title' => 'Productos en el carrito',
     'continue_shopping' => 'Seguir comprando',
+    'checkout_products' => 'Revisa los productos que has seleccionado',
     'total_to_pay' => 'Total a pagar',
     'buy' => 'Comprar',
     'empty_cart' => 'Vaciar carrito',
@@ -10,4 +11,8 @@ return [
     'no_products_added' => 'Aún no has agregado productos.',
     'go_shopping' => 'Ir a comprar',
     'subtotal' => 'Subtotal',
+    'actions' => 'Acciones',
+    'remove_item' => 'Eliminar item',
+    'remove_confirm' => '¿Eliminar este producto del carrito?',
+    'empty_confirm' => '¿Estás seguro de vaciar el carrito?',
 ];
