@@ -6,8 +6,7 @@
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            <!-- Success Card -->
-            <div class="card shadow-sm border-0 fade-in">
+            <div class="card shadow-sm border-0">
                 <div class="card-header bg-success text-white text-center">
                     <i class="bi bi-check-circle-fill fs-1"></i>
                     <h3 class="mb-0 mt-2">{{ __('payment.payment_success') }}</h3>
@@ -41,7 +40,7 @@
                             <div class="col-md-6">
                                 <div class="mb-2">
                                     <small class="text-muted">{{ __('payment.payment_amount') }}</small>
-                                    <p class="fw-semibold text-success mb-0 fs-4">${{ $viewData['payment']->getAmountFormatted() }}</p>
+                                    <p class="fw-semibold text-success mb-0 fs-4">{{ $viewData['payment']->getAmountFormatted() }}</p>
                                 </div>
                                 <div class="mb-2">
                                     <small class="text-muted">{{ __('payment.payment_date') }}</small>
@@ -56,26 +55,23 @@
                         <h5 class="fw-bold mb-3"><i class="bi bi-receipt"></i> {{ __('payment.order_confirmation') }}</h5>
                         <div class="table-responsive">
                             <table class="table table-sm">
-                                <thead class="table-light">
-                                    <tr>
+                                <thead>
                                         <th>{{ __('payment.product') }}</th>
                                         <th class="text-center">{{ __('payment.quantity') }}</th>
                                         <th class="text-end">{{ __('payment.subtotal') }}</th>
-                                    </tr>
-                                </thead>
+                                    </thead>
                                 <tbody>
                                     @foreach($viewData['items'] as $item)
-                                        <tr>
-                                            <td>{{ $item->product->getName() }}</td>
+                                            <td>{{ $item->getProduct()->getName() }}</td>
                                             <td class="text-center">x{{ $item->getQuantity() }}</td>
-                                            <td class="text-end">${{ number_format($item->calculateSubtotal(), 0, ',', '.') }}</td>
+                                            <td class="text-end">{{ $item->getSubtotalFormatted() }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr>
                                         <td colspan="2" class="text-end fw-bold">{{ __('payment.total') }}</td>
-                                        <td class="text-end fw-bold text-primary">${{ number_format($viewData['order']->getTotal(), 0, ',', '.') }}</td>
+                                        <td class="text-end fw-bold text-primary">{{ $viewData['order']->getTotalFormatted() }}</td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -84,8 +80,8 @@
                     
                     <!-- New Balance -->
                     <div class="new-balance text-center p-3 bg-success bg-opacity-10 rounded mb-4">
-                        <small class="text-muted">{{ __('payment.new_balance') }}</small>
-                        <h3 class="text-success mb-0">${{ number_format($viewData['newBudget'], 0, ',', '.') }}</h3>
+                        <small class="text-white">{{ __('payment.new_balance') }}</small>
+                        <h3 class="text-light mb-0">{{ Auth::user()->getBudgetFormatted() }}</h3>
                     </div>
                     
                     <!-- Action Buttons -->
@@ -93,7 +89,7 @@
                         <a href="{{ route('home.index') }}" class="btn btn-primary">
                             <i class="bi bi-shop"></i> {{ __('payment.continue_shopping') }}
                         </a>
-                        <a href="{{ route('orders.index') }}" class="btn btn-outline-secondary">
+                        <a href="{{ route('order.index') }}" class="btn btn-outline-secondary">
                             <i class="bi bi-list-ul"></i> {{ __('payment.view_orders') }}
                         </a>
                     </div>

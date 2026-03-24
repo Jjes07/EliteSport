@@ -13,10 +13,11 @@ class Item extends Model
      * $this->attributes['quantity'] - int - contains the item quantity
      * $this->attributes['price'] - int - contains the item price at purchase moment
      * $this->attributes['product_id'] - int - contains the referenced product id
-     * $this->attributes['order_id'] - int - contains the referenced order id nullable
+     * $this->attributes['order_id'] - int - contains the referenced order id
      * $this->attributes['created_at'] - timestamp - contains the item creation timestamp
      * $this->attributes['updated_at'] - timestamp - contains the item update timestamp
      */
+
     protected $fillable = [
         'quantity',
         'price',
@@ -60,6 +61,17 @@ class Item extends Model
         return $this->attributes['updated_at'];
     }
 
+    /* Formatted Getters */
+    public function getPriceFormatted(): string
+    {
+        return '$' . number_format($this->getPrice(), 0, ',', '.');
+    }
+
+    public function getSubtotalFormatted(): string
+    {
+        return '$' . number_format($this->calculateSubtotal(), 0, ',', '.');
+    }
+
     /* Setters */
     public function setQuantity(int $quantity): void
     {
@@ -81,31 +93,15 @@ class Item extends Model
         $this->attributes['order_id'] = $orderId;
     }
 
-    /* Formatted Getters */
-    public function getPriceFormatted(): string
-    {
-        return '$' . number_format($this->getPrice(), 0, ',', ' ');
-    }
-
-    public function getSubtotalFormatted(): string
-    {
-        return '$' . number_format($this->calculateSubtotal(), 0, ',', ' ');
-    }
-
     /* Relationships */
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }
 
-    // public function order(): BelongsTo
-    // {
-    //     return $this->belongsTo(Order::class);
-    // }
-
-    public function getProduct(): Product
+    public function order(): BelongsTo
     {
-        return $this->product;
+        return $this->belongsTo(Order::class);
     }
 
     /* Business Logic */
@@ -114,16 +110,20 @@ class Item extends Model
         return $this->getQuantity() * $this->getPrice();
     }
 
+    public function getProduct(): Product
+    {
+        return $this->product;
+    }
+
     /**
      * Create items from cart session
-     * This will be used when order is confirmed
      */
     public static function createFromCart(int $orderId, array $cartProducts): void
     {
         foreach ($cartProducts as $productId => $quantity) {
             $product = Product::findOrFail($productId);
-
-            $item = new self;
+            
+            $item = new self();
             $item->setQuantity($quantity);
             $item->setPrice($product->getPrice());
             $item->setProductId($productId);

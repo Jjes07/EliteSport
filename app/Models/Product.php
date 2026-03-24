@@ -10,13 +10,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Product extends Model
 {
     /**
-     * ATTRIBUTES PRODUCT
+     * PRODUCT ATTRIBUTES 
      * this->attribute['name']
      * this->attribute['description']
      * this->attribute['price']
      * this->attribute['stock']
      * this->attribute['image']
      * this->attribute['category']
+     * this->attribute['created_at']
+     * this->attribute['updated_at']
      */
     protected $fillable = [
         'name',
@@ -27,7 +29,7 @@ class Product extends Model
         'category',
     ];
 
-    // Getters & Setters
+    // Getters
 
     public function getId(): int
     {
@@ -39,19 +41,9 @@ class Product extends Model
         return $this->attributes['name'];
     }
 
-    public function setName(string $name): void
-    {
-        $this->attributes['name'] = $name;
-    }
-
     public function getDescription(): string
     {
         return $this->attributes['description'];
-    }
-
-    public function setDescription(string $description): void
-    {
-        $this->attributes['description'] = $description;
     }
 
     public function getPrice(): int
@@ -59,19 +51,9 @@ class Product extends Model
         return $this->attributes['price'];
     }
 
-    public function setPrice(int $price): void
-    {
-        $this->attributes['price'] = $price;
-    }
-
     public function getStock(): int
     {
         return $this->attributes['stock'];
-    }
-
-    public function setStock(int $stock): void
-    {
-        $this->attributes['stock'] = $stock;
     }
 
     public function getImage(): string
@@ -79,19 +61,9 @@ class Product extends Model
         return $this->attributes['image'];
     }
 
-    public function setImage(string $image): void
-    {
-        $this->attributes['image'] = $image;
-    }
-
     public function getCategory(): string
     {
         return $this->attributes['category'];
-    }
-
-    public function setCategory(string $category): void
-    {
-        $this->attributes['category'] = $category;
     }
 
     public function getCreatedAt(): string
@@ -104,10 +76,41 @@ class Product extends Model
         return $this->attributes['updated_at'];
     }
 
-    /* Formatted Getters */
+    // Formatted Getters 
     public function getPriceFormatted(): string
     {
         return '$' . number_format($this->getPrice(), 0, ',', ' ');
+    }
+
+    // Setters
+    public function setName(string $name): void
+    {
+        $this->attributes['name'] = $name;
+    }
+
+    public function setDescription(string $description): void
+    {
+        $this->attributes['description'] = $description;
+    }
+
+    public function setPrice(int $price): void
+    {
+        $this->attributes['price'] = $price;
+    }
+
+    public function setStock(int $stock): void
+    {
+        $this->attributes['stock'] = $stock;
+    }
+
+    public function setImage(string $image): void
+    {
+        $this->attributes['image'] = $image;
+    }
+
+    public function setCategory(string $category): void
+    {
+        $this->attributes['category'] = $category;
     }
 
     // Auxiliar methods

@@ -35,6 +35,7 @@ return [
     'back_to_cart' => 'Volver al carrito',
     'view_orders' => 'Ver mis órdenes',
     'continue_shopping' => 'Seguir comprando',
+    'cancel' => 'Cancelar',
     
     // Success page
     'payment_completed' => '¡Tu pago ha sido procesado exitosamente!',

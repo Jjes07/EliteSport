@@ -89,22 +89,4 @@ class CartController extends Controller
             ->route('cart.index')
             ->with('success', 'Cart updated successfully');
     }
-    
-    /**
-     * Checkout - create order and redirect to payment
-     */
-    public function checkout(Request $request): RedirectResponse
-    {
-        // Check if cart is empty
-        $cartProducts = $request->session()->get('products', []);
-        
-        if (empty($cartProducts)) {
-            return redirect()
-                ->route('cart.index')
-                ->with('error', 'Your cart is empty. Add some products before checking out.');
-        }
-        
-        // Delegate to OrderController to create the order
-        return redirect()->route()->with();
-    }
 }

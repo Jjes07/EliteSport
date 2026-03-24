@@ -48,7 +48,6 @@ class PaymentController extends Controller
             abort(403, 'You are not authorized to process this payment.');
         }
         
-        // Delegate payment processing to the model
         $result = Payment::processPayment($order);
         
         if (!$result['success']) {

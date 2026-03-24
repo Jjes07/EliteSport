@@ -52,6 +52,12 @@ class Order extends Model
         return $this->attributes['user_id'];
     }
 
+    /* Formatted Getters */
+    public function getTotalFormatted(): string
+    {
+        return '$' . number_format($this->getTotal(), 0, ',', ' ');
+    }
+
     /* Setters */
     public function setDate(string $date): void
     {

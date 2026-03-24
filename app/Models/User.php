@@ -13,7 +13,7 @@ class User extends Authenticatable
     use Notifiable;
 
     /**
-     * ATTRIBUTES USER
+     * USER ATTRIBUTES 
      * this->attribute['name']
      * this->attribute['email']
      * this->attribute['password']
@@ -44,6 +44,7 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    /* Getters */
     public function getId(): int
     {
         return $this->attributes['id'];
@@ -54,19 +55,9 @@ class User extends Authenticatable
         return $this->attributes['name'];
     }
 
-    public function setName(string $name): void
-    {
-        $this->attributes['name'] = $name;
-    }
-
     public function getEmail(): string
     {
         return $this->attributes['email'];
-    }
-
-    public function setEmail(string $email): void
-    {
-        $this->attributes['email'] = $email;
     }
 
     public function getPassword(): string
@@ -74,19 +65,9 @@ class User extends Authenticatable
         return $this->attributes['password'];
     }
 
-    public function setPassword(string $password): void
-    {
-        $this->attributes['password'] = Hash::make($password);
-    }
-
     public function getAddress(): string
     {
         return $this->attributes['address'];
-    }
-
-    public function setAddress(string $address): void
-    {
-        $this->attributes['address'] = $address;
     }
 
     public function getPhone(): string
@@ -94,29 +75,14 @@ class User extends Authenticatable
         return $this->attributes['phone'];
     }
 
-    public function setPhone(string $phone): void
-    {
-        $this->attributes['phone'] = $phone;
-    }
-
     public function getRole(): string
     {
         return $this->attributes['role'];
     }
 
-    public function setRole(string $role): void
-    {
-        $this->attributes['role'] = $role;
-    }
-
-        public function getBudget(): int
+    public function getBudget(): int
     {
         return $this->attributes['budget'] ?? 0;
-    }
-
-    public function setBudget(int $budget): void
-    {
-        $this->attributes['budget'] = $budget;
     }
 
     public function getCreatedAt(): string
@@ -132,7 +98,43 @@ class User extends Authenticatable
     /* Formatted Getters */
     public function getBudgetFormatted(): string
     {
-        return '$' . number_format($this->getBudget(), 0, ',', '.');
+        return '$' . number_format($this->getBudget(), 0, ',', ' ');
+    }
+
+    /* Setters */
+    public function setName(string $name): void
+    {
+        $this->attributes['name'] = $name;
+    }
+
+    public function setEmail(string $email): void
+    {
+        $this->attributes['email'] = $email;
+    }
+
+    public function setPassword(string $password): void
+    {
+        $this->attributes['password'] = Hash::make($password);
+    }
+
+    public function setAddress(string $address): void
+    {
+        $this->attributes['address'] = $address;
+    }
+
+    public function setPhone(string $phone): void
+    {
+        $this->attributes['phone'] = $phone;
+    }
+
+    public function setRole(string $role): void
+    {
+        $this->attributes['role'] = $role;
+    }
+
+    public function setBudget(int $budget): void
+    {
+        $this->attributes['budget'] = $budget;
     }
 
     /**

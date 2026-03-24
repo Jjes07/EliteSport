@@ -13,8 +13,8 @@ class OrderController extends Controller
     public function index(): View
     {
         $viewData = [];
-        $viewData['title'] = 'Mis Ordenes';
-        $viewData['orders'] = Order::where('user_id', Auth::id())->get();
+        $viewData['title'] = __('order.my_orders');
+        $viewData['orders'] = Order::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
 
         return view('order.index')->with('viewData', $viewData);
     }
@@ -23,22 +23,28 @@ class OrderController extends Controller
     {
         $viewData = [];
         $order = Order::findOrFail($id);
+        
+        // Verify order belongs to current user
+        if ($order->getUserId() !== Auth::id() && Auth::user()->getRole() !== 'admin') {
+            abort(403, 'You are not authorized to view this order.');
+        }
 
-        $viewData['title'] = 'Orden #'.$order->getId();
+        $viewData['title'] = __('order.order') . ' #' . $order->getId();
         $viewData['order'] = $order;
         $viewData['items'] = $order->getItems();
+        $viewData['payment'] = $order->payment;
 
         return view('order.show')->with('viewData', $viewData);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function save(Request $request): RedirectResponse
     {
         $cartProducts = $request->session()->get('products', []);
 
         if (empty($cartProducts)) {
             return redirect()
                 ->route('cart.index')
-                ->with('error', 'El carrito está vacío');
+                ->with('error', __('cart.empty_cart_message'));
         }
 
         $order = Order::placeOrder(Auth::id(), $cartProducts);
@@ -46,22 +52,30 @@ class OrderController extends Controller
 
         return redirect()
             ->route('order.show', $order->getId())
-            ->with('success', 'Orden creada correctamente');
+            ->with('success', __('order.created_success'));
     }
 
-    public function confirm(int $id): RedirectResponse
+    public function cancel($id): RedirectResponse
     {
-        $order = Order::findOrFail($id);
-        $success = $order->confirmOrder();
-
-        if ($success) {
+        $order = Order::findOrFail((int) $id);
+        
+        // Verify order belongs to current user
+        if ($order->getUserId() !== Auth::id()) {
+            abort(403, 'You are not authorized to cancel this order.');
+        }
+        
+        // Only pending orders can be cancelled
+        if ($order->getStatus() !== 'pending') {
             return redirect()
                 ->route('order.show', $id)
-                ->with('success', 'Pago realizado correctamente');
+                ->with('error', __('order.cannot_cancel'));
         }
-
+        
+        $order->setStatus('cancelled');
+        $order->save();
+        
         return redirect()
             ->route('order.show', $id)
-            ->with('error', 'Saldo insuficiente para completar la orden');
+            ->with('success', __('order.cancelled_success'));
     }
 }

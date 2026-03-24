@@ -10,10 +10,10 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            //$table->foreignId('order_id')->constrained()->onDelete('cascade');
+            $table->foreignId('order_id')->constrained()->onDelete('cascade');
             $table->integer('amount');
-            $table->string('method')->default('budget'); // budget, points, etc
-            $table->string('status')->default('completed'); // completed, pending, failed
+            $table->string('method')->default('budget');
+            $table->string('status')->default('completed');
             $table->timestamps();
         });
     }

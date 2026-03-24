@@ -6,49 +6,40 @@
 <div class="container py-4">
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            <!-- Payment Card -->
-            <div class="card shadow-sm border-0 fade-in">
+            <div class="card shadow-sm border-0">
                 <div class="card-header bg-dark text-white">
                     <h4 class="mb-0"><i class="bi bi-credit-card"></i> {{ __('payment.payment_details') }}</h4>
                 </div>
                 
                 <div class="card-body p-4">
                     @if(session('error'))
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ session('error') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        </div>
+                        <div class="alert alert-danger">{{ session('error') }}</div>
                     @endif
-                    
+
                     <!-- Order Summary -->
                     <div class="order-summary mb-4">
                         <h5 class="fw-bold mb-3"><i class="bi bi-receipt"></i> {{ __('payment.order_summary') }}</h5>
                         <div class="table-responsive">
                             <table class="table">
-                                <thead class="table-light">
-                                    <tr>
+                                <thead>
                                         <th>{{ __('payment.product') }}</th>
                                         <th class="text-center">{{ __('payment.quantity') }}</th>
                                         <th class="text-end">{{ __('payment.unit_price') }}</th>
                                         <th class="text-end">{{ __('payment.subtotal') }}</th>
-                                    </tr>
-                                </thead>
+                                    </thead>
                                 <tbody>
                                     @foreach($viewData['items'] as $item)
-                                        <tr>
-                                            <td>{{ $item->product->getName() }}</td>
+                                            <td>{{ $item->getProduct()->getName() }}</td>
                                             <td class="text-center">x{{ $item->getQuantity() }}</td>
-                                            <td class="text-end">${{ $item->getPriceFormatted() }}</td>
-                                            <td class="text-end fw-semibold">${{ number_format($item->calculateSubtotal(), 0, ',', '.') }}</td>
+                                            <td class="text-end">{{ $item->getPriceFormatted() }}</td>
+                                            <td class="text-end fw-semibold">{{ $item->getSubtotalFormatted() }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
-                                <tfoot class="table-light">
-                                    <tr>
+                                <tfoot>
+                                    <tr class="table-light">
                                         <td colspan="3" class="text-end fw-bold">{{ __('payment.total') }}</td>
-                                        <td class="text-end fw-bold text-primary fs-5">
-                                            ${{ number_format($viewData['total'], 0, ',', '.') }}
-                                        </td>
+                                        <td class="text-end fw-bold text-primary fs-5">{{ $viewData['order']->getTotalFormatted() }}</td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -59,23 +50,19 @@
                     <div class="budget-info mb-4 p-3 bg-light rounded">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <small class="text-muted">{{ __('payment.your_balance') }}</small>
-                                    <h4 class="mb-0">${{ number_format($viewData['budget'], 0, ',', '.') }}</h4>
-                                </div>
+                                <small class="text-muted">{{ __('payment.your_balance') }}</small>
+                                <h4 class="mb-0">{{ Auth::user()->getBudgetFormatted() }}</h4>
                             </div>
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <small class="text-muted">{{ __('payment.total_to_pay') }}</small>
-                                    <h4 class="mb-0 text-danger">-${{ number_format($viewData['total'], 0, ',', '.') }}</h4>
-                                </div>
+                                <small class="text-muted">{{ __('payment.total_to_pay') }}</small>
+                                <h4 class="mb-0 text-danger">-{{ $viewData['order']->getTotalFormatted() }}</h4>
                             </div>
                             <div class="col-12">
                                 <hr class="my-2">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <strong>{{ __('payment.remaining_balance') }}</strong>
                                     <h5 class="mb-0 {{ $viewData['insufficient'] ? 'text-danger' : 'text-success' }}">
-                                        ${{ number_format($viewData['remainingAfterPayment'], 0, ',', '.') }}
+                                        ${{ number_format(Auth::user()->getBudget() - $viewData['order']->getTotal(), 0, '.', ' ') }}
                                     </h5>
                                 </div>
                             </div>
@@ -104,8 +91,8 @@
                     
                     <!-- Action Buttons -->
                     <div class="d-flex justify-content-between gap-3">
-                        <a href="{{ route('cart.index') }}" class="btn btn-outline-secondary">
-                            <i class="bi bi-arrow-left"></i> {{ __('payment.back_to_cart') }}
+                        <a href="{{ route('order.show', $viewData['order']->getId()) }}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> {{ __('payment.cancel') }}
                         </a>
                         
                         @if(!$viewData['insufficient'])

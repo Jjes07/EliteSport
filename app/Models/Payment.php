@@ -56,9 +56,10 @@ class Payment extends Model
         return $this->attributes['created_at'];
     }
 
-    public function getUpdatedAt(): string
+    /* Formatted Getters */
+    public function getAmountFormatted(): string
     {
-        return $this->attributes['updated_at'];
+        return '$' . number_format($this->getAmount(), 0, ',', '.');
     }
 
     /* Setters */
@@ -80,12 +81,6 @@ class Payment extends Model
     public function setStatus(string $status): void
     {
         $this->attributes['status'] = $status;
-    }
-
-    /* Formatted Getters */
-    public function getAmountFormatted(): string
-    {
-        return '$' . number_format($this->getAmount(), 0, ',', ' ');
     }
 
     /* Relationships */
