@@ -26,7 +26,7 @@ class OrderController extends Controller
 
         // Verify order belongs to current user
         if ($order->getUserId() !== Auth::id() && Auth::user()->getRole() !== 'admin') {
-            abort(403, 'You are not authorized to view this order.');
+            abort(403, 'No estás autorizado para ver este pedido.');
         }
 
         $viewData['title'] = __('order.order').' #'.$order->getId();
@@ -55,13 +55,13 @@ class OrderController extends Controller
             ->with('success', __('order.created_success'));
     }
 
-    public function cancel($id): RedirectResponse
+    public function cancel(int $id): RedirectResponse
     {
-        $order = Order::findOrFail((int) $id);
+        $order = Order::findOrFail($id);
 
         // Verify order belongs to current user
         if ($order->getUserId() !== Auth::id()) {
-            abort(403, 'You are not authorized to cancel this order.');
+            abort(403, 'No estás autorizado para cancelar este pedido.');
         }
 
         // Only pending orders can be cancelled

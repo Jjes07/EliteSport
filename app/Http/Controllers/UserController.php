@@ -34,7 +34,7 @@ class UserController extends Controller
         $user = new User;
         $user->setName($validatedData['name']);
         $user->setEmail($validatedData['email']);
-        $user->setPassword(($validatedData['password']));
+        $user->setPassword($validatedData['password']);
         $user->setAddress($validatedData['address']);
         $user->setPhone($validatedData['phone']);
 
@@ -54,7 +54,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $viewData['user'] = $user;
 
-        $viewData['title'] = $user->getName() . 'Detalle del usuario';
+        $viewData['title'] = $user->getName().' - Detalle del usuario';
         $viewData['users'] = User::all();
 
         return view('user.show')->with('viewData', $viewData);
@@ -82,7 +82,7 @@ class UserController extends Controller
         $user->setAddress($validatedData['address']);
         $user->setPhone($validatedData['phone']);
 
-        if (!empty($validatedData['password'])) {
+        if (! empty($validatedData['password'])) {
             $user->setPassword($validatedData['password']);
         }
 

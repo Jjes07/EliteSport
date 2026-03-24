@@ -2,44 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Services\CartService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class CartController extends Controller
 {
+    private CartService $cartService;
+
+    public function __construct(CartService $cartService)
+    {
+        $this->cartService = $cartService;
+    }
+
     public function index(Request $request): View
     {
-        $total = 0;
-        $productsInCart = [];
-        $productsInSession = $request->session()->get('products');
-        if (! empty($productsInSession)) {
-            $productsInCart = Product::findMany(array_keys($productsInSession));
-            $total = Product::sumPricesByQuantities($productsInCart, $productsInSession);
-        }
-
         $viewData = [];
         $viewData['title'] = 'Cart - Online Store';
         $viewData['subtitle'] = 'Shopping Cart';
-        $viewData['total'] = $total;
-        $viewData['products'] = $productsInCart;
+        $viewData['total'] = $this->cartService->getCartTotal($request);
+        $viewData['products'] = $this->cartService->getCartProducts($request);
 
         return view('cart.index')->with('viewData', $viewData);
     }
 
     public function add(Request $request, int $id): RedirectResponse
     {
-        $products = $request->session()->get('products', []);
         $quantity = (int) $request->input('quantity');
 
-        if (isset($products[$id])) {
-            $products[$id] += $quantity;
-        } else {
-            $products[$id] = $quantity;
-        }
-
-        $request->session()->put('products', $products);
+        $this->cartService->addToCart($request, $id, $quantity);
 
         return redirect()
             ->route('cart.index')
@@ -48,45 +40,30 @@ class CartController extends Controller
 
     public function delete(Request $request): RedirectResponse
     {
-        $request->session()->forget('products');
+        $this->cartService->clearCart($request);
 
         return redirect()
             ->route('cart.index')
             ->with('success', 'Carrito vaciado correctamente');
     }
 
-    /**
-     * Remove a specific product from cart
-     */
     public function remove(Request $request, int $id): RedirectResponse
     {
-        $products = $request->session()->get('products', []);
-
-        if (isset($products[$id])) {
-            unset($products[$id]);
-            $request->session()->put('products', $products);
-        }
+        $this->cartService->removeFromCart($request, $id);
 
         return redirect()
             ->route('cart.index')
-            ->with('success', 'Product removed from cart');
+            ->with('success', 'Producto removido del carrito correctamente');
     }
 
-    /**
-     * Update quantity of a product in cart
-     */
     public function update(Request $request, int $id): RedirectResponse
     {
-        $products = $request->session()->get('products', []);
         $quantity = (int) $request->input('quantity');
 
-        $products[$id] = $quantity;
-        $request->session()->put('products', $products);
-
-        $request->session()->put('products', $products);
+        $this->cartService->updateQuantity($request, $id, $quantity);
 
         return redirect()
             ->route('cart.index')
-            ->with('success', 'Cart updated successfully');
+            ->with('success', 'Carrito actualizado');
     }
 }

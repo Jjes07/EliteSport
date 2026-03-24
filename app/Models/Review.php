@@ -35,6 +35,14 @@ class Review extends Model
 
     protected $fillable = ['comment', 'rating', 'user_id', 'product_id'];
 
+    protected $casts = [
+        'rating' => 'integer',
+        'user_id' => 'integer',
+        'product_id' => 'integer',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
     /* Getters */
     public function getId(): int
     {

@@ -9,15 +9,21 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Category extends Model
 {
     /**
-     * ATTRIBUTES CATEGORY
-     * this->attribute['name']
-     * this->attribute['description']
-     * this->attribute['created_at']
-     * this->attribute['updated_at']
+     * CATEGORY ATTRIBUTES
+     * $this->attributes['id'] - int - contains the category primary key (id)
+     * $this->attributes['name'] - string - contains the category name
+     * $this->attributes['description'] - string - contains the category description
+     * $this->attributes['created_at'] - timestamp - contains the category creation timestamp
+     * $this->attributes['updated_at'] - timestamp - contains the category update timestamp
      */
     protected $fillable = [
         'name',
         'description',
+    ];
+
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     /* Getters */
@@ -63,7 +69,7 @@ class Category extends Model
         $this->attributes['description'] = $description;
     }
 
-    /* Relationship: One category has many products */
+    /* Relationship */
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);

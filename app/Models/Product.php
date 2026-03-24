@@ -11,14 +11,15 @@ class Product extends Model
 {
     /**
      * PRODUCT ATTRIBUTES
-     * this->attribute['name']
-     * this->attribute['description']
-     * this->attribute['price']
-     * this->attribute['stock']
-     * this->attribute['image']
-     * this->attribute['category_id']
-     * this->attribute['created_at']
-     * this->attribute['updated_at']
+     * $this->attributes['id'] - int - contains the product primary key (id)
+     * $this->attributes['name'] - string - contains the product name
+     * $this->attributes['description'] - string - contains the product description
+     * $this->attributes['price'] - integer - contains the product price
+     * $this->attributes['stock'] - integer - contains the product stock quantity
+     * $this->attributes['image'] - string - contains the product image URL
+     * $this->attributes['category_id'] - integer - contains the referenced category id
+     * $this->attributes['created_at'] - timestamp - contains the product creation timestamp
+     * $this->attributes['updated_at'] - timestamp - contains the product update timestamp
      */
     protected $fillable = [
         'name',
@@ -29,7 +30,14 @@ class Product extends Model
         'category_id',
     ];
 
-    // Getters
+    protected $casts = [
+        'price' => 'integer',
+        'stock' => 'integer',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
+    /* Getters */
 
     public function getId(): int
     {

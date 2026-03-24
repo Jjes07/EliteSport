@@ -19,7 +19,7 @@ class PaymentController extends Controller
 
         // Verify order belongs to current user
         if ($order->getUserId() !== Auth::id()) {
-            abort(403, 'You are not authorized to view this order.');
+            abort(403, 'No estás autorizado para ver este pedido.');
         }
 
         $viewData = [];
@@ -44,7 +44,7 @@ class PaymentController extends Controller
 
         // Verify order belongs to current user
         if ($order->getUserId() !== Auth::id()) {
-            abort(403, 'You are not authorized to process this payment.');
+            abort(403, 'No estás autorizado para procesar este pago.');
         }
 
         $result = Payment::processPayment($order);
@@ -69,7 +69,7 @@ class PaymentController extends Controller
 
         // Verify order belongs to current user
         if ($order->getUserId() !== Auth::id()) {
-            abort(403, 'You are not authorized to view this page.');
+            abort(403, 'No estás autorizado para ver esta página.');
         }
 
         $viewData = [];

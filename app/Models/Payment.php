@@ -24,6 +24,13 @@ class Payment extends Model
         'status',
     ];
 
+    protected $casts = [
+        'amount' => 'integer',
+        'order_id' => 'integer',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
     /* Getters */
     public function getId(): int
     {

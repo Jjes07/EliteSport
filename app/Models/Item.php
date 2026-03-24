@@ -24,6 +24,15 @@ class Item extends Model
         'order_id',
     ];
 
+    protected $casts = [
+        'quantity' => 'integer',
+        'price' => 'integer',
+        'product_id' => 'integer',
+        'order_id' => 'integer',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
     /* Getters */
     public function getId(): int
     {

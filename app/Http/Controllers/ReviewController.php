@@ -65,7 +65,7 @@ class ReviewController extends Controller
         if (Review::hasUserReviewedProduct(Auth::id(), $productId)) {
             return redirect()
                 ->route('product.show', $productId)
-                ->with('error', 'You have already reviewed this product!');
+                ->with('error', '¡Ya has reseñado este producto!');
         }
 
         Review::createReview(
@@ -77,7 +77,7 @@ class ReviewController extends Controller
 
         return redirect()
             ->route('product.show', $productId)
-            ->with('success', 'Your review has been submitted successfully!');
+            ->with('success', '¡Tu reseña ha sido enviada exitosamente!');
     }
 
     public function edit(int $productId, int $reviewId): View
@@ -87,7 +87,7 @@ class ReviewController extends Controller
         $review = Review::where('product_id', $productId)->findOrFail($reviewId);
 
         if (! $review->canBeEditedBy(Auth::id())) {
-            abort(403, 'You are not authorized to edit this review.');
+            abort(403, 'No estás autorizado para editar esta reseña.');
         }
 
         $viewData['title'] = 'Edit Review - '.$product->getName();
@@ -103,14 +103,14 @@ class ReviewController extends Controller
         $review = Review::where('product_id', $productId)->findOrFail($reviewId);
 
         if (! $review->canBeEditedBy(Auth::id())) {
-            abort(403, 'You are not authorized to edit this review.');
+            abort(403, 'No estás autorizado para editar esta reseña.');
         }
 
         $review->updateReview($validatedData);
 
         return redirect()
             ->route('product.show', $productId)
-            ->with('success', 'Your review has been updated successfully!');
+            ->with('success', '¡Tu reseña ha sido actualizada exitosamente!');
     }
 
     public function delete(int $productId, int $reviewId): RedirectResponse
@@ -120,14 +120,14 @@ class ReviewController extends Controller
         if (! $review->canBeDeletedBy(Auth::id(), Auth::user()->getRole())) {
             return redirect()
                 ->route('product.show', $productId)
-                ->with('error', 'You are not authorized to delete this review!');
+                ->with('error', '¡No estás autorizado para eliminar esta reseña!');
         }
 
         $review->delete();
 
         $message = Auth::user()->getRole() === 'admin'
-            ? 'Review has been deleted by admin.'
-            : 'Your review has been deleted successfully.';
+            ? 'La reseña ha sido eliminada por un administrador.'
+            : 'Tu reseña ha sido eliminada exitosamente.';
 
         return redirect()
             ->route('product.show', $productId)

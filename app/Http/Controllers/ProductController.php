@@ -56,7 +56,7 @@ class ProductController extends Controller
         $viewData = [];
         $product = Product::findOrFail($id);
 
-        $viewData['title'] = $product->getName() . ' - Product Details';
+        $viewData['title'] = $product->getName().' - Product Details';
         $viewData['product'] = $product;
         $viewData['reviews'] = $product->reviews()->with('user')->latest()->get();
         $viewData['reviewsLimit'] = $product->reviews()->with('user')->latest()->take(3)->get();
@@ -73,7 +73,7 @@ class ProductController extends Controller
         $viewData = [];
         $product = Product::findOrFail($id);
 
-        $viewData['title'] = $product->getName() . ' - Editar Producto';
+        $viewData['title'] = $product->getName().' - Editar Producto';
         $viewData['product'] = $product;
         $viewData['categories'] = Category::all();
 
@@ -108,7 +108,7 @@ class ProductController extends Controller
         $searchTerm = $request->input('name', '');
         $categoryId = $request->input('category', null);
 
-        $searchResult = Product::searchByNameAndCategory($searchTerm, $categoryId ? (int) $categoryId : null);
+        $searchResult = Product::searchByNameAndCategory($searchTerm, $categoryId ? (string) $categoryId : null);
 
         $viewData = array_merge($viewData, $searchResult);
 

@@ -28,6 +28,12 @@ class Order extends Model
         'payment_id',
     ];
 
+    protected $casts = [
+        'total' => 'float',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
     /* Getters */
     public function getId(): int
     {

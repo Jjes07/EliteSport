@@ -14,15 +14,16 @@ class User extends Authenticatable
 
     /**
      * USER ATTRIBUTES
-     * this->attribute['name']
-     * this->attribute['email']
-     * this->attribute['password']
-     * this->attribute['address']
-     * this->attribute['phone']
-     * this->attribute['role']
-     * this->attribute['budget']
-     * this->attribute['created_at']
-     * this->attribute['updated_at']
+     * $this->attributes['id'] - int - contains the user primary key (id)
+     * $this->attributes['name'] - string - contains the user full name
+     * $this->attributes['email'] - string - contains the user email address
+     * $this->attributes['password'] - string - contains the hashed user password
+     * $this->attributes['address'] - string - contains the user address
+     * $this->attributes['phone'] - string - contains the user phone number
+     * $this->attributes['role'] - string - contains the user role (admin or customer)
+     * $this->attributes['budget'] - integer - contains the user available budget
+     * $this->attributes['created_at'] - timestamp - contains the user creation timestamp
+     * $this->attributes['updated_at'] - timestamp - contains the user update timestamp
      */
     protected $fillable = [
         'name',
@@ -34,14 +35,15 @@ class User extends Authenticatable
         'budget',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
+    ];
+
+    protected $casts = [
+        'budget' => 'integer',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     /* Getters */
@@ -147,11 +149,6 @@ class User extends Authenticatable
         $this->attributes['budget'] = $budget;
     }
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -160,7 +157,7 @@ class User extends Authenticatable
         ];
     }
 
-    // Relationships
+    /* Relationships */
 
     public function orders(): HasMany
     {
