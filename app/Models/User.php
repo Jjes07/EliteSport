@@ -3,46 +3,169 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use Notifiable;
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
+     * USER ATTRIBUTES
+     * $this->attributes['id'] - int - contains the user primary key (id)
+     * $this->attributes['name'] - string - contains the user full name
+     * $this->attributes['email'] - string - contains the user email address
+     * $this->attributes['password'] - string - contains the hashed user password
+     * $this->attributes['address'] - string - contains the user address
+     * $this->attributes['phone'] - string - contains the user phone number
+     * $this->attributes['role'] - string - contains the user role (admin or customer)
+     * $this->attributes['budget'] - integer - contains the user available budget
+     * $this->attributes['created_at'] - timestamp - contains the user creation timestamp
+     * $this->attributes['updated_at'] - timestamp - contains the user update timestamp
      */
     protected $fillable = [
         'name',
         'email',
         'password',
+        'address',
+        'phone',
+        'role',
+        'budget',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
+    protected $casts = [
+        'budget' => 'integer',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
+    /* Getters */
+    public function getId(): int
+    {
+        return $this->attributes['id'];
+    }
+
+    public function getName(): string
+    {
+        return $this->attributes['name'];
+    }
+
+    public function getEmail(): string
+    {
+        return $this->attributes['email'];
+    }
+
+    public function getPassword(): string
+    {
+        return $this->attributes['password'];
+    }
+
+    public function getAddress(): string
+    {
+        return $this->attributes['address'];
+    }
+
+    public function getPhone(): string
+    {
+        return $this->attributes['phone'];
+    }
+
+    public function getRole(): string
+    {
+        return $this->attributes['role'];
+    }
+
+    public function getBudget(): int
+    {
+        return $this->attributes['budget'] ?? 0;
+    }
+
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function getCreatedAt(): string
+    {
+        return $this->attributes['created_at'];
+    }
+
+    public function getUpdatedAt(): string
+    {
+        return $this->attributes['updated_at'];
+    }
+
+    /* Formatted Getters */
+    public function getBudgetFormatted(): string
+    {
+        return '$' . number_format($this->getBudget(), 0, ',', ' ');
+    }
+
+    /* Setters */
+    public function setName(string $name): void
+    {
+        $this->attributes['name'] = $name;
+    }
+
+    public function setEmail(string $email): void
+    {
+        $this->attributes['email'] = $email;
+    }
+
+    public function setPassword(string $password): void
+    {
+        $this->attributes['password'] = bcrypt($password);
+    }
+
+    public function setAddress(string $address): void
+    {
+        $this->attributes['address'] = $address;
+    }
+
+    public function setPhone(string $phone): void
+    {
+        $this->attributes['phone'] = $phone;
+    }
+
+    public function setRole(string $role): void
+    {
+        $this->attributes['role'] = $role;
+    }
+
+    public function setBudget(int $budget): void
+    {
+        $this->attributes['budget'] = $budget;
+    }
+
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /* Relationships */
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
     }
 }

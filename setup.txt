@@ -1,0 +1,127 @@
+-----------------------------------
+ Paso a pao para correr el proyecto 
+-----------------------------------
+
+1. Requisitos
+
+* XAMPP (Apache + MySQL) instalado y corriendo.
+* PHP >= 8.2 (la versión en XAMPP debe ser compatible).
+* Composer instalado.
+
+2. Dónde poner el proyecto
+
+* Copiar la carpeta del proyecto dentro de C:\xampp\htdocs\ClassProduct
+
+3. Instalación de dependencias
+
+* Abrir terminal en C:\xampp\htdocs\ClassProduct
+* Ejecutar:
+  composer install
+
+4. Configuración inicial de la app
+
+* Si no existe, crear (.env) desde (.env.example) con el comando:
+  cp .env.example .env 
+
+* Generar key:
+  php artisan key:generate
+
+5. Base de datos (MySQL con XAMPP)
+
+* En phpMyAdmin (http://localhost/phpmyadmin) crear la base de datos:
+  nombre: classproduct  (o el que prefiera)
+
+* Verificar/editar .env:
+  DB_CONNECTION=mysql
+  DB_HOST=127.0.0.1
+  DB_DATABASE=classproduct
+  DB_USERNAME=root
+  DB_PASSWORD=
+  Ajustar el DB_CONNECTION, verifica que si sea mysql y ademas el nombre de la base de datos
+
+6. Migraciones
+
+* Ejecutar migraciones:
+  php artisan migrate
+
+* La migración se genera en la siguiente dirección:
+  database/migrations/2026_02_22_203934_create_products_table.php
+
+7. Cómo ejecutar la aplicación
+
+* En la terminal:
+  php artisan serve
+* Acceder en:
+  http://127.0.0.1:8000
+
+8. Rutas importantes
+
+* Página inicial:
+  /routes
+  (ver routes/web.php)
+
+* Crear Producto:
+  /products/create
+  (vista en resources/views/products/create.blade.php)
+
+* Listar Productos:
+  /products/show
+  (vista en resources/views/orders/index.blade.php)
+
+* Modelo usado:
+  App/Models/Product
+  (app/Models/Product.php)
+
+* Controlador:
+  app/Http/Controllers/ProductController.php
+
+9. Población
+
+* Llenar todos los campos del formulario, los mas importante para tener en cuenta es que el campo 
+  de imagen pide una URL de alguna imagen del producto que queremos crear.
+
+10.LLenado rapido
+
+* Para una practica mas ágil a continuación dejo ejemplos para llenar el formulario de crear Productos
+
+* Nombre: Balón de Fútbol Pro Match #5
+  Descripción: Balón tamaño 5 con cubierta de PU, costuras termoselladas y alta retención de aire. Ideal para cancha sintética o natural.
+  Precio: 129900
+  Stock: 25
+  Imagen (URL): https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5prrNR4wOTglWjQ5SQ3H1GVxwXsakjRIvWg&s
+
+*Mancuernas ajustables
+  Nombre: Mancuernas Ajustables 2–24 kg (Par)
+  Descripción: Set de mancuernas con selector rápido de peso, agarre antideslizante y base compacta. Perfectas para entrenar en casa.
+  Precio: 899900
+  Stock: 10
+  Imagen (URL): https://exitocol.vtexassets.com/arquivos/ids/32365696/mancuernas-ajustables-automaticas-2-a-24kg-pesas-para-gym-en-casa-color-negro.jpg?v=639053839554370000
+
+*Guantes de boxeo
+  Nombre: Guantes de Boxeo 14 oz Training
+  Descripción: Guantes con espuma multicapa, cierre de velcro reforzado y ventilación en la palma. Recomendados para saco y sparring ligero.
+  Precio: 159900
+  Stock: 40
+  Imagen (URL): https://http2.mlstatic.com/D_NQ_NP_2X_898656-MLA99511203244_112025-T.webp
+
+* Mat de yoga
+  Nombre: Mat de Yoga Antideslizante 6 mm
+  Descripción: Superficie texturizada, buen soporte para articulaciones y fácil de limpiar. Incluye correa para transporte.
+  Precio: 69900
+  Stock: 60
+  Imagen (URL): https://http2.mlstatic.com/D_NQ_NP_702055-MLA95158931172_102025-O.webp
+
+* Banda de resistencia
+  Nombre: Bandas Elásticas de Resistencia (Set x5)
+  Descripción: Set de 5 niveles de resistencia con accesorios para entrenamiento funcional, glúteos y movilidad. Incluye bolso.
+  Precio: 49900
+  Stock: 80
+  Imagen (URL): https://www.tienda-sportfitness.com/cdn/shop/files/071728.jpg?v=1747970128&width=1024
+
+* Botella deportiva térmica
+  Nombre: Botella Deportiva Térmica 750 ml
+  Descripción: Acero inoxidable, mantiene frío/caliente por horas, tapa hermética y boquilla cómoda para entreno.
+  Precio: 84900
+  Stock: 50
+  Imagen (URL): https://http2.mlstatic.com/D_NQ_NP_640052-MLU74274728232_022024-O.webp
+
