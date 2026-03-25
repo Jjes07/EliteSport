@@ -1,60 +1,110 @@
 # EliteSport
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Plataforma de e-commerce deportivo desarrollada con Laravel 12.
 
-## About Laravel
+## Requisitos Previos
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- PHP >= 8.2
+- Composer
+- XAMPP (Apache y MySQL)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Instalación Rápida
 
-## Learning Laravel
+1. **Instalar dependencias:**
+```bash
+composer install
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+2. **Configurar el proyecto:**
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+3. **Configurar base de datos en `.env`:**
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=elitesport
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-## Laravel Sponsors
+4. **Crear e importar base de datos:**
+   - Abre phpMyAdmin en `http://localhost/phpmyadmin`
+   - Crea la base de datos `elitesport`
+   - Ve a "Importar" y selecciona el archivo que se encuentra en la ruta `database/sql/delivery1.sql` del proyecto
+   - Selecciona "SQL tradicional" y haz clic en "Importar"
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Ejecutar el Proyecto
 
-### Premium Partners
+**Servidor Laravel:**
+```bash
+php artisan serve
+```
+Accede a `http://localhost:8000`
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Rutas Principales
 
-## Contributing
+### Públicas
+- `GET /` - Página de inicio
+- `GET /products/{id}/show` - Ver producto
+- `GET /products/search` - Buscar productos
+- `GET /products/{productId}/reviews` - Listar reseñas
+- `GET /products/{productId}/reviews/{reviewId}` - Ver reseña
+- `GET|POST /login` - Iniciar sesión
+- `GET|POST /register` - Registrarse
+- `POST /logout` - Cerrar sesión
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Carrito (Autenticado)
+- `GET /cart` - Ver carrito
+- `POST /cart/add/{id}` - Agregar al carrito
+- `PUT /cart/update/{id}` - Actualizar cantidad
+- `DELETE /cart/remove/{id}` - Eliminar del carrito
+- `DELETE /cart/clear` - Vaciar carrito
+- `POST /cart/checkout` - Proceder al checkout
 
-## Code of Conduct
+### Reseñas (Autenticado)
+- `GET /products/{productId}/reviews/create` - Formulario crear reseña
+- `POST /products/{productId}/reviews` - Guardar reseña
+- `GET /products/{productId}/reviews/{reviewId}/edit` - Editar reseña
+- `PUT /products/{productId}/reviews/{reviewId}` - Actualizar reseña
+- `DELETE /products/{productId}/reviews/{reviewId}` - Eliminar reseña
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Órdenes (Autenticado)
+- `GET /orders` - Listar mis órdenes
+- `GET /orders/{id}` - Ver detalles de orden
+- `POST /orders` - Crear orden
+- `PUT /orders/{id}/cancel` - Cancelar orden
+- `GET /orders/{id}/invoice` - Descargar factura PDF
 
-## Security Vulnerabilities
+### Pagos (Autenticado)
+- `GET /payment/{orderId}/create` - Formulario de pago
+- `POST /payment/{orderId}` - Procesar pago
+- `GET /payment/{orderId}/success` - Confirmación de pago
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Panel Admin (requiere middleware admin)
 
-## License
+**Categorías:**
+- `GET /categories/create` - Crear categoría
+- `POST /categories/save` - Guardar categoría
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**Productos:**
+- `GET /products` - Listar productos
+- `GET /products/create` - Crear producto
+- `POST /products/save` - Guardar producto
+- `GET /products/{id}/edit` - Editar producto
+- `PUT /products/{id}` - Actualizar producto
+- `DELETE /products/{id}` - Eliminar producto
+
+**Usuarios:**
+- `GET /users` - Listar usuarios
+- `GET /users/create` - Crear usuario
+- `POST /users/save` - Guardar usuario
+- `GET /users/{id}` - Ver usuario
+- `GET /users/{id}/edit` - Editar usuario
+- `PUT /users/{id}` - Actualizar usuario
+- `DELETE /users/{id}` - Eliminar usuario
