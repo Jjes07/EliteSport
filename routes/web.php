@@ -65,6 +65,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/orders/{id}', 'App\Http\Controllers\OrderController@show')->name('order.show');
     Route::post('/orders', 'App\Http\Controllers\OrderController@save')->name('order.save');
     Route::put('/orders/{id}/cancel', 'App\Http\Controllers\OrderController@cancel')->name('order.cancel');
+    Route::get('/orders/{id}/invoice', 'App\Http\Controllers\OrderController@downloadInvoice')->name('order.invoice');
 });
 
 // Payment

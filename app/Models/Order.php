@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Barryvdh\DomPDF\PDF as DomPDF;
+
 
 class Order extends Model
 {
@@ -161,5 +164,16 @@ class Order extends Model
         $payment = Payment::processPayment($this);
 
         return $payment !== null;
+    }
+
+    public function generateInvoicePdf(): DomPDF
+    {
+        $viewData = [];
+        $viewData['order'] = $this;
+        $viewData['items'] = $this->getItems();
+        $viewData['user'] = $this->getUser();
+        $viewData['title'] = 'Factura #'.$this->getId();
+
+        return Pdf::loadView('invoice.index', $viewData);
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Illuminate\Http\Response;
 
 class OrderController extends Controller
 {
@@ -24,7 +25,6 @@ class OrderController extends Controller
         $viewData = [];
         $order = Order::findOrFail($id);
 
-        // Verify order belongs to current user
         if ($order->getUserId() !== Auth::id() && Auth::user()->getRole() !== 'admin') {
             abort(403, 'No estás autorizado para ver este pedido.');
         }
@@ -59,12 +59,10 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
 
-        // Verify order belongs to current user
         if ($order->getUserId() !== Auth::id()) {
             abort(403, 'No estás autorizado para cancelar este pedido.');
         }
 
-        // Only pending orders can be cancelled
         if ($order->getStatus() !== 'pending') {
             return redirect()
                 ->route('order.show', $id)
@@ -77,5 +75,13 @@ class OrderController extends Controller
         return redirect()
             ->route('order.show', $id)
             ->with('success', __('order.cancelled_success'));
+    }
+    
+    public function downloadInvoice(int $id): Response
+    {
+        $order = Order::findOrFail($id);
+
+        return $order->generateInvoicePdf()
+        ->download('factura-'.$order->getId().'.pdf');
     }
 }
