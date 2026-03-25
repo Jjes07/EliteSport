@@ -1,59 +1,147 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# EliteSport
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Plataforma de comercio electrónico desarrollada con Laravel para la venta de productos deportivos. Los usuarios pueden explorar productos, escribir reseñas, agregar items al carrito y realizar compras utilizando su saldo virtual.
 
-## About Laravel
+## Requisitos Previos
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **XAMPP** (Apache + MySQL) instalado y corriendo
+- **PHP >= 8.2** (compatible con la versión de XAMPP)
+- **Composer** instalado globalmente
+- **Node.js** (opcional, para assets)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Instalación
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 1. Clonar el repositorio
 
-## Learning Laravel
+```bash
+git clone https://github.com/Jjes07/EliteSport.git
+cd EliteSport
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 2. Instalar Dependencias
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+composer install
+```
 
-## Laravel Sponsors
+### 3. Configurar el archivo de entorno
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+cp .env.example .env
+```
 
-### Premium Partners
+### 4. Generar la clave de aplicación
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+php artisan key:generate
+```
 
-## Contributing
+### 5. Ejecutar migraciones
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+php artisan migrate
+```
+### 6. Configurar idioma
 
-## Code of Conduct
+Para cambiar el idioma de la aplicación, modifica en tu archivo .env:
+```bash
+APP_LOCALE=es    # Para español
+```
+```bash
+APP_LOCALE=en    # Para inglés
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 7. Ejecutar aplicación
 
-## Security Vulnerabilities
+```bash
+php artisan serve
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Crear manualmente un usuario Administrador
 
-## License
+Para acceder al panel de administración, necesitas un usuario con rol admin. Puedes crearlo desde la terminal:
+```bash
+php artisan tinker
+```
+En esta shell puedes crear un usuario manualmente:
+```bash
+$user = new App\Models\User();
+$user->setName('NombreDeTuAdministrador');
+$user->setEmail('admin@example.com');
+$user->setPassword('ContraseñaDelAdmin');
+$user->setAddress('Calle Principal 123');
+$user->setPhone('31234567890');
+$user->setRole('admin');
+$user->setBudget(1000000);
+$user->save();
+exit;
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Estructura del Proyecto
+
+| Carpeta | Descripción |
+|---------|-------------|
+| `app/Models/` | Modelos de datos (Product, Order, Item, Review, Payment, Category) |
+| `app/Http/Controllers/` | Controladores de la aplicación |
+| `app/Http/Requests/` | Validaciones de formularios |
+| `resources/views/` | Vistas Blade |
+| `database/migrations/` | Migraciones de base de datos |
+| `lang/` | Archivos de traducción (es/en) |
+| `routes/web.php` | Definición de rutas |
+
+## Rutas Principales
+
+| Ruta | Descripción |
+|------|-------------|
+| `/` | Página principal - Lista de productos |
+| `/products/{id}/show` | Detalle de un producto |
+| `/cart` | Ver carrito de compras |
+| `/orders` | Historial de órdenes del usuario |
+| `/orders/{id}` | Detalle de una orden |
+| `/products/{productId}/reviews` | Ver reseñas de un producto |
+| `/products` | Lista de productos (admin) |
+| `/products/create` | Crear producto (admin) |
+| `/users` | Lista de usuarios (admin) |
+
+## Roles de Usuario
+
+| Rol | Permisos |
+|-----|----------|
+| **admin** | Crear/editar/eliminar productos y usuarios |
+| **customer** | Comprar productos, escribir reseñas, ver historial de órdenes |
+
+## Funcionalidades
+
+### Usuarios
+- Registro e inicio de sesión
+- Ver saldo disponible en el perfil
+- Historial de órdenes de compra
+
+### Productos
+- Catálogo de productos deportivos
+- Búsqueda por nombre
+- Filtrado por categoría
+- Visualización de detalles
+
+### Carrito de Compras
+- Agregar productos al carrito
+- Modificar cantidades
+- Eliminar productos individualmente
+- Vaciar carrito completo
+
+### Órdenes y Pagos
+- Creación de orden a partir del carrito
+- Sistema de pago con saldo virtual
+- Descuento automático del saldo y stock
+- Confirmación de compra exitosa
+
+### Reseñas
+- Escribir reseñas para productos
+- Calificar con estrellas (1-5)
+- Editar y eliminar reseñas propias
+- Filtrado de reseñas por calificación (múltiples estrellas a la vez)
+
+### Internacionalización
+- Soporte para español e inglés
+- Archivos de traducción en `lang/es/` y `lang/en/`
+
