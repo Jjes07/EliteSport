@@ -110,7 +110,7 @@ class User extends Authenticatable
     /* Formatted Getters */
     public function getBudgetFormatted(): string
     {
-        return '$'.number_format($this->getBudget(), 0, ',', ' ');
+        return '$' . number_format($this->getBudget(), 0, ',', ' ');
     }
 
     /* Setters */
