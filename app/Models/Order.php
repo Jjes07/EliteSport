@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
+use Barryvdh\DomPDF\Facade\Pdf;
+use Barryvdh\DomPDF\PDF as DomPDF;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Barryvdh\DomPDF\PDF as DomPDF;
-
 
 class Order extends Model
 {
@@ -91,7 +90,7 @@ class Order extends Model
     /* Formatted Getters */
     public function getTotalFormatted(): string
     {
-        return '$'.number_format($this->getTotal(), 0, ',', ' ');
+        return '$' . number_format($this->getTotal(), 0, ',', ' ');
     }
 
     /* Setters */
@@ -172,7 +171,7 @@ class Order extends Model
         $viewData['order'] = $this;
         $viewData['items'] = $this->getItems();
         $viewData['user'] = $this->getUser();
-        $viewData['title'] = 'Factura #'.$this->getId();
+        $viewData['title'] = 'Factura #' . $this->getId();
 
         return Pdf::loadView('invoice.index', $viewData);
     }

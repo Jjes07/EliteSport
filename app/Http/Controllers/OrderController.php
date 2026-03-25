@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-use Illuminate\Http\Response;
 
 class OrderController extends Controller
 {
@@ -29,7 +29,7 @@ class OrderController extends Controller
             abort(403, 'No estás autorizado para ver este pedido.');
         }
 
-        $viewData['title'] = __('order.order').' #'.$order->getId();
+        $viewData['title'] = __('order.order') . ' #' . $order->getId();
         $viewData['order'] = $order;
         $viewData['items'] = $order->getItems();
         $viewData['payment'] = $order->payment;
@@ -76,12 +76,12 @@ class OrderController extends Controller
             ->route('order.show', $id)
             ->with('success', __('order.cancelled_success'));
     }
-    
+
     public function downloadInvoice(int $id): Response
     {
         $order = Order::findOrFail($id);
 
         return $order->generateInvoicePdf()
-        ->download('factura-'.$order->getId().'.pdf');
+            ->download('factura-' . $order->getId() . '.pdf');
     }
 }
