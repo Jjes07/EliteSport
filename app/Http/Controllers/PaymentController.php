@@ -10,16 +10,12 @@ use Illuminate\View\View;
 
 class PaymentController extends Controller
 {
-    /**
-     * Show payment form for a specific order
-     */
     public function create(int $orderId): View
     {
         $order = Order::findOrFail($orderId);
 
-        // Verify order belongs to current user
         if ($order->getUserId() !== Auth::id()) {
-            abort(403, 'No estás autorizado para ver este pedido.');
+            abort(403, __('payment.not_authorized_view'));
         }
 
         $viewData = [];
@@ -35,16 +31,12 @@ class PaymentController extends Controller
         return view('payment.create')->with('viewData', $viewData);
     }
 
-    /**
-     * Process the payment
-     */
     public function save(int $orderId): RedirectResponse
     {
         $order = Order::findOrFail($orderId);
 
-        // Verify order belongs to current user
         if ($order->getUserId() !== Auth::id()) {
-            abort(403, 'No estás autorizado para procesar este pago.');
+            abort(403, __('payment.not_authorized'));
         }
 
         $result = Payment::processPayment($order);
@@ -60,16 +52,12 @@ class PaymentController extends Controller
             ->with('success', __('payment.payment_completed'));
     }
 
-    /**
-     * Show payment success page
-     */
     public function success(int $orderId): View
     {
         $order = Order::findOrFail($orderId);
 
-        // Verify order belongs to current user
         if ($order->getUserId() !== Auth::id()) {
-            abort(403, 'No estás autorizado para ver esta página.');
+            abort(403, __('payment.not_authorized_view'));
         }
 
         $viewData = [];

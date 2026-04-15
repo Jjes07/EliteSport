@@ -22,6 +22,8 @@ class Review extends Model
      * $this->attributes['rating'] - int - contains the review rating (1-5)
      * $this->attributes['user_id'] - int - contains the user id who wrote the review
      * $this->attributes['product_id'] - int - contains the product id being reviewed
+     * $this->user - User - contains the related user model
+     * $this->product - Product - contains the related product model
      * $this->attributes['created_at'] - timestamp - contains the review creation timestamp
      * $this->attributes['updated_at'] - timestamp - contains the review update timestamp
      */
@@ -64,14 +66,14 @@ class Review extends Model
         return $this->attributes['user_id'];
     }
 
-    public function getUser(): User
-    {
-        return $this->user;
-    }
-
     public function getProductId(): int
     {
         return $this->attributes['product_id'];
+    }
+
+    public function getUser(): User
+    {
+        return $this->user;
     }
 
     public function getProduct(): Product
@@ -108,6 +110,16 @@ class Review extends Model
     public function setProductId(int $productId): void
     {
         $this->attributes['product_id'] = $productId;
+    }
+
+    public function setUser(User $user): void
+    {
+        $this->user()->associate($user);
+    }
+
+    public function setProduct(Product $product): void
+    {
+        $this->product()->associate($product);
     }
 
     /* Relationships */
@@ -168,31 +180,6 @@ class Review extends Model
         return self::where('user_id', $userId)
             ->where('product_id', $productId)
             ->first();
-    }
-
-    public static function createReview(int $userId, int $productId, string $comment, int $rating): self
-    {
-        $review = new self;
-        $review->setComment($comment);
-        $review->setRating($rating);
-        $review->setUserId($userId);
-        $review->setProductId($productId);
-        $review->save();
-
-        return $review;
-    }
-
-    public function updateReview(array $validatedData): void
-    {
-        if (isset($validatedData['comment'])) {
-            $this->setComment($validatedData['comment']);
-        }
-
-        if (isset($validatedData['rating'])) {
-            $this->setRating($validatedData['rating']);
-        }
-
-        $this->save();
     }
 
     public function canBeEditedBy(int $userId): bool

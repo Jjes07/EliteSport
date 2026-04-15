@@ -14,6 +14,8 @@ class Item extends Model
      * $this->attributes['price'] - int - contains the item price at purchase moment
      * $this->attributes['product_id'] - int - contains the referenced product id
      * $this->attributes['order_id'] - int - contains the referenced order id
+     * $this->product - Product - contains the related product model
+     * $this->order - Order - contains the related order model
      * $this->attributes['created_at'] - timestamp - contains the item creation timestamp
      * $this->attributes['updated_at'] - timestamp - contains the item update timestamp
      */
@@ -111,6 +113,16 @@ class Item extends Model
         $this->attributes['order_id'] = $orderId;
     }
 
+    public function setProduct(Product $product): void
+    {
+        $this->product()->associate($product);
+    }
+
+    public function setOrder(Order $order): void
+    {
+        $this->order()->associate($order);
+    }
+
     /* Relationships */
     public function product(): BelongsTo
     {
@@ -128,9 +140,6 @@ class Item extends Model
         return $this->getQuantity() * $this->getPrice();
     }
 
-    /**
-     * Create items from cart session
-     */
     public static function createFromCart(int $orderId, array $cartProducts): void
     {
         foreach ($cartProducts as $productId => $quantity) {

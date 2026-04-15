@@ -21,7 +21,7 @@ class ReviewController extends Controller
         $product = Product::findOrFail($productId);
         $selectedRatings = Review::processFilters($request);
 
-        $viewData['title'] = 'Reviews - '.$product->getName();
+        $viewData['title'] = __('reviews.title').' - '.$product->getName();
         $viewData['product'] = $product;
         $viewData['reviews'] = Review::getReviewsWithFilters($product, $selectedRatings);
         $viewData['selectedRatings'] = $selectedRatings;
@@ -36,7 +36,7 @@ class ReviewController extends Controller
         $product = Product::findOrFail($productId);
         $review = Review::where('product_id', $productId)->findOrFail($reviewId);
 
-        $viewData['title'] = 'Review - '.$product->getName();
+        $viewData['title'] = __('reviews.title').' - '.$product->getName();
         $viewData['product'] = $product;
         $viewData['review'] = $review;
         $viewData['ratingLabel'] = $review->getRatingLabel();
@@ -50,7 +50,7 @@ class ReviewController extends Controller
         $product = Product::findOrFail($productId);
         $existingReview = Review::getUserReviewForProduct(Auth::id(), $productId);
 
-        $viewData['title'] = 'Write a Review - '.$product->getName();
+        $viewData['title'] = __('reviews.write_review').' - '.$product->getName();
         $viewData['product'] = $product;
         $viewData['existingReview'] = $existingReview;
 
@@ -61,23 +61,22 @@ class ReviewController extends Controller
     {
         $validatedData = $request->validated();
 
-        // Check if user already reviewed this product
         if (Review::hasUserReviewedProduct(Auth::id(), $productId)) {
             return redirect()
                 ->route('product.show', $productId)
-                ->with('error', '¡Ya has reseñado este producto!');
+                ->with('error', __('reviews.already_reviewed'));
         }
 
-        Review::createReview(
-            Auth::id(),
-            $productId,
-            $validatedData['comment'],
-            $validatedData['rating']
-        );
+        $review = new Review();
+        $review->setComment($validatedData['comment']);
+        $review->setRating($validatedData['rating']);
+        $review->setUserId(Auth::id());
+        $review->setProductId($productId);
+        $review->save();
 
         return redirect()
             ->route('product.show', $productId)
-            ->with('success', '¡Tu reseña ha sido enviada exitosamente!');
+            ->with('success', __('reviews.review_submitted'));
     }
 
     public function edit(int $productId, int $reviewId): View
@@ -87,10 +86,10 @@ class ReviewController extends Controller
         $review = Review::where('product_id', $productId)->findOrFail($reviewId);
 
         if (! $review->canBeEditedBy(Auth::id())) {
-            abort(403, 'No estás autorizado para editar esta reseña.');
+            abort(403, __('reviews.not_authorized_edit'));
         }
 
-        $viewData['title'] = 'Edit Review - '.$product->getName();
+        $viewData['title'] = __('reviews.edit_review').' - '.$product->getName();
         $viewData['product'] = $product;
         $viewData['review'] = $review;
 
@@ -103,14 +102,20 @@ class ReviewController extends Controller
         $review = Review::where('product_id', $productId)->findOrFail($reviewId);
 
         if (! $review->canBeEditedBy(Auth::id())) {
-            abort(403, 'No estás autorizado para editar esta reseña.');
+            abort(403, __('reviews.not_authorized_edit'));
         }
 
-        $review->updateReview($validatedData);
+        if (isset($validatedData['comment'])) {
+            $review->setComment($validatedData['comment']);
+        }
+        if (isset($validatedData['rating'])) {
+            $review->setRating($validatedData['rating']);
+        }
+        $review->save();
 
         return redirect()
             ->route('product.show', $productId)
-            ->with('success', '¡Tu reseña ha sido actualizada exitosamente!');
+            ->with('success', __('reviews.review_updated'));
     }
 
     public function delete(int $productId, int $reviewId): RedirectResponse
@@ -120,14 +125,14 @@ class ReviewController extends Controller
         if (! $review->canBeDeletedBy(Auth::id(), Auth::user()->getRole())) {
             return redirect()
                 ->route('product.show', $productId)
-                ->with('error', '¡No estás autorizado para eliminar esta reseña!');
+                ->with('error', __('reviews.not_authorized_delete'));
         }
 
         $review->delete();
 
         $message = Auth::user()->getRole() === 'admin'
-            ? 'La reseña ha sido eliminada por un administrador.'
-            : 'Tu reseña ha sido eliminada exitosamente.';
+            ? __('reviews.review_deleted_admin')
+            : __('reviews.review_deleted');
 
         return redirect()
             ->route('product.show', $productId)

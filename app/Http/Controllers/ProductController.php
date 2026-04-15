@@ -58,11 +58,10 @@ class ProductController extends Controller
 
         $viewData['title'] = $product->getName().' - Product Details';
         $viewData['product'] = $product;
-        $viewData['reviews'] = $product->reviews()->with('user')->latest()->get();
         $viewData['reviewsLimit'] = $product->reviews()->with('user')->latest()->take(3)->get();
         $viewData['userReview'] = Auth::check()
-            ? $product->reviews()->where('user_id', Auth::id())->first()
-            : null;
+                                    ? $product->reviews()->where('user_id', Auth::id())->first()
+                                    : null;
         $viewData['totalReviews'] = $product->reviews()->count();
 
         return view('product.show')->with('viewData', $viewData);

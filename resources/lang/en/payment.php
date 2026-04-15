@@ -53,6 +53,8 @@ return [
     'order_already_paid' => 'This order has already been paid',
     'order_already_processed' => 'This order has already been processed',
     'insufficient_stock' => 'Insufficient stock for product ":product"',
+    'not_authorized' => 'You are not authorized to process this payment.',
+    'not_authorized_view' => 'You are not authorized to view this page.',
 
     // Status
     'status_pending' => 'Pending',

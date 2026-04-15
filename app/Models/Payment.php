@@ -14,6 +14,7 @@ class Payment extends Model
      * $this->attributes['method'] - string - contains the payment method
      * $this->attributes['status'] - string - contains the payment status
      * $this->attributes['order_id'] - int - contains the referenced order id
+     * $this->order - Order - contains the related order model
      * $this->attributes['created_at'] - timestamp - contains the payment creation timestamp
      * $this->attributes['updated_at'] - timestamp - contains the payment update timestamp
      */
@@ -37,11 +38,6 @@ class Payment extends Model
         return $this->attributes['id'];
     }
 
-    public function getOrderId(): int
-    {
-        return $this->attributes['order_id'];
-    }
-
     public function getAmount(): int
     {
         return $this->attributes['amount'];
@@ -57,6 +53,11 @@ class Payment extends Model
         return $this->attributes['status'];
     }
 
+    public function getOrderId(): int
+    {
+        return $this->attributes['order_id'];
+    }
+
     public function getOrder(): Order
     {
         return $this->order;
@@ -70,7 +71,7 @@ class Payment extends Model
     /* Formatted Getters */
     public function getAmountFormatted(): string
     {
-        return '$'.number_format($this->getAmount(), 0, ',', '.');
+        return '$'.number_format($this->getAmount(), 0, ',', ' ');
     }
 
     /* Setters */
@@ -92,6 +93,11 @@ class Payment extends Model
     public function setStatus(string $status): void
     {
         $this->attributes['status'] = $status;
+    }
+
+    public function setOrder(Order $order): void
+    {
+        $this->order()->associate($order);
     }
 
     /* Relationships */
