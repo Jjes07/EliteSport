@@ -15,6 +15,9 @@ class Category extends Model
      * $this->attributes['description'] - string - contains the category description
      * $this->attributes['created_at'] - timestamp - contains the category creation timestamp
      * $this->attributes['updated_at'] - timestamp - contains the category update timestamp
+     *
+     * CATEGORY RELATIONSHIPS
+     * $this->products - HasMany - contains the related Products
      */
     protected $fillable = [
         'name',

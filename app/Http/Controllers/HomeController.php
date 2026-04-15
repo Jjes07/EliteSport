@@ -9,21 +9,29 @@ use Illuminate\View\View;
 
 class HomeController extends Controller
 {
+    /**
+     * Display home page with products and search functionality
+     */
     public function index(Request $request): View
     {
         $viewData = [];
-        $viewData['title'] = 'Home - Products';
-        $viewData['products'] = Product::all();
-        $viewData['showCleanButton'] = false;
+        $viewData['title'] = __('products.title');
         $viewData['categories'] = Category::all();
 
         $searchTerm = $request->input('name', '');
-        $category = $request->input('category', '');
+        $categoryId = $request->input('category', '');
 
-        $searchResult = Product::searchByNameAndCategory($searchTerm, $category);
+        $viewData['searchTerm'] = $searchTerm;
+        $viewData['selectedCategory'] = $categoryId;
+        $viewData['showCleanButton'] = !empty($searchTerm) || !empty($categoryId);
 
-        $viewData = array_merge($viewData, $searchResult);
+        if ($searchTerm || $categoryId) {
+            $viewData['products'] = Product::searchByNameAndCategory($searchTerm, $categoryId ?: null);
+        } else {
+            $viewData['products'] = Product::all();
+        }
 
         return view('home.index')->with('viewData', $viewData);
     }
 }
+

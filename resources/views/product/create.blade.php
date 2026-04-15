@@ -35,34 +35,36 @@
                             <div class="mb-3">
                                 <label for="name" class="form-label fw-semibold">{{ __('forms.name') }}</label>
                                 <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}"
-                                    placeholder="Ej: Balón Nike Premier">
+                                    placeholder="{{ __('forms.name_placeholder_product') }}">
                             </div>
 
                             <div class="mb-3">
                                 <label for="description"
                                     class="form-label fw-semibold">{{ __('forms.description') }}</label>
                                 <textarea id="description" class="form-control" name="description" rows="4"
-                                    placeholder="Describe el producto...">{{ old('description') }}</textarea>
+                                    placeholder="{{ __('forms.description_placeholder_product') }}">{{ old('description') }}</textarea>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="price" class="form-label fw-semibold">{{ __('forms.price') }}</label>
                                     <input id="price" type="number" class="form-control" name="price"
-                                        value="{{ old('price') }}" min="0" placeholder="Ej: 120000">
+                                        value="{{ old('price') }}" min="0"
+                                        placeholder="{{ __('forms.price_placeholder') }}">
                                 </div>
 
                                 <div class="col-md-6 mb-3">
                                     <label for="stock" class="form-label fw-semibold">{{ __('forms.stock') }}</label>
                                     <input id="stock" type="number" class="form-control" name="stock"
-                                        value="{{ old('stock') }}" min="0" placeholder="Ej: 10">
+                                        value="{{ old('stock') }}" min="0"
+                                        placeholder="{{ __('forms.stock_placeholder') }}">
                                 </div>
                             </div>
 
                             <div class="mb-3">
                                 <label for="image" class="form-label fw-semibold">{{ __('forms.image_url') }}</label>
                                 <input id="image" type="text" class="form-control" name="image" value="{{ old('image') }}"
-                                    placeholder="https://...">
+                                    placeholder="{{ __('forms.image_url_placeholder') }}">
                             </div>
 
                             <div class="mb-4">

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\SaveCategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\RedirectResponse;
@@ -9,20 +10,14 @@ use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
-    /**
-     * Mostrar formulario para crear nueva categoría
-     */
     public function create(): View
     {
         $viewData = [];
-        $viewData['title'] = 'Crear Categoría';
+        $viewData['title'] = __('forms.create_category');
 
-        return view('category.create')->with('viewData', $viewData);
+        return view('admin.category.create')->with('viewData', $viewData);
     }
 
-    /**
-     * Guardar nueva categoría en la base de datos
-     */
     public function save(SaveCategoryRequest $request): RedirectResponse
     {
         $validatedData = $request->validated();
@@ -34,6 +29,6 @@ class CategoryController extends Controller
 
         return redirect()
             ->route('product.index')
-            ->with('success', 'Categoría creada satisfactoriamente');
+            ->with('success', __('messages.category_created'));
     }
 }

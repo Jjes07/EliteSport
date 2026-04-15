@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\User\SaveUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\User;
@@ -13,18 +14,18 @@ class UserController extends Controller
     public function index(): View
     {
         $viewData = [];
-        $viewData['title'] = 'Home - Users';
+        $viewData['title'] = __('forms.users_list');
         $viewData['users'] = User::all();
 
-        return view('user.index')->with('viewData', $viewData);
+        return view('admin.user.index')->with('viewData', $viewData);
     }
 
     public function create(): View
     {
         $viewData = [];
-        $viewData['title'] = 'Crear Usuario';
+        $viewData['title'] = __('forms.create_user');
 
-        return view('user.create')->with('viewData', $viewData);
+        return view('admin.user.create')->with('viewData', $viewData);
     }
 
     public function save(SaveUserRequest $request): RedirectResponse
@@ -45,7 +46,7 @@ class UserController extends Controller
 
         return redirect()
             ->route('user.index')
-            ->with('success', 'Usuario creado satisfactoriamente');
+            ->with('success', __('messages.user_created'));
     }
 
     public function show(int $id): View
@@ -54,7 +55,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $viewData['user'] = $user;
 
-        $viewData['title'] = $user->getName().' - Detalle del usuario';
+        $viewData['title'] = $user->getName() . ' - ' . __('forms.details');
         $viewData['users'] = User::all();
 
         return view('user.show')->with('viewData', $viewData);
@@ -66,10 +67,10 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $viewData['user'] = $user;
 
-        $viewData['title'] = 'Editar usuario';
+        $viewData['title'] = __('forms.edit_user');
         $viewData['users'] = User::all();
 
-        return view('user.edit')->with('viewData', $viewData);
+        return view('admin.user.edit')->with('viewData', $viewData);
     }
 
     public function update(UpdateUserRequest $request, int $id): RedirectResponse
@@ -82,7 +83,7 @@ class UserController extends Controller
         $user->setAddress($validatedData['address']);
         $user->setPhone($validatedData['phone']);
 
-        if (! empty($validatedData['password'])) {
+        if (!empty($validatedData['password'])) {
             $user->setPassword($validatedData['password']);
         }
 
@@ -92,8 +93,8 @@ class UserController extends Controller
         $user->save();
 
         return redirect()
-            ->route('user.show', $user->getId())
-            ->with('success', 'Usuario actualizado corectamente');
+            ->route('user.index')
+            ->with('success', __('messages.user_updated'));
     }
 
     public function delete(int $id): RedirectResponse
@@ -103,6 +104,6 @@ class UserController extends Controller
 
         return redirect()
             ->route('user.index')
-            ->with('success', 'Usuario eliminado correctamente');
+            ->with('success', __('messages.user_deleted'));
     }
 }

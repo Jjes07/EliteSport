@@ -1,31 +1,33 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title', $viewData['title'])
 
 @section('content')
-    <div class="container my-4">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-                <h4 class="mb-0">{{ __('products.products_list') }}</h4>
+    <div class="admin-content">
+        <div class="admin-card">
+            <div class="admin-card-header d-flex justify-content-between align-items-center">
+                <h5>{{ __('products.products_list') }}</h5>
 
-                <a href="{{ route('product.create') }}" class="btn btn-primary">
-                    {{ __('products.create_product') }}
+                <a href="{{ route('product.create') }}" class="btn btn-primary btn-sm">
+                    <i class="bi bi-plus-circle"></i> {{ __('products.create_product') }}
                 </a>
             </div>
 
-            <div class="card-body p-4">
+            <div class="admin-card-body">
                 @if(session('success'))
-                    <div class="alert alert-success">
+                    <div class="alert alert-success alert-dismissible fade show">
                         {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                 @endif
 
                 <div class="mb-4">
-                    <form action="{{ route('product.search') }}" method="GET" class="d-flex gap-2">
+                    <form action="{{ route('product.search') }}" method="GET" class="d-flex gap-2 flex-wrap">
                         <input type="text" name="name" class="form-control"
-                            placeholder="{{ __('products.search_by_name') }}" value="{{ $viewData['searchTerm'] ?? '' }}">
+                            placeholder="{{ __('products.search_by_name') }}" value="{{ $viewData['searchTerm'] ?? '' }}"
+                            style="min-width: 200px;">
 
-                        <select name="category" class="form-select">
+                        <select name="category" class="form-select" style="min-width: 150px;">
                             <option value=""> {{ __('products.select_category') }} </option>
                             @foreach($viewData['categories'] as $category)
                                 <option value="{{ $category->getId() }}" {{ (($viewData['selectedCategory'] ?? '') == $category->getId()) ? 'selected' : '' }}>
@@ -33,12 +35,12 @@
                                 </option>
                             @endforeach
                         </select>
-                        <button type="submit" class="btn btn-info">
-                            {{ __('products.search') }}
+                        <button type="submit" class="btn btn-info btn-sm">
+                            <i class="bi bi-search"></i> {{ __('products.search') }}
                         </button>
                         @if($viewData['showCleanButton'] ?? false)
-                            <a href="{{ route('product.index') }}" class="btn btn-secondary">
-                                {{ __('products.clear_filters') }}
+                            <a href="{{ route('product.index') }}" class="btn btn-secondary btn-sm">
+                                <i class="bi bi-arrow-counterclockwise"></i> {{ __('products.clear_filters') }}
                             </a>
                         @endif
                     </form>
@@ -51,14 +53,15 @@
                 @endif
 
                 <div class="table-responsive">
-                    <table class="table table-hover align-middle text-center">
+                    <table class="table table-hover align-middle">
                         <thead class="table-light">
                             <tr>
-                                <th scope="col">{{ __('products.id') }}</th>
+                                <th scope="col">ID</th>
                                 <th scope="col">{{ __('products.name') }}</th>
                                 <th scope="col">{{ __('products.image') }}</th>
                                 <th scope="col">{{ __('products.category') }}</th>
-                                <th scope="col">{{ __('products.actions') }}</th>
+                                <th scope="col">{{ __('products.price') }}</th>
+                                <th scope="col" style="width: 280px;">{{ __('products.actions') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -69,27 +72,24 @@
                                     <td>
                                         <img src="{{ $product->getImage() }}" alt="{{ $product->getName() }}"
                                             class="img-fluid rounded"
-                                            style="max-width: 95px; max-height: 70px; object-fit: contain;">
+                                            style="max-width: 60px; max-height: 60px; object-fit: contain;">
                                     </td>
                                     <td>{{ $product->getCategory()?->getName() }}</td>
+                                    <td class="fw-semibold">${{ number_format($product->getPrice(), 2) }}</td>
                                     <td>
-                                        <div class="d-flex justify-content-center flex-wrap gap-2">
-                                            <a href="{{ route('product.show', ['id' => $product->getId()]) }}"
-                                                class="btn btn-primary btn-sm">
-                                                {{ __('products.details') }}
-                                            </a>
-
+                                        <div class="d-flex justify-content-start flex-wrap gap-2">
                                             <a href="{{ route('product.edit', ['id' => $product->getId()]) }}"
-                                                class="btn btn-secondary btn-sm">
-                                                {{ __('products.edit') }}
+                                                class="btn btn-warning btn-sm" title="Editar">
+                                                <i class="bi bi-pencil"></i> {{ __('products.edit') }}
                                             </a>
 
                                             <form action="{{ route('product.delete', ['id' => $product->getId()]) }}"
-                                                method="POST" onsubmit="return confirm('{{ __('products.confirm_delete') }}');">
+                                                method="POST" class="d-inline"
+                                                onsubmit="return confirm('{{ __('products.confirm_delete') }}');">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm">
-                                                    {{ __('products.delete') }}
+                                                <button type="submit" class="btn btn-danger btn-sm" title="Eliminar">
+                                                    <i class="bi bi-trash"></i> {{ __('products.delete') }}
                                                 </button>
                                             </form>
                                         </div>
@@ -97,14 +97,8 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="text-muted py-4">
-                                        @if(isset($viewData['searchTerm']) && $viewData['searchTerm'])
-                                            {{ __('products.no_products_found') }}
-                                        @elseif(isset($viewData['selectedCategory']) && $viewData['selectedCategory'])
-                                            {{ __('products.no_products_category') }}
-                                        @else
-                                            {{ __('products.no_products_registered') }}
-                                        @endif
+                                    <td colspan="6" class="text-center text-muted py-4">
+                                        {{ __('products.no_products_found') }}
                                     </td>
                                 </tr>
                             @endforelse

@@ -24,6 +24,10 @@ class User extends Authenticatable
      * $this->attributes['budget'] - integer - contains the user available budget
      * $this->attributes['created_at'] - timestamp - contains the user creation timestamp
      * $this->attributes['updated_at'] - timestamp - contains the user update timestamp
+     *
+     * USER RELATIONSHIPS
+     * $this->orders - HasMany - contains the related Orders
+     * $this->reviews - HasMany - contains the related Reviews
      */
     protected $fillable = [
         'name',
@@ -38,12 +42,6 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-    ];
-
-    protected $casts = [
-        'budget' => 'integer',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
     ];
 
     /* Getters */
@@ -110,7 +108,7 @@ class User extends Authenticatable
     /* Formatted Getters */
     public function getBudgetFormatted(): string
     {
-        return '$'.number_format($this->getBudget(), 0, ',', ' ');
+        return '$' . number_format($this->getBudget(), 0, ',', ' ');
     }
 
     /* Setters */
@@ -152,6 +150,9 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
+            'budget' => 'integer',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];

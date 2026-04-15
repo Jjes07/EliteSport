@@ -36,7 +36,8 @@
                         </p>
 
                         <p class="mb-2">
-                            <strong>{{ __('forms.category') }}:</strong> {{ $viewData['product']->getCategory() }}
+                            <strong>{{ __('forms.category') }}:</strong>
+                            {{ $viewData['product']->getCategory()?->getName() }}
                         </p>
 
                         <p class="mb-2 fs-4 fw-bold text-primary">
@@ -104,11 +105,10 @@
                     <i class="bi bi-chat-dots"></i>
                     <span class="ms-2">{{ __('reviews.title') }} ({{ $viewData['totalReviews'] }})</span>
                 </div>
-                
+
                 @auth
                     @if(!$viewData['userReview'])
-                        <a href="{{ route('review.create', $viewData['product']->getId()) }}" 
-                        class="btn btn-primary btn-sm">
+                        <a href="{{ route('review.create', $viewData['product']->getId()) }}" class="btn btn-primary btn-sm">
                             <i class="bi bi-pencil"></i> {{ __('reviews.write_review') }}
                         </a>
                     @endif
@@ -118,7 +118,7 @@
                     </a>
                 @endauth
             </div>
-            
+
             <div class="card-body p-4">
                 @if(session('success'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -126,14 +126,14 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                 @endif
-                
+
                 @if(session('error'))
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ session('error') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                 @endif
-                
+
                 @if($viewData['reviewsLimit']->isEmpty())
                     <div class="empty-reviews text-center py-5">
                         <div class="empty-icon mb-3"><i class="bi bi-pencil-square"></i></div>
@@ -141,8 +141,7 @@
                         <p class="text-muted">{{ __('reviews.no_reviews') }}</p>
                         @auth
                             @if(!$viewData['userReview'])
-                                <a href="{{ route('review.create', $viewData['product']->getId()) }}" 
-                                class="btn btn-primary mt-2">
+                                <a href="{{ route('review.create', $viewData['product']->getId()) }}" class="btn btn-primary mt-2">
                                     <i class="bi bi-pencil"></i> {{ __('reviews.write_review') }}
                                 </a>
                             @endif
@@ -166,7 +165,8 @@
                                                 <strong class="fs-5">{{ $review->getUser()->getName() }}</strong>
                                                 <div class="star-rating-readonly mt-1">
                                                     @for($i = 1; $i <= 5; $i++)
-                                                        <span class="star {{ $i <= $review->getRating() ? 'filled' : 'empty' }}">★</span>
+                                                        <span
+                                                            class="star {{ $i <= $review->getRating() ? 'filled' : 'empty' }}">★</span>
                                                     @endfor
                                                 </div>
                                             </div>
@@ -180,34 +180,34 @@
                                             <small class="text-muted">(<i class="bi bi-pencil"></i> {{ __('reviews.edited') }})</small>
                                         @endif
                                         <div class="mt-1">
-                                            <a href="{{ route('review.show', ['productId' => $viewData['product']->getId(), 'reviewId' => $review->getId()]) }}" 
-                                            class="btn btn-sm btn-link text-decoration-none">
+                                            <a href="{{ route('review.show', ['productId' => $viewData['product']->getId(), 'reviewId' => $review->getId()]) }}"
+                                                class="btn btn-sm btn-link text-decoration-none">
                                                 <i class="bi bi-eye"></i> {{ __('reviews.view_details') }}
                                             </a>
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="review-content mt-3">
                                     <p class="mb-0">{{ Str::limit($review->getComment(), 80) }}</p>
                                 </div>
-                                
+
                                 <div class="review-actions mt-3 pt-2 border-top d-flex gap-2">
                                     @if(Auth::check() && Auth::id() === $review->getUserId())
-                                        <a href="{{ route('review.edit', ['productId' => $viewData['product']->getId(), 'reviewId' => $review->getId()]) }}" 
-                                        class="btn btn-sm btn-outline-primary">
+                                        <a href="{{ route('review.edit', ['productId' => $viewData['product']->getId(), 'reviewId' => $review->getId()]) }}"
+                                            class="btn btn-sm btn-outline-primary">
                                             <i class="bi bi-pencil"></i> {{ __('reviews.edit_review') }}
                                         </a>
                                     @endif
-                                    
+
                                     @if(Auth::check() && (Auth::user()->getRole() === 'admin' || Auth::id() === $review->getUserId()))
-                                        <form action="{{ route('review.delete', ['productId' => $viewData['product']->getId(), 'reviewId' => $review->getId()]) }}" 
-                                            method="POST" 
-                                            class="d-inline">
+                                        <form
+                                            action="{{ route('review.delete', ['productId' => $viewData['product']->getId(), 'reviewId' => $review->getId()]) }}"
+                                            method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-outline-danger" 
-                                                    onclick="return confirm('{{ __('reviews.confirm_delete') }}')">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                onclick="return confirm('{{ __('reviews.confirm_delete') }}')">
                                                 <i class="bi bi-trash"></i> {{ __('reviews.delete_review') }}
                                             </button>
                                         </form>
@@ -216,12 +216,11 @@
                             </div>
                         @endforeach
                     </div>
-                    
+
                     <!-- View All Reviews Button - Show when there is at least 1 review -->
                     @if($viewData['totalReviews'] > 0)
                         <div class="text-center mt-3">
-                            <a href="{{ route('review.index', $viewData['product']->getId()) }}" 
-                            class="btn btn-outline-primary">
+                            <a href="{{ route('review.index', $viewData['product']->getId()) }}" class="btn btn-outline-primary">
                                 <i class="bi bi-eye"></i> {{ __('reviews.view_all') }} ({{ $viewData['totalReviews'] }})
                             </a>
                         </div>

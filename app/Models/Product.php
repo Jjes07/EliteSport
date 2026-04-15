@@ -20,6 +20,11 @@ class Product extends Model
      * $this->attributes['category_id'] - integer - contains the referenced category id
      * $this->attributes['created_at'] - timestamp - contains the product creation timestamp
      * $this->attributes['updated_at'] - timestamp - contains the product update timestamp
+     *
+     * PRODUCT RELATIONSHIPS
+     * $this->category - BelongsTo - contains the related Category
+     * $this->items - HasMany - contains the related Items
+     * $this->reviews - HasMany - contains the related Reviews
      */
     protected $fillable = [
         'name',
@@ -69,9 +74,9 @@ class Product extends Model
         return $this->attributes['image'];
     }
 
-    public function getCategory(): ?string
+    public function getCategory(): ?Category
     {
-        return $this->category?->getName();
+        return $this->category;
     }
 
     public function getCategoryId(): ?int
@@ -102,7 +107,7 @@ class Product extends Model
     // Formatted Getters
     public function getPriceFormatted(): string
     {
-        return '$'.number_format($this->getPrice(), 0, ',', ' ');
+        return '$' . number_format($this->getPrice(), 0, ',', ' ');
     }
 
     // Setters
@@ -136,7 +141,7 @@ class Product extends Model
         $this->attributes['category_id'] = $categoryId;
     }
 
-    // Auxiliar methods
+    // Auxiliary methods
 
     public static function sumPricesByQuantities($products, $productsInSession)
     {
@@ -148,44 +153,15 @@ class Product extends Model
         return $total;
     }
 
-    public static function searchByNameAndCategory(?string $name = null, ?string $categoryId = null): array
+    public static function searchByNameAndCategory(?string $name = null, ?string $categoryId = null): Collection
     {
-        $showCleanButton = false;
-        $message = 'Todos los productos';
-        $searchTerm = null;
-        $selectedCategory = null;
-
-        if ($name || $categoryId) {
-            $query = self::query();
-
-            if (! empty($name)) {
-                $query->where('name', 'LIKE', '%'.$name.'%');
-                $searchTerm = $name;
-            } elseif (! empty($categoryId)) {
-                $query->where('category_id', $categoryId);
-                $selectedCategory = $categoryId;
-            }
-
-            $products = $query->get();
-            $message = 'Resultado de búsqueda';
-            $selectedCategory = $categoryId;
-            if (! empty($name)) {
-                $products = self::where('name', 'LIKE', '%'.$name.'%')->get();
-                $message = 'Resultados de búsqueda para: "'.$name.'"';
-                $searchTerm = $name;
-            }
-            $showCleanButton = true;
-        } else {
-            $products = self::all();
+        if ($name) {
+            return self::where('name', 'LIKE', '%' . $name . '%')->get();
+        } elseif ($categoryId) {
+            return self::where('category_id', $categoryId)->get();
         }
 
-        return [
-            'products' => $products,
-            'message' => $message,
-            'searchTerm' => $searchTerm,
-            'selectedCategory' => $selectedCategory,
-            'showCleanButton' => $showCleanButton,
-        ];
+        return self::all();
     }
 
     // Relationships

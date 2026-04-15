@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\SaveProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Models\Category;
@@ -16,21 +17,21 @@ class ProductController extends Controller
     public function index(): View
     {
         $viewData = [];
-        $viewData['title'] = 'Home - Products';
+        $viewData['title'] = __('products.products_list');
         $viewData['products'] = Product::all();
         $viewData['showCleanButton'] = false;
         $viewData['categories'] = Category::all();
 
-        return view('product.index')->with('viewData', $viewData);
+        return view('admin.product.index')->with('viewData', $viewData);
     }
 
     public function create(): View
     {
         $viewData = [];
-        $viewData['title'] = 'Crear Producto';
+        $viewData['title'] = __('forms.create_product');
         $viewData['categories'] = Category::all();
 
-        return view('product.create')->with('viewData', $viewData);
+        return view('admin.product.create')->with('viewData', $viewData);
     }
 
     public function save(SaveProductRequest $request): RedirectResponse
@@ -48,22 +49,26 @@ class ProductController extends Controller
 
         return redirect()
             ->route('product.index')
-            ->with('success', 'Elemento creado satisfactoriamente');
+            ->with('success', __('messages.product_created'));
     }
 
+    /**
+     * Display product details with reviews
+     */
     public function show(int $id): View
     {
         $viewData = [];
         $product = Product::findOrFail($id);
 
-        $viewData['title'] = $product->getName().' - Product Details';
+        $viewData['title'] = $product->getName() . ' - ' . __('products.detail_title');
         $viewData['product'] = $product;
-        $viewData['reviews'] = $product->reviews()->with('user')->latest()->get();
-        $viewData['reviewsLimit'] = $product->reviews()->with('user')->latest()->take(3)->get();
+        $reviewsCollection = $product->getReviews()->load('user');
+        $viewData['reviews'] = $reviewsCollection->sortByDesc('created_at');
+        $viewData['reviewsLimit'] = $reviewsCollection->sortByDesc('created_at')->take(3);
+        $viewData['totalReviews'] = $reviewsCollection->count();
         $viewData['userReview'] = Auth::check()
-            ? $product->reviews()->where('user_id', Auth::id())->first()
+            ? $reviewsCollection->where('user_id', Auth::id())->first()
             : null;
-        $viewData['totalReviews'] = $product->reviews()->count();
 
         return view('product.show')->with('viewData', $viewData);
     }
@@ -73,11 +78,11 @@ class ProductController extends Controller
         $viewData = [];
         $product = Product::findOrFail($id);
 
-        $viewData['title'] = $product->getName().' - Editar Producto';
+        $viewData['title'] = $product->getName() . ' - ' . __('forms.edit_product');
         $viewData['product'] = $product;
         $viewData['categories'] = Category::all();
 
-        return view('product.edit')->with('viewData', $viewData);
+        return view('admin.product.edit')->with('viewData', $viewData);
     }
 
     public function update(UpdateProductRequest $request, int $id): RedirectResponse
@@ -94,25 +99,29 @@ class ProductController extends Controller
         $product->save();
 
         return redirect()
-            ->route('product.show', $product->getId())
-            ->with('success', 'Elemento actualizado correctamente');
-
+            ->route('product.index')
+            ->with('success', __('messages.product_updated'));
     }
 
+    /**
+     * Search products by name or category
+     */
     public function search(Request $request): View
     {
         $viewData = [];
-        $viewData['title'] = 'Buscar Productos';
+        $viewData['title'] = __('products.search_by_name');
         $viewData['categories'] = Category::all();
 
         $searchTerm = $request->input('name', '');
         $categoryId = $request->input('category', null);
 
-        $searchResult = Product::searchByNameAndCategory($searchTerm, $categoryId ? (string) $categoryId : null);
+        $viewData['searchTerm'] = $searchTerm;
+        $viewData['selectedCategory'] = $categoryId;
+        $viewData['showCleanButton'] = !empty($searchTerm) || !empty($categoryId);
 
-        $viewData = array_merge($viewData, $searchResult);
+        $viewData['products'] = Product::searchByNameAndCategory($searchTerm, $categoryId ? (string) $categoryId : null);
 
-        return view('product.index')->with('viewData', $viewData);
+        return view('admin.product.index')->with('viewData', $viewData);
     }
 
     public function delete(int $id): RedirectResponse
@@ -122,6 +131,6 @@ class ProductController extends Controller
 
         return redirect()
             ->route('product.index')
-            ->with('success', 'Elemento eliminado correctamente');
+            ->with('success', __('messages.product_deleted'));
     }
 }
