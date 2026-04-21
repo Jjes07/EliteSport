@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'cart_title' => 'Products in cart',
+    'cart_title' => 'Shopping Cart',
     'continue_shopping' => 'Continue shopping',
     'checkout_products' => 'Review the products you have selected',
     'total_to_pay' => 'Total to pay',
@@ -15,4 +15,9 @@ return [
     'remove_item' => 'Remove item',
     'remove_confirm' => 'Remove this product from cart?',
     'empty_confirm' => 'Are you sure you want to empty the cart?',
+    'product_added' => 'Product added to cart successfully.',
+    'product_removed' => 'Product removed from cart successfully',
+    'cart_updated' => 'Cart updated',
+    'cart_cleared' => 'Cart cleared successfully',
+    'checkout_successful' => 'Purchase completed successfully',
 ];

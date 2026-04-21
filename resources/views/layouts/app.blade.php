@@ -44,11 +44,11 @@
                             <a class="nav-link" href="{{ route('user.index') }}">
                                 <i class="bi bi-people"></i> {{ __('navigation.users') }}
                             </a>
+                        @else
+                            <a class="nav-link" href="{{ route('cart.index') }}">
+                                <i class="bi bi-cart"></i> {{ __('navigation.cart') }}
+                            </a>
                         @endif
-
-                        <a class="nav-link" href="{{ route('cart.index') }}">
-                            <i class="bi bi-cart"></i> {{ __('navigation.cart') }}
-                        </a>
 
                         <div class="vr d-none d-lg-block"></div>
 
@@ -58,18 +58,23 @@
                                 <i class="bi bi-person-circle"></i> {{ Auth::user()->getName() }}
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li class="dropdown-item text-muted">
-                                    <i class="bi bi-wallet2"></i> {{ __('navigation.balance') }}:
-                                    <strong>{{ Auth::user()->getBudgetFormatted() }}</strong>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('order.index') }}">
-                                        <i class="bi bi-receipt"></i> {{ __('navigation.my_orders') }}
-                                    </a>
-                                </li>
+                                @if(Auth::user()->getRole() != 'admin')
+                                    <li class="dropdown-item text-muted">
+                                        <i class="bi bi-wallet2"></i> {{ __('navigation.balance') }}:
+                                        <strong>{{ Auth::user()->getBudgetFormatted() }}</strong>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('order.index') }}">
+                                            <i class="bi bi-receipt"></i> {{ __('navigation.my_orders') }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                @endif
                                 <li>
                                     <form id="logout" action="{{ route('logout') }}" method="POST">
                                         @csrf

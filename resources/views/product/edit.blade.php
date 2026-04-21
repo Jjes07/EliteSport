@@ -34,7 +34,7 @@
                             <label for="name" class="form-label fw-semibold">{{ __('forms.name') }}</label>
                             <input type="text" name="name" id="name" class="form-control"
                                 value="{{ old('name', $viewData['product']->getName()) }}"
-                                placeholder="Ej: Balón Nike Premier">
+                                placeholder="{{ __('forms.name_placeholder_product') }}">
 
                             @error('name')
                                 <small class="text-danger d-block mt-1">{{ $message }}</small>
@@ -44,7 +44,8 @@
                         <div class="col-md-6">
                             <label for="price" class="form-label fw-semibold">{{ __('forms.price') }}</label>
                             <input type="number" step="0.01" min="0" name="price" id="price" class="form-control"
-                                value="{{ old('price', $viewData['product']->getPrice()) }}" placeholder="Ej: 120000">
+                                value="{{ old('price', $viewData['product']->getPrice()) }}"
+                                placeholder="{{ __('forms.price_placeholder') }}">
 
                             @error('price')
                                 <small class="text-danger d-block mt-1">{{ $message }}</small>
@@ -54,7 +55,8 @@
                         <div class="col-md-6">
                             <label for="stock" class="form-label fw-semibold">{{ __('forms.stock') }}</label>
                             <input type="number" min="0" name="stock" id="stock" class="form-control"
-                                value="{{ old('stock', $viewData['product']->getStock()) }}" placeholder="Ej: 10">
+                                value="{{ old('stock', $viewData['product']->getStock()) }}"
+                                placeholder="{{ __('forms.stock_placeholder') }}">
 
                             @error('stock')
                                 <small class="text-danger d-block mt-1">{{ $message }}</small>
@@ -80,7 +82,8 @@
                         <div class="col-12">
                             <label for="image" class="form-label fw-semibold">{{ __('forms.image_url') }}</label>
                             <input type="text" name="image" id="image" class="form-control"
-                                value="{{ old('image', $viewData['product']->getImage()) }}" placeholder="https://...">
+                                value="{{ old('image', $viewData['product']->getImage()) }}"
+                                placeholder="{{ __('forms.image_url_placeholder') }}">
 
                             @error('image')
                                 <small class="text-danger d-block mt-1">{{ $message }}</small>
@@ -90,7 +93,7 @@
                         <div class="col-12">
                             <label for="description" class="form-label fw-semibold">{{ __('forms.description') }}</label>
                             <textarea name="description" id="description" class="form-control" rows="5"
-                                placeholder="Describe el producto...">{{ old('description', $viewData['product']->getDescription()) }}</textarea>
+                                placeholder="{{ __('forms.description_placeholder_product') }}">{{ old('description', $viewData['product']->getDescription()) }}</textarea>
 
                             @error('description')
                                 <small class="text-danger d-block mt-1">{{ $message }}</small>

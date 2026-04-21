@@ -35,7 +35,7 @@
                             <div class="mb-3">
                                 <label for="name" class="form-label fw-semibold">{{ __('forms.name') }}</label>
                                 <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}"
-                                    placeholder="Ej: Fútbol">
+                                    placeholder="{{ __('forms.name_placeholder_category') }}">
 
                                 @error('name')
                                     <small class="text-danger d-block mt-1">{{ $message }}</small>
@@ -46,7 +46,7 @@
                                 <label for="description"
                                     class="form-label fw-semibold">{{ __('forms.description') }}</label>
                                 <textarea id="description" class="form-control" name="description" rows="5"
-                                    placeholder="Describe la categoría...">{{ old('description') }}</textarea>
+                                    placeholder="{{ __('forms.description_placeholder_category') }}">{{ old('description') }}</textarea>
 
                                 @error('description')
                                     <small class="text-danger d-block mt-1">{{ $message }}</small>

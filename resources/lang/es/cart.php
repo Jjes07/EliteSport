@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'cart_title' => 'Productos en el carrito',
+    'cart_title' => 'Carrito de Compras',
     'continue_shopping' => 'Seguir comprando',
     'checkout_products' => 'Revisa los productos que has seleccionado',
     'total_to_pay' => 'Total a pagar',
@@ -15,4 +15,9 @@ return [
     'remove_item' => 'Eliminar item',
     'remove_confirm' => '¿Eliminar este producto del carrito?',
     'empty_confirm' => '¿Estás seguro de vaciar el carrito?',
+    'product_added' => 'Producto agregado al carrito correctamente.',
+    'product_removed' => 'Producto removido del carrito correctamente',
+    'cart_updated' => 'Carrito actualizado',
+    'cart_cleared' => 'Carrito vaciado correctamente',
+    'checkout_successful' => 'Compra realizada correctamente',
 ];

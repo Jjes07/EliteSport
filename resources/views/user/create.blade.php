@@ -35,31 +35,31 @@
                             <div class="mb-3">
                                 <label for="name" class="form-label fw-semibold">{{ __('forms.name') }}</label>
                                 <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}"
-                                    placeholder="Ej: Juan Esteban López">
+                                    placeholder="{{ __('forms.name_placeholder_user') }}">
                             </div>
 
                             <div class="mb-3">
                                 <label for="email" class="form-label fw-semibold">{{ __('auth.email') }}</label>
                                 <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}"
-                                    placeholder="Ej: correo@ejemplo.com">
+                                    placeholder="{{ __('forms.email_placeholder') }}">
                             </div>
 
                             <div class="mb-3">
                                 <label for="password" class="form-label fw-semibold">{{ __('auth.password') }}</label>
                                 <input id="password" type="password" class="form-control" name="password"
-                                    placeholder="Ingresa una contraseña">
+                                    placeholder="{{ __('forms.password_placeholder_form') }}">
                             </div>
 
                             <div class="mb-3">
                                 <label for="address" class="form-label fw-semibold">{{ __('forms.address') }}</label>
                                 <input id="address" type="text" class="form-control" name="address"
-                                    value="{{ old('address') }}" placeholder="Ej: Calle 10 # 20 - 30">
+                                    value="{{ old('address') }}" placeholder="{{ __('forms.address_placeholder') }}">
                             </div>
 
                             <div class="mb-3">
                                 <label for="phone" class="form-label fw-semibold">{{ __('auth.phone') }}</label>
                                 <input id="phone" type="text" class="form-control" name="phone" value="{{ old('phone') }}"
-                                    placeholder="Ej: 3001234567">
+                                    placeholder="{{ __('forms.phone_placeholder') }}">
                             </div>
 
                             <div class="mb-4">
