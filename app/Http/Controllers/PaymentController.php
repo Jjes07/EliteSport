@@ -13,6 +13,8 @@ class PaymentController extends Controller
     public function create(int $orderId): View
     {
         $order = Order::findOrFail($orderId);
+        $budget = Auth::user()->getBudgetFormatted();
+        $total = $order->getTotalFormatted();
 
         if ($order->getUserId() !== Auth::id()) {
             abort(403, __('payment.not_authorized_view'));
@@ -22,11 +24,11 @@ class PaymentController extends Controller
         $viewData['title'] = __('payment.title');
         $viewData['order'] = $order;
         $viewData['items'] = $order->getItems();
-        $viewData['total'] = $order->getTotal();
-        $viewData['budget'] = Auth::user()->getBudget();
-        $viewData['insufficient'] = $viewData['budget'] < $viewData['total'];
-        $viewData['remainingAfterPayment'] = $viewData['budget'] - $viewData['total'];
-        $viewData['needAmount'] = $viewData['total'] - $viewData['budget'];
+        $viewData['total'] = $total;
+        $viewData['budget'] = $budget;
+        $viewData['insufficient'] = Payment::isInsufficient($budget, $total);
+        $viewData['remainingAfterPayment'] = Payment::getRemainingAfterPayment($budget, $total);
+        $viewData['needAmount'] = Payment::getNeededAmount($budget, $total);
 
         return view('payment.create')->with('viewData', $viewData);
     }
@@ -64,7 +66,7 @@ class PaymentController extends Controller
         $viewData['title'] = __('payment.payment_success');
         $viewData['order'] = $order;
         $viewData['payment'] = Payment::where('order_id', $orderId)->first();
-        $viewData['newBudget'] = Auth::user()->getBudget();
+        $viewData['newBudget'] = Auth::user()->getBudgetFormatted();
         $viewData['items'] = $order->getItems();
 
         return view('payment.success')->with('viewData', $viewData);

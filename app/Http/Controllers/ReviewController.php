@@ -130,12 +130,8 @@ class ReviewController extends Controller
 
         $review->delete();
 
-        $message = Auth::user()->getRole() === 'admin'
-            ? __('reviews.review_deleted_admin')
-            : __('reviews.review_deleted');
-
         return redirect()
             ->route('product.show', $productId)
-            ->with('success', $message);
+            ->with('success', $review->getDeleteSuccessMessage(Auth::user()->getRole()));
     }
 }

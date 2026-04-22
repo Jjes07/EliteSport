@@ -81,7 +81,7 @@
                     <!-- New Balance -->
                     <div class="new-balance text-center p-3 bg-success bg-opacity-10 rounded mb-4">
                         <small class="text-white">{{ __('payment.new_balance') }}</small>
-                        <h3 class="text-light mb-0">{{ Auth::user()->getBudgetFormatted() }}</h3>
+                        <h3 class="text-light mb-0">{{ $viewData['newBudget'] }}</h3>
                     </div>
                     
                     <!-- Action Buttons -->

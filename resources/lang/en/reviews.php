@@ -42,6 +42,13 @@ return [
     'not_authorized_edit' => 'You are not authorized to edit this review.',
     'not_authorized_delete' => 'You are not authorized to delete this review!',
 
+    // Validation messages
+    'reviews.validation_rating_required' => 'Please select a rating.',
+    'reviews.validation_rating_min' => 'Rating must be at least 1 star.',
+    'reviews.validation_rating_max' => 'Rating cannot exceed 5 stars.',
+    'reviews.validation_comment_required' => 'Please write a comment.',
+    'reviews.validation_comment_max' => 'Comment cannot exceed 250 characters.',
+
     // Rating labels
     'excellent' => 'Excellent',
     'good' => 'Good',
