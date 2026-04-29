@@ -1,7 +1,5 @@
 <?php
 
-// Class created by Juan Escobar
-
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Review\SaveReviewRequest;

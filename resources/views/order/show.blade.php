@@ -25,7 +25,8 @@
           <p><strong>{{ __('order.date') }}:</strong> {{ $viewData['order']->getDate() }}</p>
         </div>
         <div class="col-md-6 text-end">
-          <p><strong>{{ __('order.status') }}:</strong>
+          <p>
+            <strong>{{ __('order.status') }}:</strong>
             <span class="badge bg-{{
               $viewData['order']->getStatus() === 'paid' ? 'success' :
               ($viewData['order']->getStatus() === 'cancelled' ? 'danger' : 'warning')
@@ -44,19 +45,21 @@
       <div class="table-responsive">
         <table class="table">
           <thead>
-            <th>{{ __('order.product') }}</th>
-            <th>{{ __('order.quantity') }}</th>
-            <th>{{ __('order.unit_price') }}</th>
-            <th>{{ __('order.subtotal') }}</th>
+            <tr>
+              <th>{{ __('order.product') }}</th>
+              <th>{{ __('order.quantity') }}</th>
+              <th>{{ __('order.unit_price') }}</th>
+              <th>{{ __('order.subtotal') }}</th>
+            </tr>
           </thead>
           <tbody>
             @foreach($viewData['items'] as $item)
-            <tr>
-              <td>{{ $item->getProduct()->getName() }}</td>
-              <td>{{ $item->getQuantity() }}</td>
-              <td>{{ $item->getPriceFormatted() }}</td>
-              <td>{{ $item->getSubtotalFormatted() }}</td>
-            </tr>
+              <tr>
+                <td>{{ $item->getProduct()->getName() }}</td>
+                <td>{{ $item->getQuantity() }}</td>
+                <td>{{ $item->getPriceFormatted() }}</td>
+                <td>{{ $item->getSubtotalFormatted() }}</td>
+              </tr>
             @endforeach
           </tbody>
           <tfoot>
@@ -96,7 +99,7 @@
         </div>
       @endif
 
-      @if($viewData['order']->getStatus() == 'pending')
+      @if($viewData['order']->getStatus() === 'pending')
         <div class="d-flex justify-content-center gap-3 mt-4">
           <a href="{{ route('payment.create', $viewData['order']->getId()) }}" class="btn btn-success btn-lg px-4">
             <i class="bi bi-credit-card"></i> {{ __('order.continue_pay') }}
@@ -104,10 +107,7 @@
           <form action="{{ route('order.cancel', $viewData['order']->getId()) }}" method="POST" class="d-inline">
             @csrf
             @method('PUT')
-            <button type="submit"
-                    id="cancel-order-btn"
-                    data-confirm="{{ __('order.cancel_confirm') }}"
-                    class="btn btn-danger btn-lg px-4">
+            <button type="submit" class="btn btn-danger btn-lg px-4" id="cancel-order-btn">
               <i class="bi bi-x-circle"></i> {{ __('order.cancel_order') }}
             </button>
           </form>
@@ -115,12 +115,10 @@
       @endif
 
       <div class="d-flex justify-content-center mt-4">
-        <a href="{{ route('order.invoice', $viewData['order']->getId()) }}"
-           class="btn btn-secondary btn-lg px-4">
-          <i class="bi bi-file-pdf"></i> Descargar Factura PDF
+        <a href="{{ route('order.invoice', $viewData['order']->getId()) }}" class="btn btn-secondary btn-lg px-4">
+          <i class="bi bi-file-pdf"></i> {{ __('order.download_invoice') }}
         </a>
       </div>
-
     </div>
   </div>
 </div>
