@@ -29,7 +29,7 @@ class Category extends Model
         'updated_at' => 'datetime',
     ];
 
-    /* Getters */
+    /* Getters - Attributes */
     public function getId(): int
     {
         return $this->attributes['id'];
@@ -45,11 +45,6 @@ class Category extends Model
         return $this->attributes['description'];
     }
 
-    public function getProducts(): Collection
-    {
-        return $this->products;
-    }
-
     public function getCreatedAt(): string
     {
         return $this->attributes['created_at'];
@@ -60,8 +55,7 @@ class Category extends Model
         return $this->attributes['updated_at'];
     }
 
-    /* Setters */
-
+    /* Setters - Attributes */
     public function setName(string $name): void
     {
         $this->attributes['name'] = $name;
@@ -70,6 +64,12 @@ class Category extends Model
     public function setDescription(string $description): void
     {
         $this->attributes['description'] = $description;
+    }
+
+    /* Getters - Relationships */
+    public function getProducts(): Collection
+    {
+        return $this->products;
     }
 
     /* Relationship */

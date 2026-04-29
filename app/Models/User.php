@@ -44,7 +44,7 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /* Getters */
+    /* Getters - Attributes */
     public function getId(): int
     {
         return $this->attributes['id'];
@@ -85,16 +85,6 @@ class User extends Authenticatable
         return $this->attributes['budget'] ?? 0;
     }
 
-    public function getOrders(): Collection
-    {
-        return $this->orders;
-    }
-
-    public function getReviews(): Collection
-    {
-        return $this->reviews;
-    }
-
     public function getCreatedAt(): string
     {
         return $this->attributes['created_at'];
@@ -111,7 +101,7 @@ class User extends Authenticatable
         return '$' . number_format($this->getBudget(), 0, ',', ' ');
     }
 
-    /* Setters */
+    /* Setters - Attributes */
     public function setName(string $name): void
     {
         $this->attributes['name'] = $name;
@@ -145,6 +135,17 @@ class User extends Authenticatable
     public function setBudget(int $budget): void
     {
         $this->attributes['budget'] = $budget;
+    }
+
+    /* Getters - Relationships */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
     }
 
     protected function casts(): array

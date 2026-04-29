@@ -42,8 +42,7 @@ class Product extends Model
         'updated_at' => 'datetime',
     ];
 
-    /* Getters */
-
+    /* Getters - Attributes */
     public function getId(): int
     {
         return $this->attributes['id'];
@@ -74,24 +73,9 @@ class Product extends Model
         return $this->attributes['image'];
     }
 
-    public function getCategory(): ?Category
-    {
-        return $this->category;
-    }
-
     public function getCategoryId(): ?int
     {
         return $this->attributes['category_id'] ?? null;
-    }
-
-    public function getItems(): Collection
-    {
-        return $this->items;
-    }
-
-    public function getReviews(): Collection
-    {
-        return $this->reviews;
     }
 
     public function getCreatedAt(): string
@@ -104,13 +88,13 @@ class Product extends Model
         return $this->attributes['updated_at'];
     }
 
-    // Formatted Getters
+    /* Formatted Getters */
     public function getPriceFormatted(): string
     {
         return '$' . number_format($this->getPrice(), 0, ',', ' ');
     }
 
-    // Setters
+    /* Setters - Attributes */
     public function setName(string $name): void
     {
         $this->attributes['name'] = $name;
@@ -139,6 +123,22 @@ class Product extends Model
     public function setCategory(int $categoryId): void
     {
         $this->attributes['category_id'] = $categoryId;
+    }
+
+    /* Getters - Relationships */
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function getItems(): Collection
+    {
+        return $this->items;
+    }
+
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
     }
 
     // Auxiliary methods
