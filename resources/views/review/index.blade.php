@@ -131,7 +131,7 @@
                                                     <i class="bi bi-person-circle fs-3"></i>
                                                 </div>
                                                 <div>
-                                                    <strong class="fs-5">{{ $review->user->getName() }}</strong>
+                                                    <strong class="fs-5">{{ $review->getUser()->getName() }}</strong>
                                                     <div class="star-rating-readonly mt-1">
                                                         @for($i = 1; $i <= 5; $i++)
                                                             <span class="star {{ $i <= $review->getRating() ? 'filled' : 'empty' }}">★</span>

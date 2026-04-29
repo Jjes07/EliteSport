@@ -42,6 +42,13 @@ return [
     'not_authorized_edit' => 'No estás autorizado para editar esta opinión.',
     'not_authorized_delete' => '¡No estás autorizado para eliminar esta opinión!',
 
+    // Validation messages
+    'reviews.validation_rating_required' => 'Por favor selecciona una calificación.',
+    'reviews.validation_rating_min' => 'La calificación debe ser al menos de 1 estrella.',
+    'reviews.validation_rating_max' => 'La calificación no puede exceder las 5 estrellas.',
+    'reviews.validation_comment_required' => 'Por favor escribe un comentario.',
+    'reviews.validation_comment_max' => 'El comentario no puede exceder los 250 caracteres.',
+
     // Rating labels
     'excellent' => 'Excelente',
     'good' => 'Bueno',

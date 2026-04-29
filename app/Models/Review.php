@@ -24,6 +24,10 @@ class Review extends Model
      * $this->attributes['product_id'] - int - contains the product id being reviewed
      * $this->attributes['created_at'] - timestamp - contains the review creation timestamp
      * $this->attributes['updated_at'] - timestamp - contains the review update timestamp
+     * 
+     * REVIEW RELATIONSHIPS
+     * $this->user - User - the user who wrote the review
+     * $this->product - Product - the product being reviewed
      */
     private const RATING_MAP = [
         5 => ['label' => 'Excellent', 'class' => 'bg-success'],
@@ -64,14 +68,14 @@ class Review extends Model
         return $this->attributes['user_id'];
     }
 
-    public function getUser(): User
-    {
-        return $this->user;
-    }
-
     public function getProductId(): int
     {
         return $this->attributes['product_id'];
+    }
+
+    public function getUser(): User
+    {
+        return $this->user;
     }
 
     public function getProduct(): Product
@@ -110,6 +114,16 @@ class Review extends Model
         $this->attributes['product_id'] = $productId;
     }
 
+    public function setUser(User $user): void
+    {
+        $this->user()->associate($user);
+    }
+
+    public function setProduct(Product $product): void
+    {
+        $this->product()->associate($product);
+    }
+
     /* Relationships */
     public function user(): BelongsTo
     {
@@ -124,12 +138,12 @@ class Review extends Model
     /* Rating helpers */
     public function getRatingLabel(): string
     {
-        return self::RATING_MAP[$this->rating]['label'] ?? 'Unknown';
+        return self::RATING_MAP[$this->getRating()]['label'] ?? 'Unknown';
     }
 
     public function getRatingBadgeClass(): string
     {
-        return self::RATING_MAP[$this->rating]['class'] ?? 'bg-secondary';
+        return self::RATING_MAP[$this->getRating()]['class'] ?? 'bg-secondary';
     }
 
     /* Filter methods */
@@ -155,7 +169,7 @@ class Review extends Model
         ];
     }
 
-    /* Business logic methods */
+    /* Helper methods */
     public static function hasUserReviewedProduct(int $userId, int $productId): bool
     {
         return self::where('user_id', $userId)
@@ -170,31 +184,6 @@ class Review extends Model
             ->first();
     }
 
-    public static function createReview(int $userId, int $productId, string $comment, int $rating): self
-    {
-        $review = new self;
-        $review->setComment($comment);
-        $review->setRating($rating);
-        $review->setUserId($userId);
-        $review->setProductId($productId);
-        $review->save();
-
-        return $review;
-    }
-
-    public function updateReview(array $validatedData): void
-    {
-        if (isset($validatedData['comment'])) {
-            $this->setComment($validatedData['comment']);
-        }
-
-        if (isset($validatedData['rating'])) {
-            $this->setRating($validatedData['rating']);
-        }
-
-        $this->save();
-    }
-
     public function canBeEditedBy(int $userId): bool
     {
         return $this->getUserId() === $userId;
@@ -203,6 +192,13 @@ class Review extends Model
     public function canBeDeletedBy(int $userId, string $userRole): bool
     {
         return $userRole === 'admin' || $this->getUserId() === $userId;
+    }
+
+    public function getDeleteSuccessMessage(string $role): string
+    {
+        return $role === 'admin'
+            ? __('reviews.review_deleted_admin')
+            : __('reviews.review_deleted');
     }
 
     public static function processFilters(Request $request): array

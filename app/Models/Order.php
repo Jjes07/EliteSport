@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use Barryvdh\DomPDF\Facade\Pdf;
-use Barryvdh\DomPDF\PDF as DomPDF;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,29 +12,34 @@ class Order extends Model
 {
     /**
      * ORDER ATTRIBUTES
-     * $this->attributes['id'] - int - contains the order primary key (id)
-     * $this->attributes['date'] - date - contains the order date
-     * $this->attributes['status'] - string - contains the order status
-     * $this->attributes['total'] - float - contains the order total
-     * $this->attributes['user_id'] - int - contains the referenced user id
+     * $this->attributes['id']         - int    - contains the order primary key (id)
+     * $this->attributes['date']       - date   - contains the order date
+     * $this->attributes['status']     - string - contains the order status (pending, paid, cancelled)
+     * $this->attributes['total']      - float  - contains the order total amount
+     * $this->attributes['user_id']    - int    - contains the id of the user who placed the order
      * $this->attributes['created_at'] - timestamp - contains the order creation timestamp
-     * $this->attributes['updated_at'] - timestamp - contains the order update timestamp
+     * $this->attributes['updated_at'] - timestamp - contains the order last update timestamp
+     *
+     * ORDER RELATIONSHIPS
+     * $this->user    - BelongsTo - the user who placed the order
+     * $this->items   - HasMany   - the items included in the order
+     * $this->payment - HasOne    - the payment associated with the order
      */
     protected $fillable = [
         'date',
         'status',
         'total',
         'user_id',
-        'payment_id',
     ];
 
     protected $casts = [
-        'total' => 'float',
+        'total'      => 'float',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
 
     /* Getters */
+
     public function getId(): int
     {
         return $this->attributes['id'];
@@ -72,7 +75,7 @@ class Order extends Model
         return $this->items;
     }
 
-    public function getPayment(): Payment
+    public function getPayment(): ?Payment
     {
         return $this->payment;
     }
@@ -87,13 +90,15 @@ class Order extends Model
         return $this->attributes['updated_at'];
     }
 
-    /* Formatted Getters */
+    /* Formatted getters */
+
     public function getTotalFormatted(): string
     {
         return '$' . number_format($this->getTotal(), 0, ',', ' ');
     }
 
     /* Setters */
+
     public function setDate(string $date): void
     {
         $this->attributes['date'] = $date;
@@ -114,7 +119,13 @@ class Order extends Model
         $this->attributes['user_id'] = $userId;
     }
 
+    public function setUser(User $user): void
+    {
+        $this->user()->associate($user);
+    }
+
     /* Relationships */
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -130,7 +141,8 @@ class Order extends Model
         return $this->hasOne(Payment::class);
     }
 
-    /* Business Logic */
+    /* Business logic */
+
     public function calculateTotal(): float
     {
         $total = 0;
@@ -143,7 +155,7 @@ class Order extends Model
 
     public static function placeOrder(int $userId, array $cartProducts): self
     {
-        $order = new self;
+        $order = new self();
         $order->setUserId($userId);
         $order->setDate(now()->toDateString());
         $order->setStatus('pending');
@@ -157,22 +169,5 @@ class Order extends Model
 
         return $order;
     }
-
-    public function confirmOrder(): bool
-    {
-        $payment = Payment::processPayment($this);
-
-        return $payment !== null;
-    }
-
-    public function generateInvoicePdf(): DomPDF
-    {
-        $viewData = [];
-        $viewData['order'] = $this;
-        $viewData['items'] = $this->getItems();
-        $viewData['user'] = $this->getUser();
-        $viewData['title'] = 'Factura #' . $this->getId();
-
-        return Pdf::loadView('invoice.index', $viewData);
-    }
 }
+

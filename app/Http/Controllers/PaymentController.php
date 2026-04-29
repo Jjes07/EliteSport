@@ -10,41 +10,35 @@ use Illuminate\View\View;
 
 class PaymentController extends Controller
 {
-    /**
-     * Show payment form for a specific order
-     */
     public function create(int $orderId): View
     {
         $order = Order::findOrFail($orderId);
+        $budget = Auth::user()->getBudgetFormatted();
+        $total = $order->getTotalFormatted();
 
-        // Verify order belongs to current user
         if ($order->getUserId() !== Auth::id()) {
-            abort(403, 'No estás autorizado para ver este pedido.');
+            abort(403, __('payment.not_authorized_view'));
         }
 
         $viewData = [];
         $viewData['title'] = __('payment.title');
         $viewData['order'] = $order;
         $viewData['items'] = $order->getItems();
-        $viewData['total'] = $order->getTotal();
-        $viewData['budget'] = Auth::user()->getBudget();
-        $viewData['insufficient'] = $viewData['budget'] < $viewData['total'];
-        $viewData['remainingAfterPayment'] = $viewData['budget'] - $viewData['total'];
-        $viewData['needAmount'] = $viewData['total'] - $viewData['budget'];
+        $viewData['total'] = $total;
+        $viewData['budget'] = $budget;
+        $viewData['insufficient'] = Payment::isInsufficient($budget, $total);
+        $viewData['remainingAfterPayment'] = Payment::getRemainingAfterPayment($budget, $total);
+        $viewData['needAmount'] = Payment::getNeededAmount($budget, $total);
 
         return view('payment.create')->with('viewData', $viewData);
     }
 
-    /**
-     * Process the payment
-     */
     public function save(int $orderId): RedirectResponse
     {
         $order = Order::findOrFail($orderId);
 
-        // Verify order belongs to current user
         if ($order->getUserId() !== Auth::id()) {
-            abort(403, 'No estás autorizado para procesar este pago.');
+            abort(403, __('payment.not_authorized'));
         }
 
         $result = Payment::processPayment($order);
@@ -60,23 +54,19 @@ class PaymentController extends Controller
             ->with('success', __('payment.payment_completed'));
     }
 
-    /**
-     * Show payment success page
-     */
     public function success(int $orderId): View
     {
         $order = Order::findOrFail($orderId);
 
-        // Verify order belongs to current user
         if ($order->getUserId() !== Auth::id()) {
-            abort(403, 'No estás autorizado para ver esta página.');
+            abort(403, __('payment.not_authorized_view'));
         }
 
         $viewData = [];
         $viewData['title'] = __('payment.payment_success');
         $viewData['order'] = $order;
         $viewData['payment'] = Payment::where('order_id', $orderId)->first();
-        $viewData['newBudget'] = Auth::user()->getBudget();
+        $viewData['newBudget'] = Auth::user()->getBudgetFormatted();
         $viewData['items'] = $order->getItems();
 
         return view('payment.success')->with('viewData', $viewData);

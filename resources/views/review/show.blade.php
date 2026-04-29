@@ -41,7 +41,7 @@
                                 <i class="bi bi-person-circle fs-1 text-primary"></i>
                             </div>
                             <div>
-                                <h5 class="mb-0">{{ $viewData['review']->user->getName() }}</h5>
+                                <h5 class="mb-0">{{ $viewData['review']->getUser()->getName() }}</h5>
                                 <div class="review-stars mt-1">
                                     @for($i = 1; $i <= 5; $i++)
                                         <span class="star {{ $i <= $viewData['review']->getRating() ? 'filled' : 'empty' }}">★</span>

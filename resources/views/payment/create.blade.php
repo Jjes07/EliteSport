@@ -51,18 +51,18 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <small class="text-muted">{{ __('payment.your_balance') }}</small>
-                                <h4 class="mb-0">{{ Auth::user()->getBudgetFormatted() }}</h4>
+                                <h4 class="mb-0">{{ $viewData['budget'] }}</h4>
                             </div>
                             <div class="col-md-6">
                                 <small class="text-muted">{{ __('payment.total_to_pay') }}</small>
-                                <h4 class="mb-0 text-danger">-{{ $viewData['order']->getTotalFormatted() }}</h4>
+                                <h4 class="mb-0 text-danger">-{{ $viewData['total'] }}</h4>
                             </div>
                             <div class="col-12">
                                 <hr class="my-2">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <strong>{{ __('payment.remaining_balance') }}</strong>
                                     <h5 class="mb-0 {{ $viewData['insufficient'] ? 'text-danger' : 'text-success' }}">
-                                        ${{ number_format(Auth::user()->getBudget() - $viewData['order']->getTotal(), 0, '.', ' ') }}
+                                        ${{ number_format($viewData['remainingAfterPayment'], 0, '.', ' ') }}
                                     </h5>
                                 </div>
                             </div>

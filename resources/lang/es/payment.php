@@ -52,6 +52,8 @@ return [
     'order_not_found' => 'Orden no encontrada',
     'order_already_paid' => 'Esta orden ya ha sido pagada',
     'insufficient_stock' => 'Stock insuficiente para el producto ":product"',
+    'not_authorized' => 'No estás autorizado para procesar este pago.',
+    'not_authorized_view' => 'No estás autorizado para ver esta página.',
 
     // Status
     'status_pending' => 'Pendiente',
