@@ -13,19 +13,21 @@ class PaymentController extends Controller
     public function create(int $orderId): View
     {
         $order = Order::findOrFail($orderId);
-        $budget = Auth::user()->getBudgetFormatted();
-        $total = $order->getTotalFormatted();
 
         if ($order->getUserId() !== Auth::id()) {
             abort(403, __('payment.not_authorized_view'));
         }
 
+        $user = Auth::user();
+        $budget = $user->getBudget();
+        $total = $order->getTotal();
+
         $viewData = [];
         $viewData['title'] = __('payment.title');
         $viewData['order'] = $order;
         $viewData['items'] = $order->getItems();
-        $viewData['total'] = $total;
-        $viewData['budget'] = $budget;
+        $viewData['total'] = $order->getTotalFormatted();
+        $viewData['budget'] = $user->getBudgetFormatted();
         $viewData['insufficient'] = Payment::isInsufficient($budget, $total);
         $viewData['remainingAfterPayment'] = Payment::getRemainingAfterPayment($budget, $total);
         $viewData['needAmount'] = Payment::getNeededAmount($budget, $total);
@@ -43,7 +45,7 @@ class PaymentController extends Controller
 
         $result = Payment::processPayment($order);
 
-        if (! $result['success']) {
+        if (!$result['success']) {
             return redirect()
                 ->route('payment.create', $orderId)
                 ->with('error', $result['message']);

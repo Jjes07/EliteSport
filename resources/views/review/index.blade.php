@@ -175,7 +175,7 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-outline-danger" 
-                                                        onclick="return confirm('{{ __('reviews.confirm_delete') }}')">
+                                                        data-confirm="{{ __('reviews.confirm_delete') }}">
                                                     <i class="bi bi-trash"></i> {{ __('reviews.delete_review') }}
                                                 </button>
                                             </form>

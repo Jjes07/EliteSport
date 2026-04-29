@@ -9,16 +9,16 @@ class Payment extends Model
 {
     /**
      * PAYMENT ATTRIBUTES
-     * $this->attributes['id'] - int - contains the payment primary key
-     * $this->attributes['amount'] - int - contains the payment amount
+     * $this->attributes['id'] - integer - contains the payment primary key (id)
+     * $this->attributes['amount'] - integer - contains the payment amount
      * $this->attributes['method'] - string - contains the payment method
      * $this->attributes['status'] - string - contains the payment status
-     * $this->attributes['order_id'] - int - contains the foreign key for order
-     * $this->attributes['created_at'] - timestamp - creation timestamp
-     * $this->attributes['updated_at'] - timestamp - last update timestamp
+     * $this->attributes['order_id'] - integer - contains the referenced order id
+     * $this->attributes['created_at'] - timestamp - contains the payment creation timestamp
+     * $this->attributes['updated_at'] - timestamp - contains the payment update timestamp
      *
      * PAYMENT RELATIONSHIPS
-     * $this->order - Order - the order associated with this payment
+     * $this->order - BelongsTo - the order associated with this payment
      */
 
     protected $fillable = [
@@ -28,14 +28,17 @@ class Payment extends Model
         'status',
     ];
 
-    protected $casts = [
-        'amount' => 'integer',
-        'order_id' => 'integer',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-    ];
+    /* Getters - Attributes */
 
-    /* Getters */
+    protected function casts(): array
+    {
+        return [
+            'amount' => 'integer',
+            'order_id' => 'integer',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
+        ];
+    }
     public function getId(): int
     {
         return $this->attributes['id'];
@@ -61,11 +64,6 @@ class Payment extends Model
         return $this->attributes['order_id'];
     }
 
-    public function getOrder(): Order
-    {
-        return $this->order;
-    }
-
     public function getCreatedAt(): string
     {
         return $this->attributes['created_at'];
@@ -74,10 +72,10 @@ class Payment extends Model
     /* Formatted Getters */
     public function getAmountFormatted(): string
     {
-        return '$'.number_format($this->getAmount(), 0, ',', ' ');
+        return '$' . number_format($this->getAmount(), 0, ',', ' ');
     }
 
-    /* Setters */
+    /* Setters - Attributes */
     public function setOrderId(int $orderId): void
     {
         $this->attributes['order_id'] = $orderId;
@@ -98,6 +96,13 @@ class Payment extends Model
         $this->attributes['status'] = $status;
     }
 
+    /* Getters - Relationships */
+    public function getOrder(): Order
+    {
+        return $this->order;
+    }
+
+    /* Setters - Relationships */
     public function setOrder(Order $order): void
     {
         $this->order()->associate($order);
@@ -134,12 +139,12 @@ class Payment extends Model
 
         $user = $order->getUser();
 
-        if (! self::hasSufficientBudget($user, $order->getTotal())) {
+        if (!self::hasSufficientBudget($user, $order->getTotal())) {
             return ['success' => false, 'message' => __('payment.insufficient_balance')];
         }
 
         $stockCheck = self::checkStock($order);
-        if (! $stockCheck['success']) {
+        if (!$stockCheck['success']) {
             return $stockCheck;
         }
 

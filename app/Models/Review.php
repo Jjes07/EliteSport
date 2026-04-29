@@ -17,37 +17,40 @@ class Review extends Model
 
     /**
      * REVIEW ATTRIBUTES
-     * $this->attributes['id'] - int - contains the review primary key (id)
+     * $this->attributes['id'] - integer - contains the review primary key (id)
      * $this->attributes['comment'] - string - contains the review comment
-     * $this->attributes['rating'] - int - contains the review rating (1-5)
-     * $this->attributes['user_id'] - int - contains the user id who wrote the review
-     * $this->attributes['product_id'] - int - contains the product id being reviewed
+     * $this->attributes['rating'] - integer - contains the review rating (1-5)
+     * $this->attributes['user_id'] - integer - contains the user who wrote the review
+     * $this->attributes['product_id'] - integer - contains the product being reviewed
      * $this->attributes['created_at'] - timestamp - contains the review creation timestamp
      * $this->attributes['updated_at'] - timestamp - contains the review update timestamp
-     * 
+     *
      * REVIEW RELATIONSHIPS
-     * $this->user - User - the user who wrote the review
-     * $this->product - Product - the product being reviewed
+     * $this->user - BelongsTo - the user who wrote the review
+     * $this->product - BelongsTo - the product being reviewed
      */
     private const RATING_MAP = [
-        5 => ['label' => 'Excellent', 'class' => 'bg-success'],
-        4 => ['label' => 'Good',      'class' => 'bg-primary'],
-        3 => ['label' => 'Average',   'class' => 'bg-warning'],
-        2 => ['label' => 'Fair',      'class' => 'bg-orange'],
-        1 => ['label' => 'Poor',      'class' => 'bg-danger'],
+        5 => ['label' => 'reviews.rating_excellent', 'class' => 'bg-success'],
+        4 => ['label' => 'reviews.rating_good', 'class' => 'bg-primary'],
+        3 => ['label' => 'reviews.rating_average', 'class' => 'bg-warning'],
+        2 => ['label' => 'reviews.rating_fair', 'class' => 'bg-orange'],
+        1 => ['label' => 'reviews.rating_poor', 'class' => 'bg-danger'],
     ];
 
     protected $fillable = ['comment', 'rating', 'user_id', 'product_id'];
 
-    protected $casts = [
-        'rating' => 'integer',
-        'user_id' => 'integer',
-        'product_id' => 'integer',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-    ];
+    /* Getters - Attributes */
 
-    /* Getters */
+    protected function casts(): array
+    {
+        return [
+            'rating' => 'integer',
+            'user_id' => 'integer',
+            'product_id' => 'integer',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
+        ];
+    }
     public function getId(): int
     {
         return $this->attributes['id'];
@@ -73,16 +76,6 @@ class Review extends Model
         return $this->attributes['product_id'];
     }
 
-    public function getUser(): User
-    {
-        return $this->user;
-    }
-
-    public function getProduct(): Product
-    {
-        return $this->product;
-    }
-
     public function getCreatedAt(): string
     {
         return Carbon::parse($this->attributes['created_at'])->format('F d, Y');
@@ -93,7 +86,7 @@ class Review extends Model
         return Carbon::parse($this->attributes['updated_at'])->format('F d, Y');
     }
 
-    /* Setters */
+    /* Setters - Attributes */
     public function setComment(string $comment): void
     {
         $this->attributes['comment'] = $comment;
@@ -114,6 +107,18 @@ class Review extends Model
         $this->attributes['product_id'] = $productId;
     }
 
+    /* Getters - Relationships */
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    public function getProduct(): Product
+    {
+        return $this->product;
+    }
+
+    /* Setters - Relationships */
     public function setUser(User $user): void
     {
         $this->user()->associate($user);
@@ -138,7 +143,7 @@ class Review extends Model
     /* Rating helpers */
     public function getRatingLabel(): string
     {
-        return self::RATING_MAP[$this->getRating()]['label'] ?? 'Unknown';
+        return __(self::RATING_MAP[$this->getRating()]['label'] ?? 'reviews.rating_unknown');
     }
 
     public function getRatingBadgeClass(): string
@@ -151,7 +156,7 @@ class Review extends Model
     {
         $query = $product->reviews()->with('user')->latest();
 
-        if (! empty($selectedRatings)) {
+        if (!empty($selectedRatings)) {
             $query->whereIn('rating', $selectedRatings);
         }
 
@@ -205,7 +210,7 @@ class Review extends Model
     {
         $selectedRatings = $request->query('ratings', []);
 
-        if (! is_array($selectedRatings)) {
+        if (!is_array($selectedRatings)) {
             $selectedRatings = [$selectedRatings];
         }
 

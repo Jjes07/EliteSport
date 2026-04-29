@@ -72,12 +72,6 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('category.create') }}"
-                            class="nav-link {{ request()->routeIs('category.*') ? 'active' : '' }}">
-                            <i class="bi bi-tags"></i> Categorías
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <hr style="margin: 0.5rem 0; border-color: rgba(255,255,255,0.1);">
                     </li>
                     <li class="nav-item">
@@ -94,6 +88,11 @@
                     <li class="nav-item">
                         <a href="{{ route('user.create') }}" class="nav-link">
                             <i class="bi bi-person-plus"></i> Crear Usuario
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('category.create') }}" class="nav-link">
+                            <i class="bi bi-tags"></i> Crear Categoría
                         </a>
                     </li>
                 </ul>

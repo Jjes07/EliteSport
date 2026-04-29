@@ -12,18 +12,18 @@ class Order extends Model
 {
     /**
      * ORDER ATTRIBUTES
-     * $this->attributes['id']         - int    - contains the order primary key (id)
-     * $this->attributes['date']       - date   - contains the order date
-     * $this->attributes['status']     - string - contains the order status (pending, paid, cancelled)
-     * $this->attributes['total']      - float  - contains the order total amount
-     * $this->attributes['user_id']    - int    - contains the id of the user who placed the order
+     * $this->attributes['id'] - integer - contains the order primary key (id)
+     * $this->attributes['date'] - date - contains the order date
+     * $this->attributes['status'] - string - contains the order status (pending, paid, cancelled)
+     * $this->attributes['total'] - float - contains the order total amount
+     * $this->attributes['user_id'] - integer - contains the user who placed the order
      * $this->attributes['created_at'] - timestamp - contains the order creation timestamp
-     * $this->attributes['updated_at'] - timestamp - contains the order last update timestamp
+     * $this->attributes['updated_at'] - timestamp - contains the order update timestamp
      *
      * ORDER RELATIONSHIPS
-     * $this->user    - BelongsTo - the user who placed the order
-     * $this->items   - HasMany   - the items included in the order
-     * $this->payment - HasOne    - the payment associated with the order
+     * $this->user - BelongsTo - the user who placed the order
+     * $this->items - HasMany - the items included in the order
+     * $this->payment - HasOne - the payment associated with the order
      */
     protected $fillable = [
         'date',
@@ -32,13 +32,16 @@ class Order extends Model
         'user_id',
     ];
 
-    protected $casts = [
-        'total'      => 'float',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-    ];
+    /* Getters - Attributes */
 
-    /* Getters */
+    protected function casts(): array
+    {
+        return [
+            'total' => 'float',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
+        ];
+    }
 
     public function getId(): int
     {
@@ -65,21 +68,6 @@ class Order extends Model
         return $this->attributes['user_id'];
     }
 
-    public function getUser(): User
-    {
-        return $this->user;
-    }
-
-    public function getItems(): Collection
-    {
-        return $this->items;
-    }
-
-    public function getPayment(): ?Payment
-    {
-        return $this->payment;
-    }
-
     public function getCreatedAt(): string
     {
         return $this->attributes['created_at'];
@@ -97,7 +85,7 @@ class Order extends Model
         return '$' . number_format($this->getTotal(), 0, ',', ' ');
     }
 
-    /* Setters */
+    /* Setters - Attributes */
 
     public function setDate(string $date): void
     {
@@ -118,6 +106,25 @@ class Order extends Model
     {
         $this->attributes['user_id'] = $userId;
     }
+
+    /* Getters - Relationships */
+
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    public function getItems(): Collection
+    {
+        return $this->items;
+    }
+
+    public function getPayment(): ?Payment
+    {
+        return $this->payment;
+    }
+
+    /* Setters - Relationships */
 
     public function setUser(User $user): void
     {

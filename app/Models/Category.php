@@ -10,7 +10,7 @@ class Category extends Model
 {
     /**
      * CATEGORY ATTRIBUTES
-     * $this->attributes['id'] - int - contains the category primary key (id)
+     * $this->attributes['id'] - integer - contains the category primary key (id)
      * $this->attributes['name'] - string - contains the category name
      * $this->attributes['description'] - string - contains the category description
      * $this->attributes['created_at'] - timestamp - contains the category creation timestamp
@@ -24,12 +24,15 @@ class Category extends Model
         'description',
     ];
 
-    protected $casts = [
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-    ];
-
     /* Getters - Attributes */
+
+    protected function casts(): array
+    {
+        return [
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
+        ];
+    }
     public function getId(): int
     {
         return $this->attributes['id'];

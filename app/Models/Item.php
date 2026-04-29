@@ -9,15 +9,17 @@ class Item extends Model
 {
     /**
      * ITEM ATTRIBUTES
-     * $this->attributes['id'] - int - contains the item primary key (id)
-     * $this->attributes['quantity'] - int - contains the item quantity
-     * $this->attributes['price'] - int - contains the item price at purchase moment
-     * $this->attributes['product_id'] - int - contains the referenced product id
-     * $this->attributes['order_id'] - int - contains the referenced order id
-     * $this->product - Product - contains the related product model
-     * $this->order - Order - contains the related order model
+     * $this->attributes['id'] - integer - contains the item primary key (id)
+     * $this->attributes['quantity'] - integer - contains the item quantity
+     * $this->attributes['price'] - integer - contains the item price at purchase moment
+     * $this->attributes['product_id'] - integer - contains the referenced product id
+     * $this->attributes['order_id'] - integer - contains the referenced order id
      * $this->attributes['created_at'] - timestamp - contains the item creation timestamp
      * $this->attributes['updated_at'] - timestamp - contains the item update timestamp
+     *
+     * ITEM RELATIONSHIPS
+     * $this->product - BelongsTo - contains the related product model
+     * $this->order - BelongsTo - contains the related order model
      */
     protected $fillable = [
         'quantity',
@@ -26,16 +28,19 @@ class Item extends Model
         'order_id',
     ];
 
-    protected $casts = [
-        'quantity' => 'integer',
-        'price' => 'integer',
-        'product_id' => 'integer',
-        'order_id' => 'integer',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-    ];
+    /* Getters - Attributes */
 
-    /* Getters */
+    protected function casts(): array
+    {
+        return [
+            'quantity' => 'integer',
+            'price' => 'integer',
+            'product_id' => 'integer',
+            'order_id' => 'integer',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
+        ];
+    }
     public function getId(): int
     {
         return $this->attributes['id'];
@@ -61,16 +66,6 @@ class Item extends Model
         return $this->attributes['order_id'] ?? null;
     }
 
-    public function getProduct(): Product
-    {
-        return $this->product;
-    }
-
-    public function getOrder(): Order
-    {
-        return $this->order;
-    }
-
     public function getCreatedAt(): string
     {
         return $this->attributes['created_at'];
@@ -84,15 +79,15 @@ class Item extends Model
     /* Formatted Getters */
     public function getPriceFormatted(): string
     {
-        return '$'.number_format($this->getPrice(), 0, ',', ' ');
+        return '$' . number_format($this->getPrice(), 0, ',', ' ');
     }
 
     public function getSubtotalFormatted(): string
     {
-        return '$'.number_format($this->calculateSubtotal(), 0, ',', ' ');
+        return '$' . number_format($this->calculateSubtotal(), 0, ',', ' ');
     }
 
-    /* Setters */
+    /* Setters - Attributes */
     public function setQuantity(int $quantity): void
     {
         $this->attributes['quantity'] = $quantity;
@@ -113,6 +108,18 @@ class Item extends Model
         $this->attributes['order_id'] = $orderId;
     }
 
+    /* Getters - Relationships */
+    public function getProduct(): Product
+    {
+        return $this->product;
+    }
+
+    public function getOrder(): Order
+    {
+        return $this->order;
+    }
+
+    /* Setters - Relationships */
     public function setProduct(Product $product): void
     {
         $this->product()->associate($product);

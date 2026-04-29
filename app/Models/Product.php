@@ -11,7 +11,7 @@ class Product extends Model
 {
     /**
      * PRODUCT ATTRIBUTES
-     * $this->attributes['id'] - int - contains the product primary key (id)
+     * $this->attributes['id'] - integer - contains the product primary key (id)
      * $this->attributes['name'] - string - contains the product name
      * $this->attributes['description'] - string - contains the product description
      * $this->attributes['price'] - integer - contains the product price
@@ -35,14 +35,17 @@ class Product extends Model
         'category_id',
     ];
 
-    protected $casts = [
-        'price' => 'integer',
-        'stock' => 'integer',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-    ];
-
     /* Getters - Attributes */
+
+    protected function casts(): array
+    {
+        return [
+            'price' => 'integer',
+            'stock' => 'integer',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
+        ];
+    }
     public function getId(): int
     {
         return $this->attributes['id'];

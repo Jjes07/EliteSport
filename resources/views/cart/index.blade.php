@@ -65,7 +65,7 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-outline-danger" 
-                                                        onclick="return confirm('{{ __('cart.remove_confirm') }}')">
+                                                        data-confirm="{{ __('cart.remove_confirm') }}">
                                                     <i class="bi bi-trash"></i> {{ __('cart.remove_item') }}
                                                 </button>
                                             </form>
@@ -99,7 +99,7 @@
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-outline-danger btn-lg" 
-                                                onclick="return confirm('{{ __('cart.empty_confirm') }}')">
+                                                data-confirm="{{ __('cart.empty_confirm') }}">
                                             <i class="bi bi-trash"></i> {{ __('cart.empty_cart') }}
                                         </button>
                                     </form>
