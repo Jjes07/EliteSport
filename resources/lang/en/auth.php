@@ -20,4 +20,5 @@ return [
     'email_address' => 'Email Address',
     'password_placeholder' => 'Enter your password',
     'confirm_password' => 'Confirm Password',
+    'failed' => 'Email or password is incorrect.',
 ];
