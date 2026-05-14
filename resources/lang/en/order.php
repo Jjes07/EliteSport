@@ -20,6 +20,7 @@ return [
     'cannot_cancel' => 'This order cannot be cancelled because it has already been processed',
     'no_orders' => 'You have no orders yet',
     'cancel_confirm' => 'Are you sure you want to cancel this order? This action cannot be undone.',
+    'download_invoice' => 'Download invoice',
 
     // Status
     'status_pending' => 'Pending',

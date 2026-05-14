@@ -20,6 +20,7 @@ return [
     'cannot_cancel' => 'No se puede cancelar esta orden porque ya fue procesada',
     'no_orders' => 'No tienes órdenes aún',
     'cancel_confirm' => '¿Estás seguro de cancelar esta orden? Esta acción no se puede deshacer.',
+    'download_invoice' => 'Descargar factura',
 
     // Status
     'status_pending' => 'Pendiente',

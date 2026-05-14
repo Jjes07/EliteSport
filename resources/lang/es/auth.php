@@ -20,4 +20,5 @@ return [
     'email_address' => 'Correo electrónico',
     'password_placeholder' => 'Ingresa tu contraseña',
     'confirm_password' => 'Confirmar contraseña',
+    'failed' => 'Correo o contraseña incorrectos.',
 ];
