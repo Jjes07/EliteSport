@@ -20,7 +20,6 @@ class Payment extends Model
      * PAYMENT RELATIONSHIPS
      * $this->order - BelongsTo - the order associated with this payment
      */
-
     protected $fillable = [
         'order_id',
         'amount',
@@ -39,6 +38,7 @@ class Payment extends Model
             'updated_at' => 'datetime',
         ];
     }
+
     public function getId(): int
     {
         return $this->attributes['id'];
@@ -72,7 +72,7 @@ class Payment extends Model
     /* Formatted Getters */
     public function getAmountFormatted(): string
     {
-        return '$' . number_format($this->getAmount(), 0, ',', ' ');
+        return '$'.number_format($this->getAmount(), 0, ',', ' ');
     }
 
     /* Setters - Attributes */
@@ -139,12 +139,12 @@ class Payment extends Model
 
         $user = $order->getUser();
 
-        if (!self::hasSufficientBudget($user, $order->getTotal())) {
+        if (! self::hasSufficientBudget($user, $order->getTotal())) {
             return ['success' => false, 'message' => __('payment.insufficient_balance')];
         }
 
         $stockCheck = self::checkStock($order);
-        if (!$stockCheck['success']) {
+        if (! $stockCheck['success']) {
             return $stockCheck;
         }
 
@@ -166,6 +166,7 @@ class Payment extends Model
                 ];
             }
         }
+
         return ['success' => true];
     }
 

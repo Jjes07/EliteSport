@@ -14,7 +14,7 @@ class InvoiceUtils
     public static function generate(Order $order): DomPDF
     {
         $viewData = [];
-        $viewData['title'] = 'Invoice #' . $order->getId();
+        $viewData['title'] = 'Invoice #'.$order->getId();
         $viewData['order'] = $order;
         $viewData['items'] = $order->getItems();
         $viewData['user'] = $order->getUser();

@@ -8,12 +8,14 @@ Route::middleware('admin')->group(function () {
     Route::post('/admin/categories/save', 'App\Http\Controllers\Admin\CategoryController@save')->name('category.save');
 
     // Product Admin
-    Route::get('/admin/products', 'App\Http\Controllers\Admin\ProductController@index')->name('product.index');
-    Route::get('/admin/products/create', 'App\Http\Controllers\Admin\ProductController@create')->name('product.create');
-    Route::post('/admin/products/save', 'App\Http\Controllers\Admin\ProductController@save')->name('product.save');
-    Route::get('/admin/products/{id}/edit', 'App\Http\Controllers\Admin\ProductController@edit')->name('product.edit');
-    Route::put('/admin/products/{id}', 'App\Http\Controllers\Admin\ProductController@update')->name('product.update');
-    Route::delete('/admin/products/{id}', 'App\Http\Controllers\Admin\ProductController@delete')->name('product.delete');
+    Route::get('/admin/products', 'App\Http\Controllers\Admin\ProductController@index')->name('admin.product.index');
+    Route::get('/admin/products/search', 'App\Http\Controllers\Admin\ProductController@search')->name('admin.product.search');
+    Route::get('/admin/products/create', 'App\Http\Controllers\Admin\ProductController@create')->name('admin.product.create');
+    Route::post('/admin/products/save', 'App\Http\Controllers\Admin\ProductController@save')->name('admin.product.save');
+    Route::get('/admin/products/{id}/show', 'App\Http\Controllers\Admin\ProductController@show')->name('admin.product.show');
+    Route::get('/admin/products/{id}/edit', 'App\Http\Controllers\Admin\ProductController@edit')->name('admin.product.edit');
+    Route::put('/admin/products/{id}', 'App\Http\Controllers\Admin\ProductController@update')->name('admin.product.update');
+    Route::delete('/admin/products/{id}', 'App\Http\Controllers\Admin\ProductController@delete')->name('admin.product.delete');
 
     // User Admin
     Route::get('/admin/users', 'App\Http\Controllers\Admin\UserController@index')->name('user.index');

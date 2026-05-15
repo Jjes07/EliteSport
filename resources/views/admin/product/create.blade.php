@@ -7,8 +7,13 @@
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="admin-card">
-                    <div class="admin-card-header">
-                        <i class="bi bi-plus-circle"></i> {{ __('forms.create_product') }}
+                    <div class="admin-card-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="bi bi-plus-circle"></i> {{ __('forms.create_product') }}
+                        </div>
+                        <a href="{{ route('admin.product.index') }}" class="btn btn-secondary btn-sm">
+                            <i class="bi bi-arrow-left"></i> Volver
+                        </a>
                     </div>
 
                     <div class="admin-card-body">
@@ -32,7 +37,7 @@
                             </div>
                         @endif
 
-                        <form method="POST" action="{{ route('product.save') }}">
+                        <form method="POST" action="{{ route('admin.product.save') }}">
                             @csrf
 
                             <div class="mb-3">
@@ -101,7 +106,7 @@
                             </div>
 
                             <div class="d-flex justify-content-end gap-2 flex-wrap">
-                                <a href="{{ route('product.index') }}" class="btn btn-outline-secondary">
+                                <a href="{{ route('admin.product.index') }}" class="btn btn-outline-secondary">
                                     <i class="bi bi-arrow-left"></i> {{ __('forms.back') }}
                                 </a>
 

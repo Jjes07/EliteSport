@@ -32,7 +32,7 @@ class OrderController extends Controller
             abort(403, __('order.not_authorized_view'));
         }
 
-        $viewData['title'] = __('order.order') . ' #' . $order->getId();
+        $viewData['title'] = __('order.order').' #'.$order->getId();
         $viewData['order'] = $order;
         $viewData['items'] = $order->getItems();
         $viewData['payment'] = $order->getPayment();
@@ -83,6 +83,7 @@ class OrderController extends Controller
     public function downloadInvoice(int $id): Response
     {
         $order = Order::findOrFail($id);
-        return InvoiceUtils::generate($order)->download('invoice-' . $order->getId() . '.pdf');
+
+        return InvoiceUtils::generate($order)->download('invoice-'.$order->getId().'.pdf');
     }
 }

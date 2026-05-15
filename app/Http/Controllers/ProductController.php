@@ -2,23 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\ProductCatalog;
 use App\Models\Category;
 use App\Models\Product;
-use App\Services\ProductCatalogService;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class ProductController extends Controller
 {
-    public function __construct(
-        private readonly ProductCatalogService $catalogService
-    ) {}
-
     public function index(): View
     {
         $viewData = [];
         $viewData['title'] = __('products.products_list');
-        $viewData['products'] = $this->catalogService->getInStock();
+        $viewData['products'] = app(ProductCatalog::class)->getInStockProducts();
         $viewData['categories'] = Category::all();
         $viewData['showCleanButton'] = false;
 
@@ -57,10 +53,8 @@ class ProductController extends Controller
         $viewData['selectedCategory'] = $categoryId;
         $viewData['showCleanButton'] = ! empty($searchTerm) || ! empty($categoryId);
 
-        // Aquí usamos el buscador del modelo
         $viewData['products'] = Product::searchByNameAndCategory($searchTerm, $categoryId ? (string) $categoryId : null);
 
         return view('product.index')->with('viewData', $viewData);
     }
 }
-    

@@ -8,7 +8,7 @@
             <div class="admin-card-header d-flex justify-content-between align-items-center">
                 <h5>{{ __('products.products_list') }}</h5>
 
-                <a href="{{ route('product.create') }}" class="btn btn-primary btn-sm">
+                <a href="{{ route('admin.product.create') }}" class="btn btn-primary btn-sm">
                     <i class="bi bi-plus-circle"></i> {{ __('products.create_product') }}
                 </a>
             </div>
@@ -22,7 +22,7 @@
                 @endif
 
                 <div class="mb-4">
-                    <form action="{{ route('product.search') }}" method="GET" class="d-flex gap-2 flex-wrap">
+                    <form action="{{ route('admin.product.search') }}" method="GET" class="d-flex gap-2 flex-wrap">
                         <input type="text" name="name" class="form-control"
                             placeholder="{{ __('products.search_by_name') }}" value="{{ $viewData['searchTerm'] ?? '' }}"
                             style="min-width: 200px;">
@@ -39,7 +39,7 @@
                             <i class="bi bi-search"></i> {{ __('products.search') }}
                         </button>
                         @if($viewData['showCleanButton'] ?? false)
-                            <a href="{{ route('product.index') }}" class="btn btn-secondary btn-sm">
+                            <a href="{{ route('admin.product.index') }}" class="btn btn-secondary btn-sm">
                                 <i class="bi bi-arrow-counterclockwise"></i> {{ __('products.clear_filters') }}
                             </a>
                         @endif
@@ -78,12 +78,17 @@
                                     <td class="fw-semibold">${{ number_format($product->getPrice(), 2) }}</td>
                                     <td>
                                         <div class="d-flex justify-content-start flex-wrap gap-2">
-                                            <a href="{{ route('product.edit', ['id' => $product->getId()]) }}"
+                                            <a href="{{ route('admin.product.show', ['id' => $product->getId()]) }}"
+                                                class="btn btn-info btn-sm" title="Detalles">
+                                                <i class="bi bi-eye"></i> Detalles
+                                            </a>
+
+                                            <a href="{{ route('admin.product.edit', ['id' => $product->getId()]) }}"
                                                 class="btn btn-warning btn-sm" title="Editar">
                                                 <i class="bi bi-pencil"></i> {{ __('products.edit') }}
                                             </a>
 
-                                            <form action="{{ route('product.delete', ['id' => $product->getId()]) }}"
+                                            <form action="{{ route('admin.product.delete', ['id' => $product->getId()]) }}"
                                                 method="POST" class="d-inline"
                                                 onsubmit="return confirm('{{ __('products.confirm_delete') }}');">
                                                 @csrf

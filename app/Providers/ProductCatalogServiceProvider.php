@@ -2,17 +2,16 @@
 
 namespace App\Providers;
 
-use App\Interfaces\ProductCatalogProviderInterface;
-use App\Services\DatabaseProductCatalogProvider;
+use App\Interfaces\ProductCatalog;
+use App\Utils\DatabaseProductCatalogProvider;
 use Illuminate\Support\ServiceProvider;
-use App\Services\FakeProductCatalogProvider;
 
 class ProductCatalogServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->bind(ProductCatalogProviderInterface::class, function () {
-            return new DatabaseProductCatalogProvider();
+        $this->app->bind(ProductCatalog::class, function () {
+            return new DatabaseProductCatalogProvider;
         });
     }
 }

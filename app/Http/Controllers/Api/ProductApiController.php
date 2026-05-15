@@ -3,19 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Services\ProductCatalogService;
+use App\Interfaces\ProductCatalog;
 use Illuminate\Http\JsonResponse;
 
 class ProductApiController extends Controller
 {
-    public function __construct(
-        private readonly ProductCatalogService $productCatalogService
-    ) {
-    }
-
     public function inStock(): JsonResponse
     {
-        $products = $this->productCatalogService->getInStock();
+        $products = app(ProductCatalog::class)->getInStockProducts();
 
         $data = $products->map(function ($product) {
             return [
@@ -29,8 +24,8 @@ class ProductApiController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'total'  => $products->count(),
-            'data'   => $data,
+            'total' => $products->count(),
+            'data' => $data,
         ]);
     }
 }

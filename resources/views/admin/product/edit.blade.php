@@ -11,7 +11,7 @@
                         <div>
                             <i class="bi bi-pencil-square"></i> {{ __('forms.edit_product') }}
                         </div>
-                        <a href="{{ route('product.index') }}" class="btn btn-outline-light btn-sm">
+                        <a href="{{ route('admin.product.index') }}" class="btn btn-outline-light btn-sm">
                             <i class="bi bi-arrow-left"></i> {{ __('forms.back') }}
                         </a>
                     </div>
@@ -30,7 +30,7 @@
                             </div>
                         @endif
 
-                        <form action="{{ route('product.update', $viewData['product']->getId()) }}" method="POST">
+                        <form action="{{ route('admin.product.update', $viewData['product']->getId()) }}" method="POST">
                             @csrf
                             @method('PUT')
 
@@ -102,7 +102,7 @@
                             </div>
 
                             <div class="d-flex justify-content-end gap-2 mt-4 flex-wrap">
-                                <a href="{{ route('product.index') }}" class="btn btn-outline-secondary">
+                                <a href="{{ route('admin.product.index') }}" class="btn btn-outline-secondary">
                                     <i class="bi bi-arrow-left"></i> {{ __('forms.back') }}
                                 </a>
 

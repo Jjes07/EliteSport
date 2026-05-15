@@ -33,6 +33,7 @@ class Category extends Model
             'updated_at' => 'datetime',
         ];
     }
+
     public function getId(): int
     {
         return $this->attributes['id'];

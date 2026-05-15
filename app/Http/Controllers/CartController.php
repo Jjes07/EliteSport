@@ -94,4 +94,3 @@ class CartController extends Controller
             ->with('success', __('cart.checkout_successful'));
     }
 }
-

@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Services;
+namespace App\Utils;
 
-use App\Interfaces\ProductCatalogProviderInterface;
+use App\Interfaces\ProductCatalog;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Collection;
 
-
-class FakeProductCatalogProvider implements ProductCatalogProviderInterface
+class FakeProductCatalogProvider implements ProductCatalog
 {
     public function getInStockProducts(): Collection
     {
@@ -41,10 +40,10 @@ class FakeProductCatalogProvider implements ProductCatalogProviderInterface
             ],
         ];
 
-        $products = new Collection();
+        $products = new Collection;
 
         foreach ($fakeData as $data) {
-            $product = new Product();
+            $product = new Product;
             $product->setName($data['name']);
             $product->setDescription($data['description']);
             $product->setPrice($data['price']);
@@ -58,5 +57,10 @@ class FakeProductCatalogProvider implements ProductCatalogProviderInterface
         }
 
         return $products;
+    }
+
+    public function getAllProducts(): Collection
+    {
+        return $this->getInStockProducts();
     }
 }

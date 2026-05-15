@@ -45,7 +45,7 @@ class PaymentController extends Controller
 
         $result = Payment::processPayment($order);
 
-        if (!$result['success']) {
+        if (! $result['success']) {
             return redirect()
                 ->route('payment.create', $orderId)
                 ->with('error', $result['message']);

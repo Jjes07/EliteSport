@@ -65,7 +65,7 @@ class ReviewController extends Controller
                 ->with('error', __('reviews.already_reviewed'));
         }
 
-        $review = new Review();
+        $review = new Review;
         $review->setComment($validatedData['comment']);
         $review->setRating($validatedData['rating']);
         $review->setUserId(Auth::id());

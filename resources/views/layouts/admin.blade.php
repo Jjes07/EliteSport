@@ -16,7 +16,7 @@
         <!-- Admin Navbar -->
         <nav class="navbar navbar-expand-lg navbar-dark admin-navbar sticky-top">
             <div class="container-fluid">
-                <a class="navbar-brand fw-bold" href="{{ route('product.index') }}">
+                <a class="navbar-brand fw-bold" href="{{ route('admin.product.index') }}">
                     <i class="bi bi-speedometer2"></i> Panel de Administración
                 </a>
 
@@ -60,8 +60,8 @@
                         </strong>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('product.index') }}"
-                            class="nav-link {{ request()->routeIs('product.*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.product.index') }}"
+                            class="nav-link {{ request()->routeIs('admin.product.*') ? 'active' : '' }}">
                             <i class="bi bi-box-seam"></i> Productos
                         </a>
                     </li>
@@ -81,7 +81,7 @@
                         </strong>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('product.create') }}" class="nav-link">
+                        <a href="{{ route('admin.product.create') }}" class="nav-link">
                             <i class="bi bi-plus-circle"></i> Crear Producto
                         </a>
                     </li>
