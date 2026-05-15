@@ -29,8 +29,8 @@ Route::middleware('admin')->group(function () {
 Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home.index');
 
 // Product - Available to all (customers and guests)
-Route::get('/products/{id}/show', 'App\Http\Controllers\Admin\ProductController@show')->name('product.show');
-Route::get('/products/search', 'App\Http\Controllers\Admin\ProductController@search')->name('product.search');
+Route::get('/products/{id}/show', 'App\Http\Controllers\ProductController@show')->name('product.show');
+Route::get('/products/search', 'App\Http\Controllers\ProductController@search')->name('product.search');
 
 // Auth
 Auth::routes();

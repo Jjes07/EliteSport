@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Contracts\ProductCatalogProviderInterface;
+use App\Interfaces\ProductCatalogProviderInterface;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -13,30 +13,30 @@ class FakeProductCatalogProvider implements ProductCatalogProviderInterface
     {
         $fakeData = [
             [
-                'id'          => 1001,
-                'name'        => 'Balón de Fútbol Pro',
+                'id' => 1001,
+                'name' => 'Balón de Fútbol Pro',
                 'description' => 'Balón oficial de competencia, talla 5.',
-                'price'       => 85000,
-                'stock'       => 20,
-                'image'       => 'https://via.placeholder.com/400x300?text=Balon+Pro',
+                'price' => 85000,
+                'stock' => 20,
+                'image' => 'https://via.placeholder.com/400x300?text=Balon+Pro',
                 'category_id' => 1,
             ],
             [
-                'id'          => 1002,
-                'name'        => 'Guantes de Portero Elite',
+                'id' => 1002,
+                'name' => 'Guantes de Portero Elite',
                 'description' => 'Guantes profesionales con agarre superior.',
-                'price'       => 120000,
-                'stock'       => 15,
-                'image'       => 'https://via.placeholder.com/400x300?text=Guantes+Elite',
+                'price' => 120000,
+                'stock' => 15,
+                'image' => 'https://via.placeholder.com/400x300?text=Guantes+Elite',
                 'category_id' => 1,
             ],
             [
-                'id'          => 1003,
-                'name'        => 'Mancuernas 10 kg',
+                'id' => 1003,
+                'name' => 'Mancuernas 10 kg',
                 'description' => 'Par de mancuernas de goma antideslizante.',
-                'price'       => 65000,
-                'stock'       => 30,
-                'image'       => 'https://via.placeholder.com/400x300?text=Mancuernas',
+                'price' => 65000,
+                'stock' => 30,
+                'image' => 'https://via.placeholder.com/400x300?text=Mancuernas',
                 'category_id' => 2,
             ],
         ];

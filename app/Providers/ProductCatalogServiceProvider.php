@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
-use App\Contracts\ProductCatalogProviderInterface;
+use App\Interfaces\ProductCatalogProviderInterface;
 use App\Services\DatabaseProductCatalogProvider;
 use Illuminate\Support\ServiceProvider;
+use App\Services\FakeProductCatalogProvider;
 
 class ProductCatalogServiceProvider extends ServiceProvider
 {

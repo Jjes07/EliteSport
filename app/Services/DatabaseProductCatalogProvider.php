@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Contracts\ProductCatalogProviderInterface;
+use App\Interfaces\ProductCatalogProviderInterface;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Collection;
 
