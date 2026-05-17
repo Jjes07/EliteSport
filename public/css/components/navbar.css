@@ -48,6 +48,19 @@
     margin-right: 0.5rem;
 }
 
+.dropdown-item.active,
+.dropdown-item:active {
+    background-color: var(--primary) !important;
+    color: var(--white) !important;
+    border-radius: var(--radius-sm);
+}
+
+.dropdown-item:hover {
+    background: var(--light) !important;
+    color: var(--dark) !important;
+    border-radius: var(--radius-sm);
+}
+
 .dropdown-menu {
     border: none;
     box-shadow: var(--shadow-lg);

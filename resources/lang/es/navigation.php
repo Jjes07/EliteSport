@@ -12,4 +12,7 @@ return [
     'logout' => 'Cerrar sesión',
     'my_orders' => 'Mis órdenes',
     'balance' => 'Saldo',
+    'language' => 'Idioma',
+    'spanish' => 'Español',
+    'english' => 'Inglés',
 ];
