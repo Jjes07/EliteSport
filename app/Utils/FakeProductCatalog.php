@@ -6,7 +6,7 @@ use App\Interfaces\ProductCatalog;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Collection;
 
-class FakeProductCatalogProvider implements ProductCatalog
+class FakeProductCatalog implements ProductCatalog
 {
     public function getInStockProducts(): Collection
     {
