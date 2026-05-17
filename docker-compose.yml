@@ -1,6 +1,6 @@
 services:
   app:
-    image: tuusuario/elitesport:latest
+    image: jjes07/elitesport:latest
     ports:
       - "80:80"
     env_file:
