@@ -114,85 +114,9 @@ class Payment extends Model
         return $this->belongsTo(Order::class);
     }
 
-    /* Helper methods */
-    public static function isInsufficient(int $budget, int $total): bool
+    /* Query methods */
+    public static function findByOrderId(int $orderId): ?self
     {
-        return $budget < $total;
-    }
-
-    public static function getRemainingAfterPayment(int $budget, int $total): int
-    {
-        return $budget - $total;
-    }
-
-    public static function getNeededAmount(int $budget, int $total): int
-    {
-        return $total - $budget;
-    }
-
-    /* Business Logic */
-    public static function processPayment(Order $order): array
-    {
-        if ($order->getStatus() === 'paid') {
-            return ['success' => false, 'message' => __('payment.order_already_paid')];
-        }
-
-        $user = $order->getUser();
-
-        if (! self::hasSufficientBudget($user, $order->getTotal())) {
-            return ['success' => false, 'message' => __('payment.insufficient_balance')];
-        }
-
-        $stockCheck = self::checkStock($order);
-        if (! $stockCheck['success']) {
-            return $stockCheck;
-        }
-
-        return self::executePayment($order, $user);
-    }
-
-    private static function hasSufficientBudget(User $user, int $total): bool
-    {
-        return $user->getBudget() >= $total;
-    }
-
-    private static function checkStock(Order $order): array
-    {
-        foreach ($order->getItems() as $item) {
-            if ($item->getProduct()->getStock() < $item->getQuantity()) {
-                return [
-                    'success' => false,
-                    'message' => __('payment.insufficient_stock', ['product' => $item->getProduct()->getName()]),
-                ];
-            }
-        }
-
-        return ['success' => true];
-    }
-
-    private static function executePayment(Order $order, User $user): array
-    {
-        $total = $order->getTotal();
-
-        $user->setBudget($user->getBudget() - $total);
-        $user->save();
-
-        foreach ($order->getItems() as $item) {
-            $product = $item->getProduct();
-            $product->setStock($product->getStock() - $item->getQuantity());
-            $product->save();
-        }
-
-        $payment = new self;
-        $payment->setOrderId($order->getId());
-        $payment->setAmount($total);
-        $payment->setMethod('budget');
-        $payment->setStatus('completed');
-        $payment->save();
-
-        $order->setStatus('paid');
-        $order->save();
-
-        return ['success' => true, 'payment' => $payment, 'message' => __('payment.payment_completed')];
+        return self::where('order_id', $orderId)->first();
     }
 }
