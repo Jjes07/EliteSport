@@ -51,6 +51,7 @@ class Review extends Model
             'updated_at' => 'datetime',
         ];
     }
+
     public function getId(): int
     {
         return $this->attributes['id'];
@@ -156,7 +157,7 @@ class Review extends Model
     {
         $query = $product->reviews()->with('user')->latest();
 
-        if (!empty($selectedRatings)) {
+        if (! empty($selectedRatings)) {
             $query->whereIn('rating', $selectedRatings);
         }
 
@@ -210,7 +211,7 @@ class Review extends Model
     {
         $selectedRatings = $request->query('ratings', []);
 
-        if (!is_array($selectedRatings)) {
+        if (! is_array($selectedRatings)) {
             $selectedRatings = [$selectedRatings];
         }
 

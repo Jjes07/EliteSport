@@ -23,7 +23,7 @@ class HomeController extends Controller
 
         $viewData['searchTerm'] = $searchTerm;
         $viewData['selectedCategory'] = $categoryId;
-        $viewData['showCleanButton'] = !empty($searchTerm) || !empty($categoryId);
+        $viewData['showCleanButton'] = ! empty($searchTerm) || ! empty($categoryId);
 
         if ($searchTerm || $categoryId) {
             $viewData['products'] = Product::searchByNameAndCategory($searchTerm, $categoryId ?: null);
@@ -34,4 +34,3 @@ class HomeController extends Controller
         return view('home.index')->with('viewData', $viewData);
     }
 }
-

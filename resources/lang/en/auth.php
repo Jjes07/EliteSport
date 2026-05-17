@@ -2,6 +2,7 @@
 
 return [
     'email' => 'Email',
+    'example_email' => 'example@email.com',
     'password' => 'Password',
     'password_confirm' => 'Confirm Password',
     'phone' => 'Phone number',

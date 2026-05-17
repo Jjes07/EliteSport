@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="{{ app()->getLocale() }}">
 
 <head>
     <meta charset="UTF-8">
@@ -16,7 +16,7 @@
         <!-- Admin Navbar -->
         <nav class="navbar navbar-expand-lg navbar-dark admin-navbar sticky-top">
             <div class="container-fluid">
-                <a class="navbar-brand fw-bold" href="{{ route('product.index') }}">
+                <a class="navbar-brand fw-bold" href="{{ route('admin.product.index') }}">
                     <i class="bi bi-speedometer2"></i> Panel de Administración
                 </a>
 
@@ -27,6 +27,26 @@
 
                 <div class="collapse navbar-collapse" id="adminNavbar">
                     <ul class="navbar-nav ms-auto">
+                        <li class="nav-item dropdown">
+                            <button class="btn btn-link nav-link dropdown-toggle text-white" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-globe"></i> {{ __('navigation.language') }}
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item {{ app()->getLocale() == 'es' ? 'active' : '' }}"
+                                    href="{{ route('lang.switch', 'es') }}">
+                                        {{ __('navigation.spanish') }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item {{ app()->getLocale() == 'en' ? 'active' : '' }}"
+                                    href="{{ route('lang.switch', 'en') }}">
+                                        {{ __('navigation.english') }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                         <li class="nav-item dropdown">
                             <button class="btn btn-link nav-link dropdown-toggle text-white" type="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -60,8 +80,8 @@
                         </strong>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('product.index') }}"
-                            class="nav-link {{ request()->routeIs('product.*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.product.index') }}"
+                            class="nav-link {{ request()->routeIs('admin.product.*') ? 'active' : '' }}">
                             <i class="bi bi-box-seam"></i> Productos
                         </a>
                     </li>
@@ -81,7 +101,7 @@
                         </strong>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('product.create') }}" class="nav-link">
+                        <a href="{{ route('admin.product.create') }}" class="nav-link">
                             <i class="bi bi-plus-circle"></i> Crear Producto
                         </a>
                     </li>

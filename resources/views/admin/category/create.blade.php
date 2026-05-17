@@ -55,7 +55,7 @@
                             </div>
 
                             <div class="d-flex justify-content-end gap-2 flex-wrap">
-                                <a href="{{ route('product.index') }}" class="btn btn-outline-secondary">
+                                <a href="{{ route('admin.product.index') }}" class="btn btn-outline-secondary">
                                     <i class="bi bi-arrow-left"></i> {{ __('forms.back') }}
                                 </a>
 

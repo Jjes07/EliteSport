@@ -82,7 +82,7 @@ class Order extends Model
 
     public function getTotalFormatted(): string
     {
-        return '$' . number_format($this->getTotal(), 0, ',', ' ');
+        return '$'.number_format($this->getTotal(), 0, ',', ' ');
     }
 
     /* Setters - Attributes */
@@ -162,7 +162,7 @@ class Order extends Model
 
     public static function placeOrder(int $userId, array $cartProducts): self
     {
-        $order = new self();
+        $order = new self;
         $order->setUserId($userId);
         $order->setDate(now()->toDateString());
         $order->setStatus('pending');
@@ -177,4 +177,3 @@ class Order extends Model
         return $order;
     }
 }
-

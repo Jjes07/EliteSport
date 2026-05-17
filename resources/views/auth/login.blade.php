@@ -21,7 +21,7 @@
                                     <span class="input-group-text"><i class="bi bi-envelope"></i></span>
                                     <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
                                         name="email" value="{{ old('email') }}" required autocomplete="email" autofocus
-                                        placeholder="ejemplo@correo.com">
+                                        placeholder="{{ __('auth.example_email') }}">
                                 </div>
                                 @error('email')
                                     <span class="invalid-feedback d-block" role="alert">

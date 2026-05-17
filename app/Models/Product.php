@@ -46,6 +46,7 @@ class Product extends Model
             'updated_at' => 'datetime',
         ];
     }
+
     public function getId(): int
     {
         return $this->attributes['id'];
@@ -94,7 +95,7 @@ class Product extends Model
     /* Formatted Getters */
     public function getPriceFormatted(): string
     {
-        return '$' . number_format($this->getPrice(), 0, ',', ' ');
+        return '$'.number_format($this->getPrice(), 0, ',', ' ');
     }
 
     /* Setters - Attributes */
@@ -123,7 +124,7 @@ class Product extends Model
         $this->attributes['image'] = $image;
     }
 
-    public function setCategory(int $categoryId): void
+    public function setCategoryId(int $categoryId): void
     {
         $this->attributes['category_id'] = $categoryId;
     }
@@ -146,7 +147,7 @@ class Product extends Model
 
     // Auxiliary methods
 
-    public static function sumPricesByQuantities($products, $productsInSession)
+    public static function sumPricesByQuantities($products, $productsInSession): int
     {
         $total = 0;
         foreach ($products as $product) {
@@ -159,7 +160,7 @@ class Product extends Model
     public static function searchByNameAndCategory(?string $name = null, ?string $categoryId = null): Collection
     {
         if ($name) {
-            return self::where('name', 'LIKE', '%' . $name . '%')->get();
+            return self::where('name', 'LIKE', '%'.$name.'%')->get();
         } elseif ($categoryId) {
             return self::where('category_id', $categoryId)->get();
         }

@@ -11,4 +11,7 @@ return [
     'logout' => 'Logout',
     'my_orders' => 'My orders',
     'balance' => 'Balance',
+    'language' => 'Language',
+    'spanish' => 'Spanish',
+    'english' => 'English',
 ];

@@ -41,6 +41,7 @@ class Item extends Model
             'updated_at' => 'datetime',
         ];
     }
+
     public function getId(): int
     {
         return $this->attributes['id'];
@@ -79,12 +80,12 @@ class Item extends Model
     /* Formatted Getters */
     public function getPriceFormatted(): string
     {
-        return '$' . number_format($this->getPrice(), 0, ',', ' ');
+        return '$'.number_format($this->getPrice(), 0, ',', ' ');
     }
 
     public function getSubtotalFormatted(): string
     {
-        return '$' . number_format($this->calculateSubtotal(), 0, ',', ' ');
+        return '$'.number_format($this->calculateSubtotal(), 0, ',', ' ');
     }
 
     /* Setters - Attributes */
