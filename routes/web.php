@@ -76,3 +76,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/payment/{orderId}', 'App\Http\Controllers\PaymentController@save')->name('payment.save');
     Route::get('/payment/{orderId}/success', 'App\Http\Controllers\PaymentController@success')->name('payment.success');
 });
+
+// Language switcher
+Route::get('/lang/{locale}', 'App\Http\Controllers\LanguageController@switch')->name('lang.switch');
