@@ -46,29 +46,9 @@
                         </ul>
                     </div>
                     @auth
-                        @if(Auth::user()->getRole() == 'admin')
-                            <a class="nav-link active" href="{{ route('category.create') }}">
-                                <b>{{ __('navigation.new_category') }}</b>
-                            </a>
-
-                            <a class="nav-link active" href="{{ route('product.create') }}">
-                                <b>{{ __('navigation.new_product') }}</b>
-                            </a>
-
-                            <a class="nav-link active" href="{{ route('product.index') }}">
-                                <b>{{ __('navigation.products') }}</b>
-                            </a>
-                            <a class="nav-link" href="{{ route('user.create') }}">
-                                <i class="bi bi-person-plus"></i> {{ __('navigation.create_user') }}
-                            </a>
-                            <a class="nav-link" href="{{ route('user.index') }}">
-                                <i class="bi bi-people"></i> {{ __('navigation.users') }}
-                            </a>
-                        @else
-                            <a class="nav-link" href="{{ route('cart.index') }}">
-                                <i class="bi bi-cart"></i> {{ __('navigation.cart') }}
-                            </a>
-                        @endif
+                        <a class="nav-link" href="{{ route('cart.index') }}">
+                            <i class="bi bi-cart"></i> {{ __('navigation.cart') }}
+                        </a>
 
                         <div class="vr d-none d-lg-block"></div>
 
