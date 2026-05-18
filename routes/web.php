@@ -44,7 +44,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/cart/remove/{id}', 'App\Http\Controllers\CartController@remove')->name('cart.remove');
     Route::put('/cart/update/{id}', 'App\Http\Controllers\CartController@update')->name('cart.update');
     Route::delete('/cart/clear', 'App\Http\Controllers\CartController@delete')->name('cart.delete');
-    Route::post('/cart/checkout', 'App\Http\Controllers\CartController@checkout')->name('cart.checkout');
 });
 
 // Reviews

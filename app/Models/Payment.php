@@ -114,7 +114,7 @@ class Payment extends Model
         return $this->belongsTo(Order::class);
     }
 
-    /* Query methods */
+    /* Query Methods */
     public static function findByOrderId(int $orderId): ?self
     {
         return self::where('order_id', $orderId)->first();

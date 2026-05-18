@@ -158,6 +158,14 @@ class Order extends Model
         return $this->hasOne(Payment::class);
     }
 
+    /* Query Methods */
+    public static function getOrdersByUser(int $userId): Collection
+    {
+        return self::where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+    }
+
     /* Helper Methods */
     public function calculateTotal(): int
     {
