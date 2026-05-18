@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use App\Interfaces\ProductCatalog;
 use App\Utils\DatabaseProductCatalog;
-use APP\Utils\FakeProductCatalog;
+use App\Utils\FakeProductCatalog;
 use Illuminate\Support\ServiceProvider;
 
 class ProductCatalogServiceProvider extends ServiceProvider

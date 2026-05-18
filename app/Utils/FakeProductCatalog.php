@@ -49,7 +49,7 @@ class FakeProductCatalog implements ProductCatalog
             $product->setPrice($data['price']);
             $product->setStock($data['stock']);
             $product->setImage($data['image']);
-            $product->setCategory($data['category_id']);
+            $product->setCategoryId($data['category_id']);
 
             $product->setAttribute('id', $data['id']);
 

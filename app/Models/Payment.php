@@ -69,6 +69,12 @@ class Payment extends Model
         return $this->attributes['created_at'];
     }
 
+    /* Getters - Relationships */
+    public function getOrder(): Order
+    {
+        return $this->order;
+    }
+
     /* Formatted Getters */
     public function getAmountFormatted(): string
     {
@@ -94,12 +100,6 @@ class Payment extends Model
     public function setStatus(string $status): void
     {
         $this->attributes['status'] = $status;
-    }
-
-    /* Getters - Relationships */
-    public function getOrder(): Order
-    {
-        return $this->order;
     }
 
     /* Setters - Relationships */

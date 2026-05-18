@@ -77,6 +77,17 @@ class Item extends Model
         return $this->attributes['updated_at'];
     }
 
+    /* Getters - Relationships */
+    public function getProduct(): Product
+    {
+        return $this->product;
+    }
+
+    public function getOrder(): Order
+    {
+        return $this->order;
+    }
+
     /* Formatted Getters */
     public function getPriceFormatted(): string
     {
@@ -107,17 +118,6 @@ class Item extends Model
     public function setOrderId(int $orderId): void
     {
         $this->attributes['order_id'] = $orderId;
-    }
-
-    /* Getters - Relationships */
-    public function getProduct(): Product
-    {
-        return $this->product;
-    }
-
-    public function getOrder(): Order
-    {
-        return $this->order;
     }
 
     /* Setters - Relationships */

@@ -87,6 +87,17 @@ class Review extends Model
         return Carbon::parse($this->attributes['updated_at'])->format('F d, Y');
     }
 
+    /* Getters - Relationships */
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    public function getProduct(): Product
+    {
+        return $this->product;
+    }
+
     /* Setters - Attributes */
     public function setComment(string $comment): void
     {
@@ -106,17 +117,6 @@ class Review extends Model
     public function setProductId(int $productId): void
     {
         $this->attributes['product_id'] = $productId;
-    }
-
-    /* Getters - Relationships */
-    public function getUser(): User
-    {
-        return $this->user;
-    }
-
-    public function getProduct(): Product
-    {
-        return $this->product;
     }
 
     /* Setters - Relationships */

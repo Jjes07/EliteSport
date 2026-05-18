@@ -59,6 +59,12 @@ class Category extends Model
         return $this->attributes['updated_at'];
     }
 
+    /* Getters - Relationships */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
     /* Setters - Attributes */
     public function setName(string $name): void
     {
@@ -70,10 +76,10 @@ class Category extends Model
         $this->attributes['description'] = $description;
     }
 
-    /* Getters - Relationships */
-    public function getProducts(): Collection
+    /* Setters - Relationships */
+    public function setProducts(Collection $products): void
     {
-        return $this->products;
+        $this->products()->saveMany($products);
     }
 
     /* Relationship */

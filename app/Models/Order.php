@@ -78,6 +78,23 @@ class Order extends Model
         return $this->attributes['updated_at'];
     }
 
+    /* Getters - Relationships */
+
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    public function getItems(): Collection
+    {
+        return $this->items;
+    }
+
+    public function getPayment(): ?Payment
+    {
+        return $this->payment;
+    }
+
     /* Formatted getters */
 
     public function getTotalFormatted(): string
@@ -107,28 +124,21 @@ class Order extends Model
         $this->attributes['user_id'] = $userId;
     }
 
-    /* Getters - Relationships */
-
-    public function getUser(): User
-    {
-        return $this->user;
-    }
-
-    public function getItems(): Collection
-    {
-        return $this->items;
-    }
-
-    public function getPayment(): ?Payment
-    {
-        return $this->payment;
-    }
-
     /* Setters - Relationships */
 
     public function setUser(User $user): void
     {
         $this->user()->associate($user);
+    }
+
+    public function setItems(Collection $items): void
+    {
+        $this->items()->saveMany($items);
+    }
+
+    public function setPayment(Payment $payment): void
+    {
+        $this->payment()->save($payment);
     }
 
     /* Relationships */
