@@ -12,7 +12,7 @@ class ProductCatalogServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(ProductCatalog::class, function () {
-            return new FakeProductCatalog;
+            return new DatabaseProductCatalog;
         });
     }
 }

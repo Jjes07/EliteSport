@@ -15,7 +15,7 @@ class Order extends Model
      * $this->attributes['id'] - integer - contains the order primary key (id)
      * $this->attributes['date'] - date - contains the order date
      * $this->attributes['status'] - string - contains the order status (pending, paid, cancelled)
-     * $this->attributes['total'] - float - contains the order total amount
+     * $this->attributes['total'] - integer - contains the order total amount
      * $this->attributes['user_id'] - integer - contains the user who placed the order
      * $this->attributes['created_at'] - timestamp - contains the order creation timestamp
      * $this->attributes['updated_at'] - timestamp - contains the order update timestamp
@@ -58,7 +58,7 @@ class Order extends Model
         return $this->attributes['status'];
     }
 
-    public function getTotal(): float
+    public function getTotal(): int
     {
         return $this->attributes['total'];
     }
@@ -114,7 +114,7 @@ class Order extends Model
         $this->attributes['status'] = $status;
     }
 
-    public function setTotal(float $total): void
+    public function setTotal(int $total): void
     {
         $this->attributes['total'] = $total;
     }
@@ -158,9 +158,8 @@ class Order extends Model
         return $this->hasOne(Payment::class);
     }
 
-    /* Business logic */
-
-    public function calculateTotal(): float
+    /* Helper Methods */
+    public function calculateTotal(): int
     {
         $total = 0;
         foreach ($this->getItems() as $item) {
@@ -168,22 +167,5 @@ class Order extends Model
         }
 
         return $total;
-    }
-
-    public static function placeOrder(int $userId, array $cartProducts): self
-    {
-        $order = new self;
-        $order->setUserId($userId);
-        $order->setDate(now()->toDateString());
-        $order->setStatus('pending');
-        $order->setTotal(0);
-        $order->save();
-
-        Item::createFromCart($order->getId(), $cartProducts);
-
-        $order->setTotal($order->calculateTotal());
-        $order->save();
-
-        return $order;
     }
 }

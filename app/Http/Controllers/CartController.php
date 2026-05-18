@@ -6,6 +6,10 @@ use App\Services\CartService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Models\Product;
+use App\Models\Order;
+use App\Models\Item;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -16,9 +20,6 @@ class CartController extends Controller
         $this->cartService = $cartService;
     }
 
-    /**
-     * Display shopping cart with products
-     */
     public function index(Request $request): View
     {
         $viewData = [];
@@ -30,9 +31,6 @@ class CartController extends Controller
         return view('cart.index')->with('viewData', $viewData);
     }
 
-    /**
-     * Add product to cart
-     */
     public function add(Request $request, int $id): RedirectResponse
     {
         $quantity = (int) $request->input('quantity');
@@ -44,9 +42,6 @@ class CartController extends Controller
             ->with('success', __('cart.product_added'));
     }
 
-    /**
-     * Clear entire cart
-     */
     public function delete(Request $request): RedirectResponse
     {
         $this->cartService->clearCart($request);
@@ -56,9 +51,6 @@ class CartController extends Controller
             ->with('success', __('cart.cart_cleared'));
     }
 
-    /**
-     * Remove specific product from cart
-     */
     public function remove(Request $request, int $id): RedirectResponse
     {
         $this->cartService->removeFromCart($request, $id);
@@ -82,15 +74,39 @@ class CartController extends Controller
             ->with('success', __('cart.cart_updated'));
     }
 
-    /**
-     * Proceed to checkout
-     */
     public function checkout(Request $request): RedirectResponse
     {
-        // TODO: Implement checkout logic
+        if ($this->cartService->isCartEmpty($request)) {
+            return redirect()->route('cart.index')
+                ->with('error', __('cart.cart_empty'));
+        }
 
-        return redirect()
-            ->route('home.index')
+        $cartProducts = $this->cartService->getSessionProducts($request);
+
+        $order = new Order;
+        $order->setUserId(Auth::id());
+        $order->setDate(now()->toDateString());
+        $order->setStatus('pending');
+        $order->setTotal(0);
+        $order->save();
+
+        foreach ($cartProducts as $productId => $quantity) {
+            $product = Product::findOrFail($productId);
+
+            $item = new Item;
+            $item->setQuantity($quantity);
+            $item->setPrice($product->getPrice());
+            $item->setProductId($productId);
+            $item->setOrderId($order->getId());
+            $item->save();
+        }
+
+        $order->setTotal($order->calculateTotal());
+        $order->save();
+
+        $this->cartService->clearCart($request);
+
+        return redirect()->route('payment.create', $order->getId())
             ->with('success', __('cart.checkout_successful'));
     }
 }
