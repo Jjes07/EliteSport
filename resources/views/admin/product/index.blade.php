@@ -80,7 +80,7 @@
                                         <div class="d-flex justify-content-start flex-wrap gap-2">
                                             <a href="{{ route('admin.product.show', ['id' => $product->getId()]) }}"
                                                 class="btn btn-info btn-sm" title="Detalles">
-                                                <i class="bi bi-eye"></i> Detalles
+                                                <i class="bi bi-eye"></i> {{ __('products.details') }}
                                             </a>
 
                                             <a href="{{ route('admin.product.edit', ['id' => $product->getId()]) }}"
