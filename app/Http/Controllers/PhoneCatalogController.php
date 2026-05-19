@@ -15,7 +15,7 @@ class PhoneCatalogController extends Controller
 
         $phones = (new PhoneCatalogService)->getMostPurchasedPhones();
 
-        // Sanitize URLs to resolve any typos in the partner API response before passing to the view
+        /* Sanitize URLs to resolve any typos in the partner API response before passing to the view */
         foreach ($phones as &$phone) {
             if (isset($phone['url'])) {
                 if (str_contains($phone['url'], '35.255.40.205phone')) {

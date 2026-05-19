@@ -53,9 +53,6 @@ class ProductController extends Controller
             ->with('success', __('messages.product_created'));
     }
 
-    /**
-     * Display product details with reviews
-     */
     public function show(int $id): View
     {
         $viewData = [];
@@ -96,7 +93,7 @@ class ProductController extends Controller
         $product->setPrice($validatedData['price']);
         $product->setStock($validatedData['stock']);
         $product->setImage($validatedData['image']);
-        $product->setCategory($validatedData['category_id']);
+        $product->setCategoryId($validatedData['category_id']);
         $product->save();
 
         return redirect()

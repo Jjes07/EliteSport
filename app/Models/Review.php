@@ -147,7 +147,7 @@ class Review extends Model
         return self::RATING_MAP[$this->getRating()]['class'] ?? 'bg-secondary';
     }
 
-    /* Business logic */
+    /* Helper Methods */
     public function canBeEditedBy(int $userId): bool
     {
         return $this->getUserId() === $userId;
