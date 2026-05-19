@@ -45,7 +45,7 @@ class ProductController extends Controller
         $product->setPrice($validatedData['price']);
         $product->setStock($validatedData['stock']);
         $product->setImage($validatedData['image']);
-        $product->setCategory($validatedData['category_id']);
+        $product->setCategoryId($validatedData['category_id']);
         $product->save();
 
         return redirect()
