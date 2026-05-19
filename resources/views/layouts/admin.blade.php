@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="{{ app()->getLocale() }}">
 
 <head>
     <meta charset="UTF-8">
@@ -27,6 +27,26 @@
 
                 <div class="collapse navbar-collapse" id="adminNavbar">
                     <ul class="navbar-nav ms-auto">
+                        <li class="nav-item dropdown">
+                            <button class="btn btn-link nav-link dropdown-toggle text-white" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-globe"></i> {{ __('navigation.language') }}
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item {{ app()->getLocale() == 'es' ? 'active' : '' }}"
+                                    href="{{ route('lang.switch', 'es') }}">
+                                        {{ __('navigation.spanish') }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item {{ app()->getLocale() == 'en' ? 'active' : '' }}"
+                                    href="{{ route('lang.switch', 'en') }}">
+                                        {{ __('navigation.english') }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                         <li class="nav-item dropdown">
                             <button class="btn btn-link nav-link dropdown-toggle text-white" type="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
