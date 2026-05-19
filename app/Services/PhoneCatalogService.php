@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
+use Exception;
 
 class PhoneCatalogService
 {
@@ -10,8 +11,15 @@ class PhoneCatalogService
 
     public function getMostPurchasedPhones(): array
     {
-        $response = Http::get($this->apiUrl);
+        try {
+            $response = Http::timeout(5)->get($this->apiUrl);
 
-        return $response->successful() ? $response->json() : [];
+            return [
+                'success' => $response->successful(),
+                'data' => $response->successful() ? $response->json() : [],
+            ];
+        } catch (Exception $e) {
+            return ['success' => false, 'data' => []];
+        }
     }
 }

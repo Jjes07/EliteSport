@@ -13,7 +13,8 @@ class PhoneCatalogController extends Controller
         $viewData = [];
         $viewData['title'] = __('phone.title');
 
-        $phones = (new PhoneCatalogService)->getMostPurchasedPhones();
+        $result = (new PhoneCatalogService)->getMostPurchasedPhones();
+        $phones = $result['data'];
 
         /* Sanitize URLs to resolve any typos in the partner API response before passing to the view */
         foreach ($phones as &$phone) {
@@ -25,6 +26,7 @@ class PhoneCatalogController extends Controller
         }
 
         $viewData['phones'] = $phones;
+        $viewData['connectionError'] = ! $result['success'];
 
         return view('phone.index')->with('viewData', $viewData);
     }
