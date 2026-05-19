@@ -78,3 +78,6 @@ Route::middleware('auth')->group(function () {
 
 // Language switcher
 Route::get('/lang/{locale}', 'App\Http\Controllers\LanguageController@switch')->name('lang.switch');
+
+// External API
+Route::get('/telefonos-aliados', 'App\Http\Controllers\Api\PhoneCatalogController@index')->name('phone.index');

@@ -4,15 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Services\WeatherService;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use App\Services\WeatherService;
 
 class HomeController extends Controller
 {
     public function index(Request $request): View
     {
-        $weatherService = new WeatherService();
+        $weatherService = new WeatherService;
 
         $viewData = [];
         $viewData['title'] = __('products.title');

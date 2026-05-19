@@ -29,12 +29,12 @@ class ProductController extends Controller
         $viewData['title'] = $product->getName().' - '.__('products.detail_title');
         $viewData['product'] = $product;
 
-        $reviewsCollection = $product->getReviews()->load('user');
-        $viewData['reviews'] = $reviewsCollection->sortByDesc('created_at');
-        $viewData['reviewsLimit'] = $reviewsCollection->sortByDesc('created_at')->take(3);
-        $viewData['totalReviews'] = $reviewsCollection->count();
+        $reviews = $product->reviews()->with('user')->latest()->get();
+        $viewData['reviews'] = $reviews;
+        $viewData['reviewsLimit'] = $reviews->take(3);
+        $viewData['totalReviews'] = $reviews->count();
         $viewData['userReview'] = auth()->check()
-            ? $reviewsCollection->where('user_id', auth()->id())->first()
+            ? $reviews->where('user_id', auth()->id())->first()
             : null;
 
         return view('product.show')->with('viewData', $viewData);
