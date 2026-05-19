@@ -8,9 +8,22 @@
             <div class="admin-card-header d-flex justify-content-between align-items-center">
                 <h5>{{ __('products.products_list') }}</h5>
 
-                <a href="{{ route('admin.product.create') }}" class="btn btn-primary btn-sm">
-                    <i class="bi bi-plus-circle"></i> {{ __('products.create_product') }}
-                </a>
+                <div class="d-flex gap-2 align-items-center">
+                    <span class="text-white-50 small">{{ __('products.using') }}:</span>
+                    @if(request()->has('fake'))
+                        <a href="{{ route('admin.product.index') }}" class="btn btn-warning btn-sm">
+                            <i class="bi bi-shuffle"></i> {{ __('products.fake_data') }}
+                        </a>
+                    @else
+                        <a href="{{ route('admin.product.index', ['fake' => 1]) }}" class="btn btn-success btn-sm">
+                            <i class="bi bi-database"></i> {{ __('products.real_data') }}
+                        </a>
+                    @endif
+
+                    <a href="{{ route('admin.product.create') }}" class="btn btn-primary btn-sm">
+                        <i class="bi bi-plus-circle"></i> {{ __('products.create_product') }}
+                    </a>
+                </div>
             </div>
 
             <div class="admin-card-body">

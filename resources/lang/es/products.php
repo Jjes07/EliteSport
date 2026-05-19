@@ -32,4 +32,7 @@ return [
     'no_products_found' => 'No se encontraron productos con ese nombre.',
     'no_products_category' => 'No hay productos en esta categoría.',
     'no_products_registered' => 'No hay productos registrados.',
+    'using' => 'Usando',
+    'real_data' => 'Datos Reales',
+    'fake_data' => 'Datos de Prueba',
 ];
