@@ -72,6 +72,11 @@
         <div class="d-flex flex-grow-1">
             <!-- Sidebar -->
             <nav class="admin-sidebar d-md-block" style="width: 250px;">
+                <div class="sidebar-logo">
+                    <a href="{{ route('admin.product.index') }}">
+                        <img src="{{ asset('/images/logo.png') }}" alt="Elite Sport Logo">
+                    </a>
+                </div>
                 <ul class="sidebar-nav">
                     <li class="nav-item">
                         <strong

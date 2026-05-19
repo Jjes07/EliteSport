@@ -18,6 +18,20 @@ body {
     top: 60px;
 }
 
+.sidebar-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-logo img {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+}
+
 .sidebar-nav {
     list-style: none;
     padding: 1.5rem 0;

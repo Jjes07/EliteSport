@@ -6,7 +6,7 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-    height: 80px;
+    height: 70px;
 }
 
 .navbar-brand {
@@ -17,7 +17,7 @@
 }
 
 .navbar-brand img {
-    height: 110px;
+    height: 50px;
     width: auto;
     transition: transform 0.2s ease;
     object-fit: contain;
@@ -96,7 +96,7 @@
 /* Responsive */
 @media (max-width: 992px) {
     .navbar-brand img {
-        height: 60px;
+        height: 50px;
     }
     
     .navbar-nav {
