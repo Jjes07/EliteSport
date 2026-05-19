@@ -8,24 +8,28 @@ class WeatherService
 {
     public function getMedellinWeather(): array
     {
-        $response = Http::withoutVerifying()->get('https://api.openweathermap.org/data/2.5/weather', [
-            'q' => 'Medellin,CO',
-            'appid' => config('services.openweather.key'),
-            'units' => 'metric',
-            'lang' => app()->getLocale(),
-        ]);
+        $apiKey = config('services.openweather.key');
 
-        if ($response->successful()) {
-            $data = $response->json();
-            $temp = round($data['main']['temp']);
-            $weatherId = $data['weather'][0]['id'];
+        if (! empty($apiKey)) {
+            $response = Http::withoutVerifying()->get('https://api.openweathermap.org/data/2.5/weather', [
+                'q' => 'Medellin,CO',
+                'appid' => $apiKey,
+                'units' => 'metric',
+                'lang' => app()->getLocale(),
+            ]);
 
-            return [
-                'temp' => $temp,
-                'description' => ucfirst($data['weather'][0]['description']),
-                'icon' => $data['weather'][0]['icon'],
-                'suggestion' => $this->getActivitySuggestion($temp, $weatherId),
-            ];
+            if ($response->successful()) {
+                $data = $response->json();
+                $temp = round($data['main']['temp']);
+                $weatherId = $data['weather'][0]['id'];
+
+                return [
+                    'temp' => $temp,
+                    'description' => ucfirst($data['weather'][0]['description']),
+                    'icon' => $data['weather'][0]['icon'],
+                    'suggestion' => $this->getActivitySuggestion($temp, $weatherId),
+                ];
+            }
         }
 
         return [];

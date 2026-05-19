@@ -16,4 +16,5 @@ return [
     'language' => 'Idioma',
     'spanish' => 'Español',
     'english' => 'Inglés',
+    'allied_phones' => 'Teléfonos Aliados',
 ];
