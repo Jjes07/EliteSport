@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet" />
 
-    <title>@yield('title', 'Panel de Admin - Elite Sport')</title>
+    <title>@yield('title', 'Panel de Administración - Elite Sport')</title>
 </head>
 
 <body>
@@ -17,7 +17,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark admin-navbar sticky-top">
             <div class="container-fluid">
                 <a class="navbar-brand fw-bold" href="{{ route('admin.product.index') }}">
-                    <i class="bi bi-speedometer2 ms-2 me-3"></i> Panel de Administración
+                    <i class="bi bi-speedometer2 ms-2 me-3"></i> {{ __('admin.admin_panel') }}
                 </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar"
@@ -57,7 +57,7 @@
                                     <form id="logout" action="{{ route('logout') }}" method="POST">
                                         @csrf
                                         <button type="submit" class="dropdown-item logout-item">
-                                            <i class="bi bi-box-arrow-right"></i> Cerrar sesión
+                                            <i class="bi bi-box-arrow-right"></i> {{ __('navigation.logout') }}
                                         </button>
                                     </form>
                                 </li>
@@ -76,19 +76,19 @@
                     <li class="nav-item">
                         <strong
                             style="color: rgba(255,255,255,0.5); padding: 0.75rem 1.5rem; display: block; font-size: 0.85rem; text-transform: uppercase;">
-                            Gestión
+                            {{ __('admin.management') }}
                         </strong>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('admin.product.index') }}"
                             class="nav-link {{ request()->routeIs('admin.product.*') ? 'active' : '' }}">
-                            <i class="bi bi-box-seam"></i> Productos
+                            <i class="bi bi-box-seam"></i> {{ __('admin.products') }}
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('user.index') }}"
                             class="nav-link {{ request()->routeIs('user.*') ? 'active' : '' }}">
-                            <i class="bi bi-people"></i> Usuarios
+                            <i class="bi bi-people"></i> {{ __('admin.users') }}
                         </a>
                     </li>
                     <li class="nav-item">
@@ -97,22 +97,22 @@
                     <li class="nav-item">
                         <strong
                             style="color: rgba(255,255,255,0.5); padding: 0.75rem 1.5rem; display: block; font-size: 0.85rem; text-transform: uppercase;">
-                            Acciones Rápidas
+                            {{ __('admin.fast_actions') }}
                         </strong>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('admin.product.create') }}" class="nav-link">
-                            <i class="bi bi-plus-circle"></i> Crear Producto
+                            <i class="bi bi-plus-circle"></i> {{ __('admin.create_product') }}
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('user.create') }}" class="nav-link">
-                            <i class="bi bi-person-plus"></i> Crear Usuario
+                            <i class="bi bi-person-plus"></i> {{ __('admin.create_user') }}
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('category.create') }}" class="nav-link">
-                            <i class="bi bi-tags"></i> Crear Categoría
+                            <i class="bi bi-tags"></i> {{ __('admin.create_category') }}
                         </a>
                     </li>
                 </ul>
