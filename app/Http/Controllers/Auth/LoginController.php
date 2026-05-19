@@ -44,7 +44,7 @@ class LoginController extends Controller
      */
     public function redirectPath()
     {
-        if (Auth::user()->getRole() === 'admin') {
+        if (Auth::check() && Auth::user()->getRole() === 'admin') {
             return route('admin.product.index');
         }
 

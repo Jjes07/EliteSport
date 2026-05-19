@@ -28,7 +28,7 @@ class CategoryController extends Controller
         $category->save();
 
         return redirect()
-            ->route('product.index')
+            ->route('admin.product.index')
             ->with('success', __('messages.category_created'));
     }
 }
