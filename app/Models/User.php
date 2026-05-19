@@ -44,6 +44,17 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'budget' => 'integer',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
+    }
+
     /* Getters - Attributes */
     public function getId(): int
     {
@@ -95,6 +106,17 @@ class User extends Authenticatable
         return $this->attributes['updated_at'];
     }
 
+    /* Getters - Relationships */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
     /* Formatted Getters */
     public function getBudgetFormatted(): string
     {
@@ -137,30 +159,18 @@ class User extends Authenticatable
         $this->attributes['budget'] = $budget;
     }
 
-    /* Getters - Relationships */
-    public function getOrders(): Collection
+    /* Setters - Relationships */
+    public function setOrders(Collection $orders): void
     {
-        return $this->orders;
+        $this->orders()->saveMany($orders);
     }
 
-    public function getReviews(): Collection
+    public function setReviews(Collection $reviews): void
     {
-        return $this->reviews;
-    }
-
-    protected function casts(): array
-    {
-        return [
-            'budget' => 'integer',
-            'created_at' => 'datetime',
-            'updated_at' => 'datetime',
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        $this->reviews()->saveMany($reviews);
     }
 
     /* Relationships */
-
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);

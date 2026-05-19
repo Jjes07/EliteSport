@@ -69,6 +69,12 @@ class Payment extends Model
         return $this->attributes['created_at'];
     }
 
+    /* Getters - Relationships */
+    public function getOrder(): Order
+    {
+        return $this->order;
+    }
+
     /* Formatted Getters */
     public function getAmountFormatted(): string
     {
@@ -96,12 +102,6 @@ class Payment extends Model
         $this->attributes['status'] = $status;
     }
 
-    /* Getters - Relationships */
-    public function getOrder(): Order
-    {
-        return $this->order;
-    }
-
     /* Setters - Relationships */
     public function setOrder(Order $order): void
     {
@@ -114,7 +114,7 @@ class Payment extends Model
         return $this->belongsTo(Order::class);
     }
 
-    /* Query methods */
+    /* Query Methods */
     public static function findByOrderId(int $orderId): ?self
     {
         return self::where('order_id', $orderId)->first();

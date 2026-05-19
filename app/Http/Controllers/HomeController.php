@@ -2,21 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\ProductCatalog;
 use App\Models\Category;
 use App\Models\Product;
+use App\Services\WeatherService;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class HomeController extends Controller
 {
-    /**
-     * Display home page with products and search functionality
-     */
     public function index(Request $request): View
     {
+        $weatherService = new WeatherService;
+
         $viewData = [];
         $viewData['title'] = __('products.title');
         $viewData['categories'] = Category::all();
+        $viewData['weather'] = $weatherService->getMedellinWeather();
 
         $searchTerm = $request->input('name', '');
         $categoryId = $request->input('category', '');
@@ -28,7 +30,7 @@ class HomeController extends Controller
         if ($searchTerm || $categoryId) {
             $viewData['products'] = Product::searchByNameAndCategory($searchTerm, $categoryId ?: null);
         } else {
-            $viewData['products'] = Product::all();
+            $viewData['products'] = app(ProductCatalog::class)->getInStockProducts();
         }
 
         return view('home.index')->with('viewData', $viewData);

@@ -17,7 +17,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark admin-navbar sticky-top">
             <div class="container-fluid">
                 <a class="navbar-brand fw-bold" href="{{ route('admin.product.index') }}">
-                    <i class="bi bi-speedometer2"></i> Panel de Administración
+                    <i class="bi bi-speedometer2 ms-2 me-3"></i> Panel de Administración
                 </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar"

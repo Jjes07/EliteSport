@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'home' => 'Inicio',
     'new_product' => 'Crear Producto',
     'new_category' => 'Nueva Categoría',
     'products' => 'Productos',
@@ -15,4 +16,5 @@ return [
     'language' => 'Idioma',
     'spanish' => 'Español',
     'english' => 'Inglés',
+    'allied_phones' => 'Teléfonos Aliados',
 ];

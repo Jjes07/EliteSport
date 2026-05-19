@@ -8,6 +8,30 @@
             <h1 class="display-3 fw-bold mb-3">{{ __('products.title') }}</h1>
             <p class="lead text-muted">{{ __('home.hero_text') }}</p>
         </div>
+
+        <!-- Weather Widget -->
+        @if(!empty($viewData['weather']))
+            <div class="weather-widget mb-4 p-3 rounded-3 d-flex align-items-center gap-3">
+                <img src="https://openweathermap.org/img/wn/{{ $viewData['weather']['icon'] }}@2x.png"
+                     alt="{{ $viewData['weather']['description'] }}">
+                <div>
+                    <strong>{{ __('weather.title') }}</strong>
+                    <span class="ms-2">{{ $viewData['weather']['temp'] }}°C — {{ $viewData['weather']['description'] }}</span>
+                    <p class="mb-0 text-muted small">{{ $viewData['weather']['suggestion'] }}</p>
+                </div>
+            </div>
+        @endif
+
+        <div class="alert alert-info d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h4 class="alert-heading mb-1">{{ __('home.api_banner_title') }}</h4>
+                <p class="mb-0">{{ __('home.api_banner_text') }}</p>
+            </div>
+            <a href="{{ route('phone.index') }}" class="btn btn-info ms-3 text-white text-nowrap">
+                {{ __('home.api_banner_button') }}
+            </a>
+        </div>
+
         <div class="mb-4">
             <form action="{{ route('home.index') }}" method="GET" class="d-flex gap-2">
                 <input type="text" name="name" class="form-control"

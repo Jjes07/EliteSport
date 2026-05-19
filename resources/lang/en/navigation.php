@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'home' => 'Home',
     'new_product' => 'New Product',
     'products' => 'Products',
     'create_user' => 'Create User',
@@ -14,4 +15,5 @@ return [
     'language' => 'Language',
     'spanish' => 'Spanish',
     'english' => 'English',
+    'allied_phones' => 'Allied Phones',
 ];
