@@ -15,7 +15,7 @@ class Order extends Model
      * $this->attributes['id'] - integer - contains the order primary key (id)
      * $this->attributes['date'] - date - contains the order date
      * $this->attributes['status'] - string - contains the order status (pending, paid, cancelled)
-     * $this->attributes['total'] - float - contains the order total amount
+     * $this->attributes['total'] - integer - contains the order total amount
      * $this->attributes['user_id'] - integer - contains the user who placed the order
      * $this->attributes['created_at'] - timestamp - contains the order creation timestamp
      * $this->attributes['updated_at'] - timestamp - contains the order update timestamp
@@ -58,7 +58,7 @@ class Order extends Model
         return $this->attributes['status'];
     }
 
-    public function getTotal(): float
+    public function getTotal(): int
     {
         return $this->attributes['total'];
     }
@@ -76,6 +76,23 @@ class Order extends Model
     public function getUpdatedAt(): string
     {
         return $this->attributes['updated_at'];
+    }
+
+    /* Getters - Relationships */
+
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    public function getItems(): Collection
+    {
+        return $this->items;
+    }
+
+    public function getPayment(): ?Payment
+    {
+        return $this->payment;
     }
 
     /* Formatted getters */
@@ -97,7 +114,7 @@ class Order extends Model
         $this->attributes['status'] = $status;
     }
 
-    public function setTotal(float $total): void
+    public function setTotal(int $total): void
     {
         $this->attributes['total'] = $total;
     }
@@ -107,28 +124,21 @@ class Order extends Model
         $this->attributes['user_id'] = $userId;
     }
 
-    /* Getters - Relationships */
-
-    public function getUser(): User
-    {
-        return $this->user;
-    }
-
-    public function getItems(): Collection
-    {
-        return $this->items;
-    }
-
-    public function getPayment(): ?Payment
-    {
-        return $this->payment;
-    }
-
     /* Setters - Relationships */
 
     public function setUser(User $user): void
     {
         $this->user()->associate($user);
+    }
+
+    public function setItems(Collection $items): void
+    {
+        $this->items()->saveMany($items);
+    }
+
+    public function setPayment(Payment $payment): void
+    {
+        $this->payment()->save($payment);
     }
 
     /* Relationships */
@@ -148,9 +158,16 @@ class Order extends Model
         return $this->hasOne(Payment::class);
     }
 
-    /* Business logic */
+    /* Query Methods */
+    public static function getOrdersByUser(int $userId): Collection
+    {
+        return self::where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+    }
 
-    public function calculateTotal(): float
+    /* Helper Methods */
+    public function calculateTotal(): int
     {
         $total = 0;
         foreach ($this->getItems() as $item) {
@@ -158,22 +175,5 @@ class Order extends Model
         }
 
         return $total;
-    }
-
-    public static function placeOrder(int $userId, array $cartProducts): self
-    {
-        $order = new self;
-        $order->setUserId($userId);
-        $order->setDate(now()->toDateString());
-        $order->setStatus('pending');
-        $order->setTotal(0);
-        $order->save();
-
-        Item::createFromCart($order->getId(), $cartProducts);
-
-        $order->setTotal($order->calculateTotal());
-        $order->save();
-
-        return $order;
     }
 }

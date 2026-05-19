@@ -1,15 +1,11 @@
 <?php
 
-// Model created by Juan Escobar
-
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Http\Request;
 
 class Review extends Model
 {
@@ -39,8 +35,6 @@ class Review extends Model
 
     protected $fillable = ['comment', 'rating', 'user_id', 'product_id'];
 
-    /* Getters - Attributes */
-
     protected function casts(): array
     {
         return [
@@ -52,6 +46,7 @@ class Review extends Model
         ];
     }
 
+    /* Getters - Attributes */
     public function getId(): int
     {
         return $this->attributes['id'];
@@ -87,6 +82,17 @@ class Review extends Model
         return Carbon::parse($this->attributes['updated_at'])->format('F d, Y');
     }
 
+    /* Getters - Relationships */
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    public function getProduct(): Product
+    {
+        return $this->product;
+    }
+
     /* Setters - Attributes */
     public function setComment(string $comment): void
     {
@@ -106,17 +112,6 @@ class Review extends Model
     public function setProductId(int $productId): void
     {
         $this->attributes['product_id'] = $productId;
-    }
-
-    /* Getters - Relationships */
-    public function getUser(): User
-    {
-        return $this->user;
-    }
-
-    public function getProduct(): Product
-    {
-        return $this->product;
     }
 
     /* Setters - Relationships */
@@ -152,44 +147,7 @@ class Review extends Model
         return self::RATING_MAP[$this->getRating()]['class'] ?? 'bg-secondary';
     }
 
-    /* Filter methods */
-    public static function getReviewsWithFilters(Product $product, ?array $selectedRatings = []): Collection
-    {
-        $query = $product->reviews()->with('user')->latest();
-
-        if (! empty($selectedRatings)) {
-            $query->whereIn('rating', $selectedRatings);
-        }
-
-        return $query->get();
-    }
-
-    public static function getRatingCounts(Product $product): array
-    {
-        return [
-            5 => $product->reviews()->where('rating', 5)->count(),
-            4 => $product->reviews()->where('rating', 4)->count(),
-            3 => $product->reviews()->where('rating', 3)->count(),
-            2 => $product->reviews()->where('rating', 2)->count(),
-            1 => $product->reviews()->where('rating', 1)->count(),
-        ];
-    }
-
-    /* Helper methods */
-    public static function hasUserReviewedProduct(int $userId, int $productId): bool
-    {
-        return self::where('user_id', $userId)
-            ->where('product_id', $productId)
-            ->exists();
-    }
-
-    public static function getUserReviewForProduct(int $userId, int $productId): ?self
-    {
-        return self::where('user_id', $userId)
-            ->where('product_id', $productId)
-            ->first();
-    }
-
+    /* Business logic */
     public function canBeEditedBy(int $userId): bool
     {
         return $this->getUserId() === $userId;
@@ -207,16 +165,9 @@ class Review extends Model
             : __('reviews.review_deleted');
     }
 
-    public static function processFilters(Request $request): array
+    /* Query methods */
+    public static function findByProductAndId(int $productId, int $reviewId): self
     {
-        $selectedRatings = $request->query('ratings', []);
-
-        if (! is_array($selectedRatings)) {
-            $selectedRatings = [$selectedRatings];
-        }
-
-        return array_filter(array_map('intval', $selectedRatings), function ($rating) {
-            return $rating >= 1 && $rating <= 5;
-        });
+        return self::where('product_id', $productId)->findOrFail($reviewId);
     }
 }

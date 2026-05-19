@@ -222,6 +222,17 @@ main {
     padding: 0 1.5rem;
 }
 
+.weather-widget {
+    background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+    border-left: 4px solid var(--primary);
+    color: var(--dark);
+}
+
+.weather-widget img {
+    width: 60px;
+    height: 60px;
+}
+
 /* Animations */
 @keyframes fadeIn {
     from {

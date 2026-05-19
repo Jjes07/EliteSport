@@ -77,6 +77,17 @@ class Item extends Model
         return $this->attributes['updated_at'];
     }
 
+    /* Getters - Relationships */
+    public function getProduct(): Product
+    {
+        return $this->product;
+    }
+
+    public function getOrder(): Order
+    {
+        return $this->order;
+    }
+
     /* Formatted Getters */
     public function getPriceFormatted(): string
     {
@@ -109,17 +120,6 @@ class Item extends Model
         $this->attributes['order_id'] = $orderId;
     }
 
-    /* Getters - Relationships */
-    public function getProduct(): Product
-    {
-        return $this->product;
-    }
-
-    public function getOrder(): Order
-    {
-        return $this->order;
-    }
-
     /* Setters - Relationships */
     public function setProduct(Product $product): void
     {
@@ -142,23 +142,9 @@ class Item extends Model
         return $this->belongsTo(Order::class);
     }
 
-    /* Business Logic */
+    /* Helper Methods */
     public function calculateSubtotal(): int
     {
         return $this->getQuantity() * $this->getPrice();
-    }
-
-    public static function createFromCart(int $orderId, array $cartProducts): void
-    {
-        foreach ($cartProducts as $productId => $quantity) {
-            $product = Product::findOrFail($productId);
-
-            $item = new self;
-            $item->setQuantity($quantity);
-            $item->setPrice($product->getPrice());
-            $item->setProductId($productId);
-            $item->setOrderId($orderId);
-            $item->save();
-        }
     }
 }

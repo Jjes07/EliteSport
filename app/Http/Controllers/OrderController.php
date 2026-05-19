@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item;
 use App\Models\Order;
+use App\Models\Product;
 use App\Utils\InvoiceUtils;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,9 +18,7 @@ class OrderController extends Controller
     {
         $viewData = [];
         $viewData['title'] = __('order.my_orders');
-        $viewData['orders'] = Order::where('user_id', Auth::id())
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $viewData['orders'] = Order::getOrdersByUser(Auth::id());
 
         return view('order.index')->with('viewData', $viewData);
     }
@@ -50,7 +50,27 @@ class OrderController extends Controller
                 ->with('error', __('cart.empty_cart_message'));
         }
 
-        $order = Order::placeOrder(Auth::id(), $cartProducts);
+        $order = new Order;
+        $order->setUserId(Auth::id());
+        $order->setDate(now()->toDateString());
+        $order->setStatus('pending');
+        $order->setTotal(0);
+        $order->save();
+
+        foreach ($cartProducts as $productId => $quantity) {
+            $product = Product::findOrFail($productId);
+
+            $item = new Item;
+            $item->setQuantity($quantity);
+            $item->setPrice($product->getPrice());
+            $item->setProductId($productId);
+            $item->setOrderId($order->getId());
+            $item->save();
+        }
+
+        $order->setTotal($order->calculateTotal());
+        $order->save();
+
         $request->session()->forget('products');
 
         return redirect()

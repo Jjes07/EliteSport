@@ -25,6 +25,9 @@
 
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto align-items-center gap-2">
+                    <a class="nav-link" href="{{ route('home.index') }}">
+                        <i class="bi bi-house"></i> {{ __('navigation.home') }}
+                    </a>
                     <div class="dropdown">
                         <button class="btn btn-link nav-link dropdown-toggle" type="button"
                             data-bs-toggle="dropdown" aria-expanded="false">

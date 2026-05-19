@@ -2,6 +2,7 @@
 
 return [
     'email' => 'Correo electrónico',
+    'example_email' => 'ejemplo@correo.com',
     'password' => 'Contraseña',
     'password_confirm' => 'Confirmar contraseña',
     'phone' => 'Número de celular',

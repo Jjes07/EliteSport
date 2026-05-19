@@ -36,7 +36,6 @@ class Product extends Model
     ];
 
     /* Getters - Attributes */
-
     protected function casts(): array
     {
         return [
@@ -92,6 +91,22 @@ class Product extends Model
         return $this->attributes['updated_at'];
     }
 
+    /* Getters - Relationships */
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function getItems(): Collection
+    {
+        return $this->items;
+    }
+
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
     /* Formatted Getters */
     public function getPriceFormatted(): string
     {
@@ -129,23 +144,39 @@ class Product extends Model
         $this->attributes['category_id'] = $categoryId;
     }
 
-    /* Getters - Relationships */
-    public function getCategory(): ?Category
+    /* Setters - Relationships */
+    public function setCategory(Category $category): void
     {
-        return $this->category;
+        $this->category()->associate($category);
     }
 
-    public function getItems(): Collection
+    public function setItems(Collection $items): void
     {
-        return $this->items;
+        $this->items()->saveMany($items);
     }
 
-    public function getReviews(): Collection
+    public function setReviews(Collection $reviews): void
     {
-        return $this->reviews;
+        $this->reviews()->saveMany($reviews);
     }
 
-    // Auxiliary methods
+    /* Relationships */
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function items(): HasMany
+    {
+        return $this->hasMany(Item::class);
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    /* Auxiliary methods */
 
     public static function sumPricesByQuantities($products, $productsInSession): int
     {
@@ -166,22 +197,5 @@ class Product extends Model
         }
 
         return self::all();
-    }
-
-    // Relationships
-
-    public function category(): BelongsTo
-    {
-        return $this->belongsTo(Category::class);
-    }
-
-    public function items(): HasMany
-    {
-        return $this->hasMany(Item::class);
-    }
-
-    public function reviews(): HasMany
-    {
-        return $this->hasMany(Review::class);
     }
 }

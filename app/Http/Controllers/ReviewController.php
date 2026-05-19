@@ -6,6 +6,7 @@ use App\Http\Requests\Review\SaveReviewRequest;
 use App\Http\Requests\Review\UpdateReviewRequest;
 use App\Models\Product;
 use App\Models\Review;
+use App\Utils\ReviewUtils;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,13 +18,13 @@ class ReviewController extends Controller
     {
         $viewData = [];
         $product = Product::findOrFail($productId);
-        $selectedRatings = Review::processFilters($request);
+        $selectedRatings = ReviewUtils::processFilters($request);
 
         $viewData['title'] = __('reviews.title').' - '.$product->getName();
         $viewData['product'] = $product;
-        $viewData['reviews'] = Review::getReviewsWithFilters($product, $selectedRatings);
+        $viewData['reviews'] = ReviewUtils::getReviewsWithFilters($product, $selectedRatings);
         $viewData['selectedRatings'] = $selectedRatings;
-        $viewData['ratingCounts'] = Review::getRatingCounts($product);
+        $viewData['ratingCounts'] = ReviewUtils::getRatingCounts($product);
 
         return view('review.index')->with('viewData', $viewData);
     }
@@ -32,7 +33,7 @@ class ReviewController extends Controller
     {
         $viewData = [];
         $product = Product::findOrFail($productId);
-        $review = Review::where('product_id', $productId)->findOrFail($reviewId);
+        $review = Review::findByProductAndId($productId, $reviewId);
 
         $viewData['title'] = __('reviews.title').' - '.$product->getName();
         $viewData['product'] = $product;
@@ -46,7 +47,7 @@ class ReviewController extends Controller
     {
         $viewData = [];
         $product = Product::findOrFail($productId);
-        $existingReview = Review::getUserReviewForProduct(Auth::id(), $productId);
+        $existingReview = ReviewUtils::getUserReviewForProduct(Auth::id(), $productId);
 
         $viewData['title'] = __('reviews.write_review').' - '.$product->getName();
         $viewData['product'] = $product;
@@ -59,7 +60,7 @@ class ReviewController extends Controller
     {
         $validatedData = $request->validated();
 
-        if (Review::hasUserReviewedProduct(Auth::id(), $productId)) {
+        if (ReviewUtils::hasUserReviewedProduct(Auth::id(), $productId)) {
             return redirect()
                 ->route('product.show', $productId)
                 ->with('error', __('reviews.already_reviewed'));
@@ -81,7 +82,7 @@ class ReviewController extends Controller
     {
         $viewData = [];
         $product = Product::findOrFail($productId);
-        $review = Review::where('product_id', $productId)->findOrFail($reviewId);
+        $review = Review::findByProductAndId($productId, $reviewId);
 
         if (! $review->canBeEditedBy(Auth::id())) {
             abort(403, __('reviews.not_authorized_edit'));
@@ -97,7 +98,7 @@ class ReviewController extends Controller
     public function update(UpdateReviewRequest $request, int $productId, int $reviewId): RedirectResponse
     {
         $validatedData = $request->validated();
-        $review = Review::where('product_id', $productId)->findOrFail($reviewId);
+        $review = Review::findByProductAndId($productId, $reviewId);
 
         if (! $review->canBeEditedBy(Auth::id())) {
             abort(403, __('reviews.not_authorized_edit'));
@@ -118,7 +119,7 @@ class ReviewController extends Controller
 
     public function delete(int $productId, int $reviewId): RedirectResponse
     {
-        $review = Review::where('product_id', $productId)->findOrFail($reviewId);
+        $review = Review::findByProductAndId($productId, $reviewId);
 
         if (! $review->canBeDeletedBy(Auth::id(), Auth::user()->getRole())) {
             return redirect()

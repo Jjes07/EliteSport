@@ -6,7 +6,7 @@ use App\Interfaces\ProductCatalog;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Collection;
 
-class DatabaseProductCatalogProvider implements ProductCatalog
+class DatabaseProductCatalog implements ProductCatalog
 {
     public function getInStockProducts(): Collection
     {

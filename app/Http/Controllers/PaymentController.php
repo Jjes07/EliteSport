@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Payment;
+use App\Utils\PaymentUtils;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
@@ -28,9 +29,9 @@ class PaymentController extends Controller
         $viewData['items'] = $order->getItems();
         $viewData['total'] = $order->getTotalFormatted();
         $viewData['budget'] = $user->getBudgetFormatted();
-        $viewData['insufficient'] = Payment::isInsufficient($budget, $total);
-        $viewData['remainingAfterPayment'] = Payment::getRemainingAfterPayment($budget, $total);
-        $viewData['needAmount'] = Payment::getNeededAmount($budget, $total);
+        $viewData['insufficient'] = $budget < $total;
+        $viewData['remainingAfterPayment'] = $budget - $total;
+        $viewData['needAmount'] = $total - $budget;
 
         return view('payment.create')->with('viewData', $viewData);
     }
@@ -43,16 +44,34 @@ class PaymentController extends Controller
             abort(403, __('payment.not_authorized'));
         }
 
-        $result = Payment::processPayment($order);
-
-        if (! $result['success']) {
-            return redirect()
-                ->route('payment.create', $orderId)
-                ->with('error', $result['message']);
+        $error = PaymentUtils::validate($order, Auth::user());
+        if ($error) {
+            return redirect()->route('payment.create', $orderId)->with('error', $error);
         }
 
-        return redirect()
-            ->route('payment.success', $orderId)
+        $user = Auth::user();
+        $total = $order->getTotal();
+
+        $user->setBudget($user->getBudget() - $total);
+        $user->save();
+
+        foreach ($order->getItems() as $item) {
+            $product = $item->getProduct();
+            $product->setStock($product->getStock() - $item->getQuantity());
+            $product->save();
+        }
+
+        $payment = new Payment;
+        $payment->setOrderId($order->getId());
+        $payment->setAmount($total);
+        $payment->setMethod('budget');
+        $payment->setStatus('completed');
+        $payment->save();
+
+        $order->setStatus('paid');
+        $order->save();
+
+        return redirect()->route('payment.success', $orderId)
             ->with('success', __('payment.payment_completed'));
     }
 
@@ -67,7 +86,7 @@ class PaymentController extends Controller
         $viewData = [];
         $viewData['title'] = __('payment.payment_success');
         $viewData['order'] = $order;
-        $viewData['payment'] = Payment::where('order_id', $orderId)->first();
+        $viewData['payment'] = Payment::findByOrderId($orderId);
         $viewData['newBudget'] = Auth::user()->getBudgetFormatted();
         $viewData['items'] = $order->getItems();
 

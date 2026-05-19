@@ -6,7 +6,7 @@ use App\Interfaces\ProductCatalog;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Collection;
 
-class FakeProductCatalogProvider implements ProductCatalog
+class FakeProductCatalog implements ProductCatalog
 {
     public function getInStockProducts(): Collection
     {
@@ -49,7 +49,7 @@ class FakeProductCatalogProvider implements ProductCatalog
             $product->setPrice($data['price']);
             $product->setStock($data['stock']);
             $product->setImage($data['image']);
-            $product->setCategory($data['category_id']);
+            $product->setCategoryId($data['category_id']);
 
             $product->setAttribute('id', $data['id']);
 
