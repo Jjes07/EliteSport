@@ -22,7 +22,16 @@
             </div>
         @endif
 
-        <!-- Search and Filters -->
+        <div class="alert alert-info d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h4 class="alert-heading mb-1">{{ __('home.api_banner_title') }}</h4>
+                <p class="mb-0">{{ __('home.api_banner_text') }}</p>
+            </div>
+            <a href="{{ route('phone.index') }}" class="btn btn-info ms-3 text-white text-nowrap">
+                {{ __('home.api_banner_button') }}
+            </a>
+        </div>
+
         <div class="mb-4">
             <form action="{{ route('home.index') }}" method="GET" class="d-flex gap-2">
                 <input type="text" name="name" class="form-control"

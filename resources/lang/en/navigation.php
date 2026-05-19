@@ -15,4 +15,5 @@ return [
     'language' => 'Language',
     'spanish' => 'Spanish',
     'english' => 'English',
+    'allied_phones' => 'Allied Phones',
 ];

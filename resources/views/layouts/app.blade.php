@@ -24,9 +24,12 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav ms-auto align-items-center gap-2">
+                <div class="navbar-nav ms-auto align-items-center gap-3 gap-lg-4">
                     <a class="nav-link" href="{{ route('home.index') }}">
                         <i class="bi bi-house"></i> {{ __('navigation.home') }}
+                    </a>
+                    <a class="nav-link" href="{{ route('phone.index') }}">
+                        <i class="bi bi-phone"></i> {{ __('navigation.allied_phones') }}
                     </a>
                     <div class="dropdown">
                         <button class="btn btn-link nav-link dropdown-toggle" type="button"
