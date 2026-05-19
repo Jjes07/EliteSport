@@ -52,6 +52,11 @@
                         </ul>
                     </div>
                     @auth
+                        @if (Auth::check() && Auth::user()->getRole() == 'admin')
+                            <a class="nav-link" href="{{ route('admin.product.index') }}">
+                                <i class="bi bi-speedometer2"></i> {{ __('admin.admin_panel') }}
+                            </a>
+                        @endif
                         <a class="nav-link" href="{{ route('cart.index') }}">
                             <i class="bi bi-cart"></i> {{ __('navigation.cart') }}
                         </a>
